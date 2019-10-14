@@ -18,6 +18,15 @@
  * along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+DROP TABLE IF EXISTS target CASCADE;
+DROP TABLE IF EXISTS target_group CASCADE;
+DROP TABLE IF EXISTS contains_target CASCADE;
+DROP TABLE IF EXISTS queue CASCADE;
+DROP TABLE IF EXISTS queue_group CASCADE;
+DROP TABLE IF EXISTS contains_queue CASCADE;
+DROP TABLE IF EXISTS has_target CASCADE;
+--
+--
 CREATE TABLE target (
     id                  UUID PRIMARY KEY,
     name                VARCHAR(31) NOT NULL UNIQUE,
@@ -421,41 +430,56 @@ CREATE TABLE target (
         OR
         tlsauthtype = 'SRP'
     ) 
---
 );
 --
--- XXX
-
-
--- CREATE TABLE target_group (
---     id      UUID PRIMARY KEY,
---     name    VARCHAR(31) NOT NULL,
---     comment VARCHAR(31) NOT NULL DEFAULT '',
---     online  BOOLEAN NOT NULL DEFAULT 0,
-
-
--- CREATE TABLE queue (
---     id          UUID PRIMARY KEY,
---     name        VARCHAR(31) NOT NULL,
---     comment     VARCHAR(31) NOT NULL DEFAULT '',
---     source_path TEXT NOT NULL UNIQUE,
---     online      BOOLEAN NOT NULL DEFAULT 0,
-
-
-
-
--- CREATE TABLE queue_group (
---     id      UUID PRIMARY KEY,
---     name    VARCHAR(31) NOT NULL,
---     comment VARCHAR(31) NOT NULL DEFAULT '',
---     online  BOOLEAN NOT NULL DEFAULT 0,
-
-
--- CREATE TABLE has_method (
---     queue_id  UUID REFERENCES queue(id),
---     target_id UUID REFERENCES target_url(id),
---     online    BOOLEAN NOT NULL DEFAULT 0,
 --
---     PRIMARY KEY (queue_id, target_url_id)
--- );
-
+CREATE TABLE target_group (
+    id      UUID PRIMARY KEY,
+    name    VARCHAR(31) NOT NULL,
+    comment VARCHAR(31) NOT NULL DEFAULT '',
+    online  BOOLEAN NOT NULL DEFAULT FALSE
+);
+--
+--
+CREATE TABLE contains_target (
+    id              UUID PRIMARY KEY,
+    target_id       UUID REFERENCES target(id),
+    target_group_id UUID REFERENCES target_group(id),
+--
+    UNIQUE (target_id, target_group_id)
+);
+--
+--
+CREATE TABLE queue (
+    id          UUID PRIMARY KEY,
+    name        VARCHAR(31) NOT NULL,
+    comment     VARCHAR(31) NOT NULL DEFAULT '',
+    source_path TEXT NOT NULL UNIQUE,
+    online      BOOLEAN NOT NULL DEFAULT FALSE
+);
+--
+--
+CREATE TABLE queue_group (
+    id      UUID PRIMARY KEY,
+    name    VARCHAR(31) NOT NULL,
+    comment VARCHAR(31) NOT NULL DEFAULT '',
+    online  BOOLEAN NOT NULL DEFAULT FALSE
+);
+--
+--
+CREATE TABLE contains_queue (
+    id             UUID PRIMARY KEY,
+    queue_id       UUID REFERENCES queue(id),
+    queue_group_id UUID REFERENCES queue_group(id),
+--
+    UNIQUE (queue_id, queue_group_id)
+);
+--
+--
+CREATE TABLE has_target (
+    queue_id  UUID REFERENCES queue(id),
+    target_id UUID REFERENCES target(id),
+    online    BOOLEAN NOT NULL DEFAULT FALSE,
+--
+    UNIQUE (queue_id, target_id)
+);
