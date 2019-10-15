@@ -3,13 +3,47 @@
 
   ALTER QUEUE queue_name SET attribute_name = value ;
 
-  ADD QUEUE queue_name TO GROUP group_name ;
+  ALTER QUEUE queue_name ADD TARGET < target_name > ;
 
-  REMOVE QUEUE queue_name FROM GROUP group_name ;
+  ALTER QUEUE queue_name REMOVE TARGET < target_name | ALL > ;
 
-  ONLINE QUEUE queue_name;
+  ADD QUEUE queue_name TO GROUP queue_group_name ;
 
-  OFFLINE QUEUE queue_name;
+  REMOVE QUEUE queue_name FROM GROUP queue_group_name ;
 
-  DROP QUEUE queue_name [ CASCADE ] ;
+  ONLINE QUEUE queue_name ;
+
+  OFFLINE QUEUE queue_name ;
+
+  DROP QUEUE queue_name ;
+
+
+
+  CREATE TARGET target_name ;
+
+  ALTER TARGET target_name SET attribute_name = value ;
+
+  ONLINE TARGET target_name ;
+
+  OFFLINE TARGET target_name ; 
+
+  DROP TARGET target_name [ CASCADE ] ;
+  #  CASCADE drops all queues whose only target is being dropped.
+
+
+  CREATE QUEUE GROUP queue_group_name ;
+
+  ALTER QUEUE GROUP queue_group_name SET attribute_name = value ;
+
+  ALTER QUEUE GROUP queue_group_name ADD QUEUE queue_name ;
+
+  ALTER QUEUE GROUP queue_group_name REMOVE QUEUE < queue_name | ALL > ;
+
+  ONLINE QUEUE GROUP queue_group_name ;
+
+  OFFLINE QUEUE GROUP queue_group_name ;
+
+  DROP QUEUE GROUP queue_qroup_name [ CASCADE ] ;
+  #  CASCADE drops all queues contained exclusively in the queue group being
+  #  dropped. 
 
