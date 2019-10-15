@@ -1,0 +1,15 @@
+
+  CREATE QUEUE queue_name SOURCE path_name ;
+
+  ALTER QUEUE queue_name SET attribute_name = value ;
+
+  ADD QUEUE queue_name TO GROUP group_name ;
+
+  REMOVE QUEUE queue_name FROM GROUP group_name ;
+
+  ONLINE QUEUE queue_name;
+
+  OFFLINE QUEUE queue_name;
+
+  DROP QUEUE queue_name [ CASCADE ] ;
+
