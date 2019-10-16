@@ -7,51 +7,79 @@
 #  Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 #
 
-  CREATE QUEUE queue_name SOURCE path_name ;
+  ALTER SYSTEM SET attribute = value ;
 
-  ALTER QUEUE queue_name SET attribute_name = value ;
-
-  ALTER QUEUE queue_name ADD TARGET < target_name > ;
-
-  ALTER QUEUE queue_name REMOVE TARGET < target_name | ALL > ;
-
-  ADD QUEUE queue_name TO GROUP queue_group_name ;
-
-  REMOVE QUEUE queue_name FROM GROUP queue_group_name ;
-
-  ONLINE QUEUE queue_name ;
-
-  OFFLINE QUEUE queue_name ;
-
-  DROP QUEUE queue_name ;
+  DISPLAY SYSTEM [ attribute ] ;
 
 
+  CREATE QUEUE name SOURCE pathname ;
 
-  CREATE TARGET target_name ;
+  ALTER QUEUE name SET attribute = value ;
 
-  ALTER TARGET target_name SET attribute_name = value ;
+  ALTER QUEUE name ADD TARGET < target_name > ;
 
-  ONLINE TARGET target_name ;
+  ALTER QUEUE name REMOVE TARGET < target_name | ALL > ;
 
-  OFFLINE TARGET target_name ; 
+  ONLINE QUEUE name ;
 
-  DROP TARGET target_name [ CASCADE ] ;
+  OFFLINE QUEUE name ;
+
+  DISPLAY QUEUE [ attribute ] ;
+
+  DROP QUEUE name ;
+
+
+
+  CREATE TARGET name ;
+
+  ALTER TARGET name SET attribute = value ;
+
+  ONLINE TARGET target ;
+
+  OFFLINE TARGET target ; 
+
+  DISPLAY TARGET [ attribute ] ;
+
+  DROP TARGET target [ CASCADE ] ;
   #  CASCADE drops all queues whose only target is being dropped.
 
 
-  CREATE QUEUE GROUP queue_group_name ;
 
-  ALTER QUEUE GROUP queue_group_name SET attribute_name = value ;
+  CREATE QUEUE GROUP name ;
 
-  ALTER QUEUE GROUP queue_group_name ADD QUEUE queue_name ;
+  ALTER QUEUE GROUP name SET attribute = value ;
 
-  ALTER QUEUE GROUP queue_group_name REMOVE QUEUE < queue_name | ALL > ;
+  ALTER QUEUE GROUP name ADD QUEUE queue_name ;
 
-  ONLINE QUEUE GROUP queue_group_name ;
+  ALTER QUEUE GROUP name REMOVE QUEUE < queue_name | ALL > ;
 
-  OFFLINE QUEUE GROUP queue_group_name ;
+  ONLINE QUEUE GROUP name ;
 
-  DROP QUEUE GROUP queue_qroup_name [ CASCADE ] ;
+  OFFLINE QUEUE GROUP name ;
+
+  DISPLAY QUEUE GROUP [ attribute ] ;
+
+  DROP QUEUE GROUP name [ CASCADE ] ;
   #  CASCADE drops all queues contained exclusively in the queue group being
+  #  dropped. 
+
+
+
+  CREATE TARGET GROUP name ;
+
+  ALTER TARGET GROUP name SET attribute = value ;
+
+  ALTER TARGET GROUP name ADD TARGET target ;
+
+  ALTER TARGET GROUP name REMOVE TARGET < target_name | ALL > ;
+
+  ONLINE TARGET GROUP name ;
+
+  OFFLINE TARGET GROUP name ;
+
+  DISPLAY TARGET GROUP [ attribute ] ;
+
+  DROP TARGET GROUP name [ CASCADE ] ;
+  #  CASCADE drops all targets contained exclusively in the target group being
   #  dropped. 
 
