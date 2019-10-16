@@ -24,13 +24,31 @@ DROP TABLE IF EXISTS contains_target CASCADE;
 DROP TABLE IF EXISTS queue CASCADE;
 DROP TABLE IF EXISTS queue_group CASCADE;
 DROP TABLE IF EXISTS contains_queue CASCADE;
-DROP TABLE IF EXISTS has_target CASCADE;
+--
+--
+CREATE TABLE queue (
+    id          UUID PRIMARY KEY,
+    name        VARCHAR(31) NOT NULL UNIQUE,
+    comment     VARCHAR(31) NOT NULL DEFAULT '',
+    source_path TEXT NOT NULL UNIQUE,
+    online      BOOLEAN NOT NULL DEFAULT FALSE,
+-- 
+--
+    CONSTRAINT queue__name_ck CHECK (
+        name ~* '^[A-Z_][A-Z0-9_]{0,30}$'
+    ),
+--
+    CONSTRAINT queue__source_path_ck CHECK (
+        name ~* '^/.*'
+    )
+);
 --
 --
 CREATE TABLE target (
     id                  UUID PRIMARY KEY,
     name                VARCHAR(31) NOT NULL UNIQUE,
     comment             VARCHAR(31) NOT NULL DEFAULT '',
+    queue_id            UUID REFERENCES queue(id),
     priority            INTEGER NOT NULL DEFAULT 0,
     online              BOOLEAN NOT NULL DEFAULT FALSE,
     uri_scheme          VARCHAR(6) NOT NULL,
@@ -257,7 +275,7 @@ CREATE TABLE target (
     xattr               BOOLEAN,
 -- 
 --
-    CONSTRAINT target__name_re CHECK (
+    CONSTRAINT target__name_ck CHECK (
         name ~* '^[A-Z_][A-Z0-9_]{0,30}$'
     ),
 --
@@ -450,15 +468,6 @@ CREATE TABLE contains_target (
 );
 --
 --
-CREATE TABLE queue (
-    id          UUID PRIMARY KEY,
-    name        VARCHAR(31) NOT NULL,
-    comment     VARCHAR(31) NOT NULL DEFAULT '',
-    source_path TEXT NOT NULL UNIQUE,
-    online      BOOLEAN NOT NULL DEFAULT FALSE
-);
---
---
 CREATE TABLE queue_group (
     id      UUID PRIMARY KEY,
     name    VARCHAR(31) NOT NULL,
@@ -473,13 +482,4 @@ CREATE TABLE contains_queue (
     queue_group_id UUID REFERENCES queue_group(id),
 --
     UNIQUE (queue_id, queue_group_id)
-);
---
---
-CREATE TABLE has_target (
-    queue_id  UUID REFERENCES queue(id),
-    target_id UUID REFERENCES target(id),
-    online    BOOLEAN NOT NULL DEFAULT FALSE,
---
-    UNIQUE (queue_id, target_id)
 );
