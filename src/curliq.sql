@@ -24,6 +24,36 @@ DROP TABLE IF EXISTS contains_target CASCADE;
 DROP TABLE IF EXISTS queue CASCADE;
 DROP TABLE IF EXISTS queue_group CASCADE;
 DROP TABLE IF EXISTS contains_queue CASCADE;
+DROP TABLE IF EXISTS has_target CASCADE;
+DROP TABLE IF EXISTS system CASCADE;
+--
+--
+CREATE TABLE system (
+    name  VARCHAR(31) PRIMARY KEY,
+    state VARCHAR(8) NOT NULL DEFAULT 'DOWN',
+--
+    CONSTRAINT system__state_ck CHECK (
+        state = 'OFFLINE'  -- curliqd is running.  System has paused generating
+                           -- new data transfers.
+        OR
+        state = 'ONLINE'   -- curliqd is running.  System is generating new data
+                           -- transfers.
+        OR
+        state = 'STARTING' -- curliqd is initializing.  System is not yet
+                           -- generating new data transfers.
+        OR
+        state = 'STOPPING' -- curliqd is waiting for existing transfers to
+                           -- complete before exiting.
+        OR
+        state = 'DOWN'     -- curliqd is not running.
+    ),
+-- 
+--
+    CONSTRAINT system__name_ck CHECK (
+        name ~* '^[A-Z_][A-Z0-9_]{0,30}$'
+    )
+--
+);
 --
 --
 CREATE TABLE queue (
@@ -48,7 +78,6 @@ CREATE TABLE target (
     id                  UUID PRIMARY KEY,
     name                VARCHAR(31) NOT NULL UNIQUE,
     comment             VARCHAR(31) NOT NULL DEFAULT '',
-    queue_id            UUID REFERENCES queue(id),
     priority            INTEGER NOT NULL DEFAULT 0,
     online              BOOLEAN NOT NULL DEFAULT FALSE,
     uri_scheme          VARCHAR(6) NOT NULL,
@@ -451,6 +480,14 @@ CREATE TABLE target (
 );
 --
 --
+CREATE TABLE has_target (
+    queue_id  UUID REFERENCES queue(id),
+    target_id UUID REFERENCES target(id),
+--
+    UNIQUE (target_id, queue_id)
+);
+--
+--
 CREATE TABLE target_group (
     id      UUID PRIMARY KEY,
     name    VARCHAR(31) NOT NULL,
@@ -460,7 +497,6 @@ CREATE TABLE target_group (
 --
 --
 CREATE TABLE contains_target (
-    id              UUID PRIMARY KEY,
     target_id       UUID REFERENCES target(id),
     target_group_id UUID REFERENCES target_group(id),
 --
