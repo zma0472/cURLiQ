@@ -26,10 +26,28 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+static void
+copyright(void)
+{
+ if ( isatty(STDIN_FILENO) ) {
+     printf("\n  cURLiQ command line interface v.0.0.0\n");
+     printf("  Copyright (C) 2019 Matthew Alton\n");
+     printf("  License GPLv3+: GNU GPL version 3 or later ");
+     printf("<http://gnu.org/licenses/gpl.html>\n");
+     printf("  This is free software: ");
+     printf("you are free to change and redistribute it.\n");
+     printf("  There is NO WARRANTY, to the extent permitted by law.\n\n");
+ }
+ return;
+}
+
+
 int
 main(void)
 {
  char *command = NULL;
+
+ copyright();
 
  for (;;) {
      if ( NULL == (command = readline("QCL> ")) ) {
