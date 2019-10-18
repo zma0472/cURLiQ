@@ -20,29 +20,24 @@
 
 #include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <ctype.h>
-
-#include <readline/readline.h>
-#include <readline/history.h>
 
 #include "cqcli.h"
 
-int
-main(void)
+void
+copyright(void)
 {
- char *command = NULL;
-
- copyright();
-
- for (;;) {
-     if ( NULL == (command = readline("QCL> ")) ) {
-         printf("\n\n"); break;
-     } else if ( *command ) {
-         add_history(command);
-     }
+ if ( isatty(STDIN_FILENO) ) {
+     printf("\n  cURLiQ Command Line Interface v.%d.%d.%d\n",
+                                               CURLIQ_VERSION_MAJOR,
+                                               CURLIQ_VERSION_MINOR,
+                                               CURLIQ_VERSION_PATCH);
+     printf("  Copyright (C) 2019 Matthew Alton\n");
+     printf("  License GPLv3+: GNU GPL version 3 or later ");
+     printf("<http://gnu.org/licenses/gpl.html>\n");
+     printf("  This is free software: ");
+     printf("you are free to change and redistribute it.\n");
+     printf("  There is NO WARRANTY, to the extent permitted by law.\n\n");
  }
-
- exit(0);
+ return;
 }
 

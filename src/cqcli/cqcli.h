@@ -18,31 +18,21 @@
  * along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <ctype.h>
+#ifndef _CURLIQ_H
+#define _CURLIQ_H
 
-#include <readline/readline.h>
-#include <readline/history.h>
+void copyright(void);
 
-#include "cqcli.h"
+#ifndef CURLIQ_VERSION_MAJOR
+#define CURLIQ_VERSION_MAJOR 0
+#endif
 
-int
-main(void)
-{
- char *command = NULL;
+#ifndef CURLIQ_VERSION_MINOR
+#define CURLIQ_VERSION_MINOR 0
+#endif
 
- copyright();
+#ifndef CURLIQ_VERSION_PATCH
+#define CURLIQ_VERSION_PATCH 0
+#endif
 
- for (;;) {
-     if ( NULL == (command = readline("QCL> ")) ) {
-         printf("\n\n"); break;
-     } else if ( *command ) {
-         add_history(command);
-     }
- }
-
- exit(0);
-}
-
+#endif  /*  _CURLIQ_H  */
