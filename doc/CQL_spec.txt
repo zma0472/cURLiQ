@@ -7,41 +7,42 @@
 #  Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 #
 
-  ALTER SESSION SET attribute = value ;
+  ALTER SESSION SET attr = value [ , attr = value ] ... ;
 
-  DISPLAY SESSION [ attribute ] ;
+  DISPLAY SESSION [ attr [ , attr ] ... ] ;
 
   END SESSION ;
 
-  ALTER SYSTEM SET attribute = value ;
+  ALTER SYSTEM SET attr = value [ , attr = value ] ... ;
 
-  DISPLAY SYSTEM [ attribute ] ;
+  DISPLAY SYSTEM [ attr [ , attr ] ... ] ;
 
   CONNECT ;
 
   DISCONNECT ;
 
-  CREATE QUEUE name SOURCE pathname ;
+  CREATE QUEUE name ( [ attr = value [ , attr = value ] ... ] ) ;
 
-  ALTER QUEUE name SET attribute = value ;
+  ALTER QUEUE name SET attr = value [ , attr = value ] ... ;
 
-  ALTER QUEUE name ADD TARGET < target_name > ;
+  ALTER QUEUE name ADD TARGET name [ , name ] ... ;
 
-  ALTER QUEUE name REMOVE TARGET < target_name | ALL > ;
+  ALTER QUEUE name REMOVE TARGET name < [ , name ] ... | ALL > ;
 
   ONLINE QUEUE name ;
 
   OFFLINE QUEUE name ;
 
-  DISPLAY QUEUE [ attribute ] ;
+  DISPLAY QUEUE [ attr [ , attr ] ... ] ;
 
-  DROP QUEUE name ;
+  DROP QUEUE name [ CASCADE ] ;
+  #  CASCADE drops all targets whose only queue is being dropped.
 
 
 
-  CREATE TARGET name ;
+  CREATE TARGET name ( [ attr = value [ , attr = value ] ... ] ) ;
 
-  ALTER TARGET name SET attribute = value ;
+  ALTER TARGET name SET attr = value [ , attr = value ] ... ;
 
   ONLINE TARGET target ;
 

@@ -26,4 +26,106 @@ Diagram(
 #  ALTER QUEUE
 #
 
+Diagram(
+  Terminal('ALTER'),
+  Terminal('QUEUE'),
+  NonTerminal('queue-name'),
+  Terminal('SET'),
+    OneOrMore(
+      Sequence(
+        NonTerminal('attribute'),
+        Terminal('='),
+        NonTerminal('value')),
+        Terminal(',')),
+  Terminal(';')
+)
 
+#
+#  ALTER SESSION
+#
+
+Diagram(
+  Terminal('ALTER'),
+  Terminal('SESSION'),
+  Terminal('SET'),
+    OneOrMore(
+      Sequence(
+        NonTerminal('attribute'),
+        Terminal('='),
+        NonTerminal('value')),
+        Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  DISPLAY SESSION
+#
+
+Diagram(
+  Terminal('DISPLAY'),
+  Terminal('SESSION'),
+  ZeroOrMore(
+    NonTerminal('attribute'),
+    Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  END SESSION
+#
+
+Diagram(
+  Terminal('END'),
+  Terminal('SESSION'),
+  Terminal(';'))
+
+#
+#  ALTER SYSTEM
+#
+
+Diagram(
+  Terminal('ALTER'),
+  Terminal('SYSTEM'),
+  Terminal('SET'),
+    OneOrMore(
+      Sequence(
+        NonTerminal('attribute'),
+        Terminal('='),
+        NonTerminal('value')),
+        Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  DISPLAY SYSTEM
+#
+
+Diagram(
+  Terminal('DISPLAY'),
+  Terminal('SYSTEM'),
+  ZeroOrMore(
+    NonTerminal('attribute'),
+    Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  CONNECT
+#
+
+Diagram(
+  Terminal('CONNECT')
+)
+
+#
+#
+#
+#  DISCONNECT
+#
+
+Diagram(
+  Terminal('DISCONNECT')
+)
+
+#
+#  
