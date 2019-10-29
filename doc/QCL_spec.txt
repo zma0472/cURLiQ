@@ -7,6 +7,26 @@
 #  Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 #
 
+#
+#  Preliminary definitions:
+#
+#  QUEUE -- A named object consisting of a single source directory and zero or
+#           more TARGETS.
+#
+#  GROUP -- A named object consisting of an unordered set of QUEUEs.
+#
+#  TARGET -- A named object consisting of a single URL and a collection of cURL
+#            parameters.
+#
+#  RING -- A named object consisting of an unordered collection of TARGETs.
+#
+#
+#  SYSTEM --
+#
+#  SESSION --
+#
+
+
   ALTER SESSION SET attr = value [ , attr = value ] ... ;
 
   DISPLAY SESSION [ attr [ , attr ] ... ] ;
@@ -16,6 +36,10 @@
   ALTER SYSTEM SET attr = value [ , attr = value ] ... ;
 
   DISPLAY SYSTEM [ attr [ , attr ] ... ] ;
+
+  ONLINE SYSTEM ;
+
+  OFFLINE SYSTEM [ HALT ] ;
 
   CONNECT ;
 
@@ -55,41 +79,40 @@
 
 
 
-  CREATE QUEUE GROUP name ;
+  CREATE GROUP name ;
 
-  ALTER QUEUE GROUP name SET attribute = value ;
+  ALTER GROUP name SET attribute = value ;
 
-  ALTER QUEUE GROUP name ADD QUEUE queue_name ;
+  ALTER GROUP name ADD QUEUE queue_name ;
 
-  ALTER QUEUE GROUP name REMOVE QUEUE < queue_name | ALL > ;
+  ALTER GROUP name REMOVE QUEUE < queue_name | ALL > ;
 
-  ONLINE QUEUE GROUP name ;
+  ONLINE GROUP name ;
 
-  OFFLINE QUEUE GROUP name ;
+  OFFLINE GROUP name ;
 
-  DISPLAY QUEUE GROUP [ attribute ] ;
+  DISPLAY GROUP [ attribute ] ;
 
-  DROP QUEUE GROUP name [ CASCADE ] ;
-  #  CASCADE drops all queues contained exclusively in the queue group being
-  #  dropped. 
-
+  DROP GROUP name [ CASCADE ] ;
+  #  CASCADE drops all queues contained exclusively in the group being dropped. 
 
 
-  CREATE TARGET GROUP name ;
 
-  ALTER TARGET GROUP name SET attribute = value ;
+  CREATE RING name ;
 
-  ALTER TARGET GROUP name ADD TARGET target ;
+  ALTER RING name SET attribute = value ;
 
-  ALTER TARGET GROUP name REMOVE TARGET < target_name | ALL > ;
+  ALTER RING name ADD TARGET target ;
 
-  ONLINE TARGET GROUP name ;
+  ALTER RING name REMOVE TARGET < target_name | ALL > ;
 
-  OFFLINE TARGET GROUP name ;
+  ONLINE RING name ;
 
-  DISPLAY TARGET GROUP [ attribute ] ;
+  OFFLINE RING name ;
 
-  DROP TARGET GROUP name [ CASCADE ] ;
-  #  CASCADE drops all targets contained exclusively in the target group being
+  DISPLAY RING [ attribute ] ;
+
+  DROP RING name [ CASCADE ] ;
+  #  CASCADE drops all targets contained exclusively in the group being
   #  dropped. 
 

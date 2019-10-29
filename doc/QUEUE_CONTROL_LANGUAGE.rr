@@ -3,42 +3,6 @@
 #  For use with https://tabatkins.github.io/railroad-diagrams/generator.html
 #
 
-#
-#  CREATE QUEUE
-#
-
-Diagram(
-  Terminal('CREATE'),
-  Terminal('QUEUE'),
-  NonTerminal('queue-name'),
-  Terminal('('),
-    ZeroOrMore(
-      Sequence(
-        NonTerminal('attribute'),
-        Terminal('='),
-        NonTerminal('value')),
-        Terminal(',')),
-  Terminal(')'),
-  Terminal(';')
-)
-
-#
-#  ALTER QUEUE
-#
-
-Diagram(
-  Terminal('ALTER'),
-  Terminal('QUEUE'),
-  NonTerminal('queue-name'),
-  Terminal('SET'),
-    OneOrMore(
-      Sequence(
-        NonTerminal('attribute'),
-        Terminal('='),
-        NonTerminal('value')),
-        Terminal(',')),
-  Terminal(';')
-)
 
 #
 #  ALTER SESSION
@@ -110,6 +74,31 @@ Diagram(
 )
 
 #
+#  ONLINE SYSTEM
+#
+
+Diagram(
+  Terminal('ONLINE'),
+  Terminal('SYSTEM'))
+
+#
+#  OFFLINE SYSTEM
+#
+
+Diagram(
+  Terminal('OFFLINE'),
+  Terminal('SYSTEM'),
+  Choice(
+    0,
+    Skip(),
+    Sequence(
+      Optional(
+        Terminal('NO')),
+        Terminal('WAIT'))),
+  Terminal(';')
+)
+
+#
 #  CONNECT
 #
 
@@ -128,4 +117,55 @@ Diagram(
 )
 
 #
-#  
+#  CREATE QUEUE
+#
+
+Diagram(
+  Terminal('CREATE'),
+  Terminal('QUEUE'),
+  NonTerminal('name'),
+  Terminal('('),
+  ZeroOrMore(
+    Sequence(
+      NonTerminal('attribute'),
+      Terminal('='),
+      NonTerminal('value')),
+      Terminal(',')),
+  Terminal(')'),
+  Terminal(';')
+)
+
+#
+#  ALTER QUEUE
+#
+
+Diagram(
+  Terminal('ALTER'),
+  Terminal('QUEUE'),
+  NonTerminal('name'),
+  Terminal('SET'),
+  OneOrMore(
+    Sequence(
+      NonTerminal('attribute'),
+      Terminal('='),
+      NonTerminal('value')),
+      Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  ALTER QUEUE ADD TARGET
+#
+
+Diagram(
+  Terminal('ALTER'),
+  Terminal('QUEUE'),
+  NonTerminal('name'),
+  Terminal('ADD TARGET'),
+  OneOrMore(
+    Sequence(
+      NonTerminal('name')),
+      Terminal(',')),
+  Terminal(';')
+)
+
