@@ -1,0 +1,29 @@
+
+#
+#  For use with https://tabatkins.github.io/railroad-diagrams/generator.html
+#
+
+#
+#  CREATE QUEUE
+#
+
+Diagram(
+  Terminal('CREATE'),
+  Terminal('QUEUE'),
+  NonTerminal('queue-name'),
+  Terminal('('),
+    ZeroOrMore(
+      Sequence(
+        NonTerminal('attribute'),
+        Terminal('='),
+        NonTerminal('value')),
+        Terminal(',')),
+  Terminal(')'),
+  Terminal(';')
+)
+
+#
+#  ALTER QUEUE
+#
+
+
