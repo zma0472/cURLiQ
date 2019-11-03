@@ -29,7 +29,7 @@ LIBS     = -lreadline
 #LIBINCS  =
 #LDFLAGS  =
 
-OBJS     = copyright.o main.o
+OBJS     = args.o copyright.o main.o
 
 HEADERS  = cqcli.h
 

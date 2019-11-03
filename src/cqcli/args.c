@@ -18,41 +18,15 @@
  * along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <stdint.h>
-
-#include <readline/readline.h>
-#include <readline/history.h>
+#include <getopt.h>
 
 #include "cqcli.h"
 
-uint8_t interactive_session = 1;
-
-int
-main(int argc, char **argv)
+void
+args(int argc, char **argv)
 {
- char *line = NULL, *prompt = NULL;
 
- args(argc, argv);  /*  Will not return if argv contains errors.  */
-
- if ( interactive_session ) {
-     prompt = "QCL> "; copyright();
- }
-
- for (;;) {
-     if ( NULL == (line = readline(prompt)) ) {
-         if ( interactive_session ) {
-             printf("\nEND SESSION\n\n");
-         }
-         break;
-     } else if ( *line && interactive_session ) {
-         add_history(line);
-     }
- }
-
- exit(0);
+ return;
 }
 

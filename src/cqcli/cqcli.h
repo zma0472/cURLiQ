@@ -21,7 +21,12 @@
 #ifndef _CURLIQ_H
 #define _CURLIQ_H
 
-void copyright(void);
+#include <stdint.h>
+
+extern void args(int argc, char **argv);
+extern void copyright(void);
+
+extern uint8_t interactive_session;
 
 #ifndef CURLIQ_VERSION_MAJOR
 #define CURLIQ_VERSION_MAJOR 0
