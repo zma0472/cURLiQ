@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+for protocol in dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp
+do
+    file=${protocol}.sql
+
+    cp -v copyright.txt $file
+    
+    echo "CREATE TABLE ${protocol}_target (" >> $file
+    echo "    id            UUID PRIMARY KEY," >> $file
+    echo "    name          VARCHAR(32) NOT NULL," >> $file
+    echo "    comment       VARCHAR(31) NOT NULL DEFAULT ''," >> $file
+    echo "    priority      INTEGER NOT NULL DEFAULT 0," >> $file
+    echo "    online        BOOLEAN NOT NULL DEFAULT FALSE," >> $file
+    echo "    uri_scheme    VARCHAR(6) NOT NULL," >> $file
+    echo "    uri_userinfo  TEXT," >> $file
+    echo "    uri_host      TEXT NOT NULL," >> $file
+    echo "    uri_port      SMALLINT," >> $file
+    echo "    uri_path      TEXT NOT NULL," >> $file
+    echo "    uri_query     TEXT," >> $file
+    echo "    uri_fragment  TEXT," >> $file
+    echo "--" >> $file
+    echo "    CONSTRAINT ${protocol}_target__name_ck CHECK (" >> $file
+    echo "        name ~* '^[A-Z_][A-Z0-9_]{0,30}$'" >> $file
+    echo "    )" >> $file
+    echo ");" >> $file
+    echo "--" >> $file
+    echo "--" >> $file
+    echo "CREATE TABLE has_${protocol}_target (" >> $file
+    echo "    queue_id  UUID FOREIGN KEY REFERENCES queue.id," >> $file
+    echo "    target_id UUID FOREIGN KEY REFERENCES ${protocol}_target.id" >> \
+                                                                           $file
+    echo ");" >> $file
+    echo "--" >> $file
+    echo "--" >> $file
+done
+
+exit 0
