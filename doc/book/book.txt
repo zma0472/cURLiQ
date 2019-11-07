@@ -8,4 +8,4 @@ Preface
 computer network from tiny LANs to massive enterprise WANs to the global
 internet.  cURLiQ derives its power from the popular and highly capable libcurl
 multiprotocol file transfer library.  After reading this book you will be able
-to install, configure, manage, and troubleshoot the cURLiQ system.
+to install, configure, deploy, manage, and troubleshoot the cURLiQ system.
