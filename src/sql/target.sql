@@ -1,416 +1,413 @@
 --
 --
-CREATE TABLE target (
-    id                  UUID PRIMARY KEY,
-    name                VARCHAR(31) NOT NULL UNIQUE,
-    comment             VARCHAR(31) NOT NULL DEFAULT '',
-    priority            INTEGER NOT NULL DEFAULT 0,
-    online              BOOLEAN NOT NULL DEFAULT FALSE,
-    uri_scheme          VARCHAR(6) NOT NULL,
-    uri_userinfo        TEXT,
-    uri_host            TEXT NOT NULL,
-    uri_port            SMALLINT,
-    uri_path            TEXT NOT NULL,
-    uri_query           TEXT,
-    uri_fragment        TEXT,
+       curlopt_verbose  BOOLEAN DEFAULT FALSE, -- Display verbose information.
 --
-    http_version        VARCHAR(3),
-    no_npn              BOOLEAN,
-    no_alpn             BOOLEAN,
-    tls_version         VARCHAR(3),
-    sslv2               BOOLEAN,
-    sslv3               BOOLEAN,
-    ipv4                BOOLEAN,
-    ipv6                BOOLEAN,
-    user_agent          TEXT,
-    abstract_unix_soc   TEXT,
-    append              TEXT,
-    auth_method         VARCHAR(9),
-    cookie              TEXT,
-    use_ascii           BOOLEAN,
-    cookie_jar          TEXT,
-    continue_at         INTEGER,
-    ciphers             TEXT,
-    compressed          BOOLEAN,
-    compressed_ssh      BOOLEAN,
-    connect_timeout     INTEGER,
-    connect_to          TEXT,
-    config              TEXT,
-    create_dirs         BOOLEAN,
-    crlf                BOOLEAN,
-    crlfile             TEXT,
-    data                TEXT,
-    dump_header         BOOLEAN,
-    data_ascii          TEXT,
-    data_binary         TEXT,
-    data_raw            TEXT,
-    data_urlencode      TEXT,
-    delegation_lvl      VARCHAR(6),
-    digest              BOOLEAN,
-    disable_eprt        BOOLEAN,
-    disable_epsv        BOOLEAN,
-    disable             BOOLEAN,
-    disallow_un_in_url  BOOLEAN,
-    dns_interface       TEXT,
-    dns_ipv4_addr       TEXT, /* Add validity check */
-    dns_ipv6_addr       TEXT, /* Add validity check */
-    dns_servers         TEXT, /* Add validity check */
-    doh_url             TEXT,
-    referer             TEXT,
-    cert                TEXT,
-    engine              TEXT,
-    egd_file            TEXT,
-    expect100_timeout   INTEGER,
-    fail_early          BOOLEAN,
-    fail                BOOLEAN,
-    cert_type           VARCHAR(3) DEFAULT 'PEM',
-    cacert              TEXT,
-    capath              TEXT,
-    pinnedpubkey        TEXT,
-    cert_status         BOOLEAN,
-    false_start         BOOLEAN,
-    form                TEXT,
-    form_string         TEXT,
-    ftp_account         TEXT,
-    ftp_alt_to_user     TEXT,
-    ftp_create_dirs     BOOLEAN,
-    ftp_method          VARCHAR(9),
-    ftp_pasv            BOOLEAN,
-    ftp_skip_pasv_ip    BOOLEAN,
-    ftp_port            TEXT,
-    ftp_pret            BOOLEAN,
-    ftp_ssl_ccc_mode    VARCHAR(7),
-    ftp_ssl_ccc         BOOLEAN,
-    ftp_ssl_ccontrol    VARCHAR(7),
-    ftp_form_string     TEXT,
-    globoff             BOOLEAN,
-    get                 BOOLEAN,
-    header              TEXT,
-    hostpubmd5          VARCHAR(32),
-    he_timeout_ms       INTEGER,
-    haproxy_protocol    BOOLEAN,
-    hpy_eye_tmout_ms    INTEGER,
-    head                BOOLEAN,
-    http0_9             BOOLEAN,
-    http1_0             BOOLEAN,
-    http1_1             BOOLEAN,
-    http2_prior         BOOLEAN,
-    http2               BOOLEAN,
-    ignore_cnt_len      BOOLEAN,
-    include             BOOLEAN,
-    insecure            BOOLEAN,
-    interface           TEXT,
-    junk_ssn_cookies    BOOLEAN,
-    keepalive_time      INTEGER,
-    key_type            TEXT,
-    key                 TEXT,
-    krb_level           VARCHAR(12),
-    libcurl             TEXT,
-    limit_rate          TEXT,
-    local_port          TEXT,
-    location_trusted    BOOLEAN,
-    location            BOOLEAN,
-    login_options       TEXT,
-    mail_auth           TEXT,
-    mail_from           TEXT,
-    mail_rcpt           TEXT,
-    max_filesize        INTEGER,
-    max_redirs          INTEGER,
-    metalink            BOOLEAN,
-    negotiate           BOOLEAN,
-    netrc_file          TEXT,
-    netrc_optional      BOOLEAN,
-    netrc               BOOLEAN,
-    next                BOOLEAN,
-    no_buffer           BOOLEAN,
-    no_keepalive        BOOLEAN,
-    no_sessionid        BOOLEAN,
-    noproxy             TEXT,
-    ntlm_wb             BOOLEAN,
-    ntlm                BOOLEAN,
-    oauth2_bearer       TEXT,
-    parallel_max        INTEGER,
-    parallel            BOOLEAN,
-    path_as_is          BOOLEAN,
-    post301             BOOLEAN,
-    post302             BOOLEAN,
-    post303             BOOLEAN,
-    preproxy            TEXT,
-    proto_default       TEXT,
-    proto_redir         TEXT,
-    proto               TEXT,
-    proxy_anyauth       BOOLEAN,
-    proxy_basic         BOOLEAN,
-    proxy_cacert        BOOLEAN,
-    proxy_capath        TEXT,
-    proxy_cert_type     VARCHAR(3) DEFAULT 'PEM',
-    proxy_cert          TEXT,
-    proxy_ciphers       TEXT,
-    proxy_crlfile       TEXT,
-    proxy_digest        BOOLEAN,
-    proxy_header        TEXT,
-    proxy_insecure      BOOLEAN,
-    proxy_key_type      TEXT,
-    proxy_key           TEXT,
-    proxy_negotiate     BOOLEAN,
-    proxy_ntlm          BOOLEAN,
-    proxy_pass          TEXT,
-    proxy_pinnedpubkey  TEXT,
-    proxy_service_name  TEXT,
-    proxy_ssl_al_beast  BOOLEAN,
-    proxy_tls13_ciphers TEXT,
-    proxy_tlsauthtype   TEXT,
-    proxy_tlspassword   TEXT,
-    proxy_tlsuser       TEXT,
-    proxy_tlsv1         BOOLEAN,
-    proxy_user          TEXT,
-    proxy               TEXT,
-    proxy1_0            TEXT,
-    proxytunnel         BOOLEAN,
-    pubkey              TEXT,
-    quote               BOOLEAN,
-    random_file         TEXT,
-    range               INTEGER,
-    raw                 BOOLEAN,
-    remote_header_name  BOOLEAN,
-    remote_name_all     BOOLEAN,
-    remote_name         BOOLEAN,
-    remote_time         BOOLEAN,
-    request_target      BOOLEAN,
-    request             TEXT,
-    resolve             TEXT,
-    retry_connrefused   BOOLEAN,
-    retry_delay         INTEGER,
-    retry_max_time      INTEGER,
-    retry               INTEGER,
-    sasl_authzid        BOOLEAN,
-    sasl_ir             BOOLEAN,
-    service_name        TEXT,
-    show_error          BOOLEAN,
-    silent              BOOLEAN,
-    socks4              TEXT,
-    socks4a             TEXT,
-    socks5_basic        BOOLEAN,
-    socks5_gssapi_nec   BOOLEAN,
-    socks5_gssapi_svc   TEXT,
-    socks5_gssapi       BOOLEAN,
-    socks5_hostname     TEXT,
-    socks5              TEXT,
-    speed_limit         INTEGER,
-    speed_time          INTEGER,
-    ssl_allow_beast     BOOLEAN,
-    ssl_no_revoke       BOOLEAN,
-    ssl                 BOOLEAN,
-    ssl_reqd            BOOLEAN,
-    suppress_con_hdrs   BOOLEAN,
-    tcp_fastopen        BOOLEAN,
-    tcp_nodelay         BOOLEAN,
-    telnet_option       TEXT,
-    tftp_blksize        INTEGER,
-    tftp_no_options     BOOLEAN,
-    time_cond           INTEGER,
-    tls_max             VARCHAR(3),
-    tls13_ciphers       TEXT,
-    tlsauthtype         VARCHAR(3),
-    tlspassword         TEXT,
-    tlsuser             TEXT,
-    tlsv1_0             BOOLEAN,
-    tlsv1_1             BOOLEAN,
-    tlsv1_2             BOOLEAN,
-    tlsv1_3             BOOLEAN,
-    tlsv1               BOOLEAN,
-    tr_encoding         BOOLEAN,
-    trace_acsii         TEXT,
-    trace_time          BOOLEAN,
-    trace               TEXT,
-    unix_socket         TEXT,
-    upload_file         TEXT,
-    url                 TEXT,
-    _user               TEXT,
-    xattr               BOOLEAN,
--- 
+       curlopt_header   BOOLEAN DEFAULT FALSE, -- Include the header in the
+                                               -- body output.
 --
-    CONSTRAINT target__name_ck CHECK (
-        name ~* '^[A-Z_][A-Z0-9_]{0,30}$'
-    ),
+       curlopt_nosignal BOOLEAN DEFAULT FALSE, -- Do not install signal
+                                               -- handlers.
 --
-    CONSTRAINT target__uri_scheme_ck CHECK (
-        UPPER(uri_scheme) = 'DICT'   OR
-        UPPER(uri_scheme) = 'FILE'   OR
-        UPPER(uri_scheme) = 'FTP'    OR
-        UPPER(uri_scheme) = 'FTPS'   OR
-        UPPER(uri_scheme) = 'GOPHER' OR
-        UPPER(uri_scheme) = 'HTTP'   OR
-        UPPER(uri_scheme) = 'HTTPS'  OR
-        UPPER(uri_scheme) = 'IMAP'   OR
-        UPPER(uri_scheme) = 'IMAPS'  OR
-        UPPER(uri_scheme) = 'LDAP'   OR
-        UPPER(uri_scheme) = 'LDAPS'  OR
-        UPPER(uri_scheme) = 'POP3'   OR
-        UPPER(uri_scheme) = 'POP3S'  OR
-        UPPER(uri_scheme) = 'RTMP'   OR
-        UPPER(uri_scheme) = 'RTSP'   OR
-        UPPER(uri_scheme) = 'SCP'    OR
-        UPPER(uri_scheme) = 'SFTP'   OR
-        UPPER(uri_scheme) = 'SMB'    OR
-        UPPER(uri_scheme) = 'SMBS'   OR
-        UPPER(uri_scheme) = 'SMTP'   OR
-        UPPER(uri_scheme) = 'SMTPS'  OR
-        UPPER(uri_scheme) = 'TELNET' OR
-        UPPER(uri_scheme) = 'TFTP'
-    ),
+       curlopt_wildcardmatch BOOLEAN DEFAULT FALSE,
 --
-    CONSTRAINT target__uri_port_ck CHECK (
-        uri_port >= 0
-    ),
+       curlopt_suppress_connect_headers  BOOLEAN DEFAULT FALSE,
 --
-    CONSTRAINT target__http_version_ck CHECK (
-        http_version = '1.0'
-        OR
-        http_version = '1.1'
-        OR
-        http_version = '2'
-    ),
+       curlopt_stderr  TEXT, -- stderr replacement stream.
 --
-    CONSTRAINT target__tls_version_ck CHECK (
-        tls_version = '1.0'
-        OR
-        tls_version = '1.1'
-        OR
-        tls_version = '1.2'
-    ),
+       curlopt_failonerror  BOOLEAN DEFAULT FALSE, -- Fail on HTTP 4xx errors.
 --
-    CONSTRAINT target__auth_method_ck CHECK (
-        auth_method = 'any'
-        OR
-        auth_method = 'basic'
-        OR
-        auth_method = 'digest'
-        OR
-        auth_method = 'ntlm'
-        OR
-        auth_method = 'negotiate'
-    ),
+       curlopt_keep_sending_on_error  BOOLEAN DEFAULT FALSE,
+                                     -- Keep sending on   HTTP  >=  300  errors.
 --
-    CONSTRAINT target__continue_at_ck CHECK (
-        continue_at > -1
-    ),
+       curlopt_url  TEXT NOT NULL, -- URL to work on.
 --
-    CONSTRAINT target__delegation_lvl_ck CHECK (
-        delegation_lvl = 'none'
-        OR
-        delegation_lvl = 'policy'
-        OR
-        delegation_lvl = 'always'
-    ),
+       curlopt_path_as_is  BOOLEAN DEFAULT FALSE,
 --
-    CONSTRAINT target__expect100_timeout_ck CHECK (
-        expect100_timeout > 0
-    ),
+       curlopt_protocols  VARCHAR(6)[], -- Allowed protocols.
 --
-    CONSTRAINT target__cert_type_ck CHECK (
-        cert_type = 'PEM'
-        OR
-        cert_type = 'DER'
-        OR
-        cert_type = 'ENG'
-        OR
-        cert_type = 'P12'
-    ),
-
+       curlopt_redir_protocols  VARCHAR(6)[], -- Protocols to allow redirects
+                                              -- to.
 --
-    CONSTRAINT target__proxy_cert_type_ck CHECK (
-        proxy_cert_type = 'PEM'
-        OR
-        proxy_cert_type = 'DER'
-        OR
-        proxy_cert_type = 'ENG'
-        OR
-        proxy_cert_type = 'P12'
-    ),
-    CONSTRAINT target__ftp_method_ck CHECK (
-        ftp_method IS NULL
-        OR
-        ftp_method = 'multicwd'
-        OR
-        ftp_method = 'nocwd'
-        OR
-        ftp_method = 'singlecwd'
-    ),
+       curlopt_default_protocol  VARCHAR(6), -- Default protocol.
 --
-    CONSTRAINT target__ftp_ssl_ccc_mode_ck CHECK (
-        ftp_ssl_ccc_mode IS NULL
-        OR
-        ftp_ssl_ccc_mode = 'active'
-        OR
-        ftp_ssl_ccc_mode = 'passive'
-    ),
+       curlopt_proxy  TEXT, -- Proxy to use.
 --
-    CONSTRAINT target__hostpubmd5_ck CHECK (
-        hostpubmd5 IS NULL
-        OR
-        hostpubmd5 ~* '[0-9a-f]{32}'
-    ),
+       curlopt_pre_proxy  TEXT, -- Socks proxy to use.
 --
-    CONSTRAINT target__krb_level_ck CHECK (
-        krb_level IS NULL
-        OR
-        krb_level = 'clear'
-        OR
-        krb_level = 'safe'
-        OR
-        krb_level = 'confidential'
-        OR
-        krb_level = 'private'
-    ),
+       curlopt_proxyport  INTEGER, -- Proxy port to use.
 --
-    CONSTRAINT target__proxy_tlsauthtype_ck CHECK (
-        proxy_tlsauthtype IS NULL
-        OR
-        proxy_tlsauthtype = 'SRP'
-    ),
+       curlopt_proxytype  VARCHAR(15), -- Proxy type.
 --
-    CONSTRAINT target__proxy_tlspassword_ck CHECK (
-        proxy_tlsuser IS NOT NULL
-    ),
---
-    CONSTRAINT target__proxy_tlsuser_ck CHECK (
-        proxy_tlspassword IS NOT NULL
-    ),
---
-    CONSTRAINT target__tlspassword_ck CHECK (
-        proxy_tlsuser IS NOT NULL
-    ),
---
-    CONSTRAINT target__tlsuser_ck CHECK (
-        proxy_tlspassword IS NOT NULL
-    ),
---
-    CONSTRAINT target__tlsmax_ck CHECK (
-        tls_max is NULL
-        OR
-        tls_max = '1.0'
-        OR
-        tls_max = '1.1'
-        OR
-        tls_max = '1.2'
-        OR
-        tls_max = '1.3'
-    ),
---
-    CONSTRAINT target__tlsauthtype_ck CHECK (
-        tlsauthtype IS NULL
-        OR
-        tlsauthtype = 'SRP'
-    ) 
-);
---
---
-CREATE TABLE has_target (
-    queue_id  UUID REFERENCES queue(id),
-    target_id UUID REFERENCES target(id),
---
-    UNIQUE (target_id, queue_id)
-);
---
---
+       CURLOPT_NOPROXY
+              Filter out hosts from proxy use. CURLOPT_NOPROXY(3)
+       CURLOPT_HTTPPROXYTUNNEL
+              Tunnel through the HTTP proxy. CURLOPT_HTTPPROXYTUNNEL(3)
+       CURLOPT_CONNECT_TO
+              Connect to a specific host and port. See CURLOPT_CONNECT_TO(3)
+       CURLOPT_SOCKS5_AUTH
+              Socks5 authentication methods. See CURLOPT_SOCKS5_AUTH(3)
+       CURLOPT_SOCKS5_GSSAPI_SERVICE
+              Socks5 GSSAPI service name. CURLOPT_SOCKS5_GSSAPI_SERVICE(3)
+       CURLOPT_SOCKS5_GSSAPI_NEC
+              Socks5 GSSAPI NEC mode. See CURLOPT_SOCKS5_GSSAPI_NEC(3)
+       CURLOPT_PROXY_SERVICE_NAME
+              Proxy authentication service name. CURLOPT_PROXY_SERVICE_NAME(3)
+       CURLOPT_SERVICE_NAME
+              Authentication service name. CURLOPT_SERVICE_NAME(3)
+       CURLOPT_INTERFACE
+              Bind connection locally to this. See CURLOPT_INTERFACE(3)
+       CURLOPT_LOCALPORT
+              Bind connection locally to this port. See CURLOPT_LOCALPORT(3)
+       CURLOPT_LOCALPORTRANGE
+              Bind  connection  locally  to  port range. See CURLOPT_LOCALPOR‐
+       CURLOPT_DNS_CACHE_TIMEOUT
+              Timeout for DNS cache. See CURLOPT_DNS_CACHE_TIMEOUT(3)
+       CURLOPT_DNS_USE_GLOBAL_CACHE
+       CURLOPT_BUFFERSIZE
+              Ask for alternate buffer size. See CURLOPT_BUFFERSIZE(3)
+       CURLOPT_PORT
+              Port number to connect to. See CURLOPT_PORT(3)
+       CURLOPT_TCP_FASTOPEN
+              Enable TFO, TCP Fast Open. See CURLOPT_TCP_FASTOPEN(3)
+       CURLOPT_TCP_NODELAY
+              Disable the Nagle algorithm. See CURLOPT_TCP_NODELAY(3)
+       CURLOPT_ADDRESS_SCOPE
+              IPv6 scope for local addresses. See CURLOPT_ADDRESS_SCOPE(3)
+       CURLOPT_TCP_KEEPALIVE
+              Enable TCP keep-alive. See CURLOPT_TCP_KEEPALIVE(3)
+       CURLOPT_TCP_KEEPIDLE
+              Idle time before sending keep-alive. See CURLOPT_TCP_KEEPIDLE(3)
+       CURLOPT_TCP_KEEPINTVL
+              Interval between keep-alive probes. See CURLOPT_TCP_KEEPINTVL(3)
+       CURLOPT_UNIX_SOCKET_PATH
+              Path to a Unix domain socket. See CURLOPT_UNIX_SOCKET_PATH(3)
+       CURLOPT_ABSTRACT_UNIX_SOCKET
+       CURLOPT_NETRC
+              Enable .netrc parsing. See CURLOPT_NETRC(3)
+       CURLOPT_NETRC_FILE
+              .netrc file name. See CURLOPT_NETRC_FILE(3)
+       CURLOPT_USERPWD
+              User name and password. See CURLOPT_USERPWD(3)
+       CURLOPT_PROXYUSERPWD
+              Proxy user name and password. See CURLOPT_PROXYUSERPWD(3)
+       CURLOPT_USERNAME
+              User name. See CURLOPT_USERNAME(3)
+       CURLOPT_PASSWORD
+              Password. See CURLOPT_PASSWORD(3)
+       CURLOPT_LOGIN_OPTIONS
+              Login options. See CURLOPT_LOGIN_OPTIONS(3)
+       CURLOPT_PROXYUSERNAME
+              Proxy user name. See CURLOPT_PROXYUSERNAME(3)
+       CURLOPT_PROXYPASSWORD
+              Proxy password. See CURLOPT_PROXYPASSWORD(3)
+       CURLOPT_HTTPAUTH
+              HTTP server authentication methods. See CURLOPT_HTTPAUTH(3)
+       CURLOPT_TLSAUTH_USERNAME
+              TLS authentication user name. See CURLOPT_TLSAUTH_USERNAME(3)
+       CURLOPT_PROXY_TLSAUTH_USERNAME
+       CURLOPT_TLSAUTH_PASSWORD
+              TLS authentication password. See CURLOPT_TLSAUTH_PASSWORD(3)
+       CURLOPT_PROXY_TLSAUTH_PASSWORD
+       CURLOPT_TLSAUTH_TYPE
+              TLS authentication methods. See CURLOPT_TLSAUTH_TYPE(3)
+       CURLOPT_PROXY_TLSAUTH_TYPE
+       CURLOPT_PROXYAUTH
+              HTTP proxy authentication methods. See CURLOPT_PROXYAUTH(3)
+       CURLOPT_SASL_IR
+              Enable SASL initial response. See CURLOPT_SASL_IR(3)
+       CURLOPT_XOAUTH2_BEARER
+              OAuth2 bearer token. See CURLOPT_XOAUTH2_BEARER(3)
+       CURLOPT_AUTOREFERER
+              Automatically set Referer: header. See CURLOPT_AUTOREFERER(3)
+       CURLOPT_ACCEPT_ENCODING
+       CURLOPT_TRANSFER_ENCODING
+              Request Transfer-Encoding. See CURLOPT_TRANSFER_ENCODING(3)
+       CURLOPT_FOLLOWLOCATION
+              Follow HTTP redirects. See CURLOPT_FOLLOWLOCATION(3)
+       CURLOPT_UNRESTRICTED_AUTH
+              Do not restrict authentication to original  host.  CURLOPT_UNRE‐
+       CURLOPT_MAXREDIRS
+              Maximum number of redirects to follow. See CURLOPT_MAXREDIRS(3)
+       CURLOPT_POSTREDIR
+              How to act on redirects after POST. See CURLOPT_POSTREDIR(3)
+       CURLOPT_PUT
+              Issue a HTTP PUT request. See CURLOPT_PUT(3)
+       CURLOPT_POST
+              Issue a HTTP POST request. See CURLOPT_POST(3)
+       CURLOPT_POSTFIELDS
+              Send a POST with this data. See CURLOPT_POSTFIELDS(3)
+       CURLOPT_POSTFIELDSIZE
+              The POST data is this big. See CURLOPT_POSTFIELDSIZE(3)
+       CURLOPT_POSTFIELDSIZE_LARGE
+              The POST data is this big. See CURLOPT_POSTFIELDSIZE_LARGE(3)
+       CURLOPT_COPYPOSTFIELDS
+              Send  a POST with this data - and copy it. See CURLOPT_COPYPOST‐
+       CURLOPT_HTTPPOST
+              Multipart formpost HTTP POST. See CURLOPT_HTTPPOST(3)
+       CURLOPT_REFERER
+              Referer: header. See CURLOPT_REFERER(3)
+       CURLOPT_USERAGENT
+              User-Agent: header. See CURLOPT_USERAGENT(3)
+       CURLOPT_HTTPHEADER
+              Custom HTTP headers. See CURLOPT_HTTPHEADER(3)
+       CURLOPT_HEADEROPT
+              Control custom headers. See CURLOPT_HEADEROPT(3)
+       CURLOPT_PROXYHEADER
+              Custom HTTP headers sent to proxy. See CURLOPT_PROXYHEADER(3)
+       CURLOPT_HTTP200ALIASES
+              Alternative versions of 200 OK. See CURLOPT_HTTP200ALIASES(3)
+       CURLOPT_COOKIE
+              Cookie(s) to send. See CURLOPT_COOKIE(3)
+       CURLOPT_COOKIEFILE
+              File to read cookies from. See CURLOPT_COOKIEFILE(3)
+       CURLOPT_COOKIEJAR
+              File to write cookies to. See CURLOPT_COOKIEJAR(3)
+       CURLOPT_COOKIESESSION
+              Start a new cookie session. See CURLOPT_COOKIESESSION(3)
+       CURLOPT_COOKIELIST
+              Add or control cookies. See CURLOPT_COOKIELIST(3)
+       CURLOPT_HTTPGET
+              Do a HTTP GET request. See CURLOPT_HTTPGET(3)
+       CURLOPT_REQUEST_TARGET
+              Set the request target. CURLOPT_REQUEST_TARGET(3)
+       CURLOPT_HTTP_VERSION
+              HTTP version to use. CURLOPT_HTTP_VERSION(3)
+       CURLOPT_IGNORE_CONTENT_LENGTH
+              Ignore Content-Length. See CURLOPT_IGNORE_CONTENT_LENGTH(3)
+       CURLOPT_HTTP_CONTENT_DECODING
+              Disable Content decoding. See CURLOPT_HTTP_CONTENT_DECODING(3)
+       CURLOPT_HTTP_TRANSFER_DECODING
+              Disable Transfer decoding. See CURLOPT_HTTP_TRANSFER_DECODING(3)
+       CURLOPT_EXPECT_100_TIMEOUT_MS
+              100-continue timeout. See CURLOPT_EXPECT_100_TIMEOUT_MS(3)
+       CURLOPT_PIPEWAIT
+              Wait on connection to pipeline on it. See CURLOPT_PIPEWAIT(3)
+       CURLOPT_STREAM_DEPENDS
+       CURLOPT_STREAM_DEPENDS_E
+       CURLOPT_STREAM_WEIGHT
+              Set this HTTP/2 stream's weight. See CURLOPT_STREAM_WEIGHT(3)
+       CURLOPT_MAIL_FROM
+              Address of the sender. See CURLOPT_MAIL_FROM(3)
+       CURLOPT_MAIL_RCPT
+              Address of the recipients. See CURLOPT_MAIL_RCPT(3)
+       CURLOPT_MAIL_AUTH
+              Authentication address. See CURLOPT_MAIL_AUTH(3)
+       CURLOPT_TFTP_BLKSIZE
+              TFTP block size. See CURLOPT_TFTP_BLKSIZE(3)
+       CURLOPT_TFTP_NO_OPTIONS
+       CURLOPT_FTPPORT
+              Use active FTP. See CURLOPT_FTPPORT(3)
+       CURLOPT_QUOTE
+              Commands to run before transfer. See CURLOPT_QUOTE(3)
+       CURLOPT_POSTQUOTE
+              Commands to run after transfer. See CURLOPT_POSTQUOTE(3)
+       CURLOPT_PREQUOTE
+              Commands to run just before transfer. See CURLOPT_PREQUOTE(3)
+       CURLOPT_APPEND
+              Append to remote file. See CURLOPT_APPEND(3)
+       CURLOPT_FTP_USE_EPRT
+              Use EPTR. See CURLOPT_FTP_USE_EPRT(3)
+       CURLOPT_FTP_USE_EPSV
+              Use EPSV. See CURLOPT_FTP_USE_EPSV(3)
+       CURLOPT_FTP_USE_PRET
+              Use PRET. See CURLOPT_FTP_USE_PRET(3)
+       CURLOPT_FTP_CREATE_MISSING_DIRS
+       CURLOPT_FTP_RESPONSE_TIMEOUT
+              Timeout for FTP responses. See CURLOPT_FTP_RESPONSE_TIMEOUT(3)
+       CURLOPT_FTP_ALTERNATIVE_TO_USER
+              Alternative to USER. See CURLOPT_FTP_ALTERNATIVE_TO_USER(3)
+       CURLOPT_FTP_SKIP_PASV_IP
+       CURLOPT_FTPSSLAUTH
+              Control how to do TLS. See CURLOPT_FTPSSLAUTH(3)
+       CURLOPT_FTP_SSL_CCC
+       CURLOPT_FTP_ACCOUNT
+              Send ACCT command. See CURLOPT_FTP_ACCOUNT(3)
+       CURLOPT_FTP_FILEMETHOD
+              Specify how to reach files. See CURLOPT_FTP_FILEMETHOD(3)
+       CURLOPT_RTSP_REQUEST
+              RTSP request. See CURLOPT_RTSP_REQUEST(3)
+       CURLOPT_RTSP_SESSION_ID
+              RTSP session-id. See CURLOPT_RTSP_SESSION_ID(3)
+       CURLOPT_RTSP_STREAM_URI
+              RTSP stream URI. See CURLOPT_RTSP_STREAM_URI(3)
+       CURLOPT_RTSP_TRANSPORT
+              RTSP Transport: header. See CURLOPT_RTSP_TRANSPORT(3)
+       CURLOPT_RTSP_CLIENT_CSEQ
+              Client CSEQ number. See CURLOPT_RTSP_CLIENT_CSEQ(3)
+       CURLOPT_RTSP_SERVER_CSEQ
+       CURLOPT_TRANSFERTEXT
+              Use text transfer. See CURLOPT_TRANSFERTEXT(3)
+       CURLOPT_PROXY_TRANSFER_MODE
+              Add  transfer  mode  to URL over proxy. See CURLOPT_PROXY_TRANS‐
+       CURLOPT_CRLF
+              Convert newlines. See CURLOPT_CRLF(3)
+       CURLOPT_RANGE
+              Range requests. See CURLOPT_RANGE(3)
+       CURLOPT_RESUME_FROM
+              Resume a transfer. See CURLOPT_RESUME_FROM(3)
+       CURLOPT_RESUME_FROM_LARGE
+              Resume a transfer. See CURLOPT_RESUME_FROM_LARGE(3)
+       CURLOPT_CUSTOMREQUEST
+              Custom request/method. See CURLOPT_CUSTOMREQUEST(3)
+       CURLOPT_FILETIME
+              Request file modification date and time. See CURLOPT_FILETIME(3)
+       CURLOPT_DIRLISTONLY
+              List only. See CURLOPT_DIRLISTONLY(3)
+       CURLOPT_NOBODY
+              Do not get the body contents. See CURLOPT_NOBODY(3)
+       CURLOPT_INFILESIZE
+              Size of file to send. CURLOPT_INFILESIZE(3)
+       CURLOPT_INFILESIZE_LARGE
+              Size of file to send. CURLOPT_INFILESIZE_LARGE(3)
+       CURLOPT_UPLOAD
+              Upload data. See CURLOPT_UPLOAD(3)
+       CURLOPT_MIMEPOST
+              Post/send MIME data. See CURLOPT_MIMEPOST(3)
+       CURLOPT_MAXFILESIZE
+              Maximum file size to get. See CURLOPT_MAXFILESIZE(3)
+       CURLOPT_MAXFILESIZE_LARGE
+              Maximum file size to get. See CURLOPT_MAXFILESIZE_LARGE(3)
+       CURLOPT_TIMECONDITION
+              Make a time conditional request. See CURLOPT_TIMECONDITION(3)
+       CURLOPT_TIMEVALUE
+       CURLOPT_TIMEVALUE_LARGE
+       CURLOPT_TIMEOUT
+              Timeout for the entire request. See CURLOPT_TIMEOUT(3)
+       CURLOPT_TIMEOUT_MS
+              Millisecond timeout for the entire  request.  See  CURLOPT_TIME‐
+       CURLOPT_LOW_SPEED_LIMIT
+       CURLOPT_LOW_SPEED_TIME
+       CURLOPT_MAX_SEND_SPEED_LARGE
+       CURLOPT_MAX_RECV_SPEED_LARGE
+       CURLOPT_MAXCONNECTS
+       CURLOPT_FRESH_CONNECT
+              Use a new connection. CURLOPT_FRESH_CONNECT(3)
+       CURLOPT_FORBID_REUSE
+       CURLOPT_CONNECTTIMEOUT
+              Timeout for the connection phase. See CURLOPT_CONNECTTIMEOUT(3)
+       CURLOPT_CONNECTTIMEOUT_MS
+              Millisecond  timeout  for the connection phase. See CURLOPT_CON‐
+       CURLOPT_IPRESOLVE
+              IP version to resolve to. See CURLOPT_IPRESOLVE(3)
+       CURLOPT_CONNECT_ONLY
+              Only connect, nothing else. See CURLOPT_CONNECT_ONLY(3)
+       CURLOPT_USE_SSL
+              Use TLS/SSL. See CURLOPT_USE_SSL(3)
+       CURLOPT_RESOLVE
+              Provide fixed/fake name resolves. See CURLOPT_RESOLVE(3)
+       CURLOPT_DNS_INTERFACE
+              Bind name resolves to  this  interface.  See  CURLOPT_DNS_INTER‐
+       CURLOPT_DNS_LOCAL_IP4
+       CURLOPT_DNS_LOCAL_IP6
+       CURLOPT_DNS_SERVERS
+              Preferred DNS servers. See CURLOPT_DNS_SERVERS(3)
+       CURLOPT_ACCEPTTIMEOUT_MS
+              accepted. See CURLOPT_ACCEPTTIMEOUT_MS(3)
+       CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS
+              Timeout for  happy  eyeballs.  See  CURLOPT_HAPPY_EYEBALLS_TIME‐
+       CURLOPT_SSLCERT
+              Client cert. See CURLOPT_SSLCERT(3)
+       CURLOPT_PROXY_SSLCERT
+              Proxy client cert. See CURLOPT_PROXY_SSLCERT(3)
+       CURLOPT_SSLCERTTYPE
+              Client cert type.  See CURLOPT_SSLCERTTYPE(3)
+       CURLOPT_PROXY_SSLCERTTYPE
+              Proxy client cert type.  See CURLOPT_PROXY_SSLCERTTYPE(3)
+       CURLOPT_SSLKEY
+              Client key. See CURLOPT_SSLKEY(3)
+       CURLOPT_PROXY_SSLKEY
+              Proxy client key. See CURLOPT_PROXY_SSLKEY(3)
+       CURLOPT_SSLKEYTYPE
+              Client key type. See CURLOPT_SSLKEYTYPE(3)
+       CURLOPT_PROXY_SSLKEYTYPE
+              Proxy client key type. See CURLOPT_PROXY_SSLKEYTYPE(3)
+       CURLOPT_KEYPASSWD
+              Client key password. See CURLOPT_KEYPASSWD(3)
+       CURLOPT_PROXY_KEYPASSWD
+              Proxy client key password. See CURLOPT_PROXY_KEYPASSWD(3)
+       CURLOPT_SSL_ENABLE_ALPN
+              Enable use of ALPN. See CURLOPT_SSL_ENABLE_ALPN(3)
+       CURLOPT_SSL_ENABLE_NPN
+              Enable use of NPN. See CURLOPT_SSL_ENABLE_NPN(3)
+       CURLOPT_SSLENGINE
+              Use identifier with SSL engine. See CURLOPT_SSLENGINE(3)
+       CURLOPT_SSLENGINE_DEFAULT
+              Default SSL engine. See CURLOPT_SSLENGINE_DEFAULT(3)
+       CURLOPT_SSL_FALSESTART
+              Enable TLS False Start. See CURLOPT_SSL_FALSESTART(3)
+       CURLOPT_SSLVERSION
+              SSL version to use. See CURLOPT_SSLVERSION(3)
+       CURLOPT_PROXY_SSLVERSION
+              Proxy SSL version to use. See CURLOPT_PROXY_SSLVERSION(3)
+       CURLOPT_SSL_VERIFYHOST
+       CURLOPT_PROXY_SSL_VERIFYHOST
+       CURLOPT_SSL_VERIFYPEER
+              Verify the SSL certificate. See CURLOPT_SSL_VERIFYPEER(3)
+       CURLOPT_PROXY_SSL_VERIFYPEER
+              Verify  the  proxy  SSL certificate. See CURLOPT_PROXY_SSL_VERI‐
+       CURLOPT_SSL_VERIFYSTATUS
+              Verify the SSL certificate's status. See  CURLOPT_SSL_VERIFYSTA‐
+       CURLOPT_CAINFO
+              CA cert bundle. See CURLOPT_CAINFO(3)
+       CURLOPT_PROXY_CAINFO
+              Proxy CA cert bundle. See CURLOPT_PROXY_CAINFO(3)
+       CURLOPT_ISSUERCERT
+              Issuer certificate. See CURLOPT_ISSUERCERT(3)
+       CURLOPT_CAPATH
+              Path to CA cert bundle. See CURLOPT_CAPATH(3)
+       CURLOPT_PROXY_CAPATH
+              Path to proxy CA cert bundle. See CURLOPT_PROXY_CAPATH(3)
+       CURLOPT_CRLFILE
+              Certificate Revocation List. See CURLOPT_CRLFILE(3)
+       CURLOPT_PROXY_CRLFILE
+              Proxy Certificate Revocation List. See CURLOPT_PROXY_CRLFILE(3)
+       CURLOPT_CERTINFO
+              Extract certificate info. See CURLOPT_CERTINFO(3)
+       CURLOPT_PINNEDPUBLICKEY
+              Set pinned SSL public key . See CURLOPT_PINNEDPUBLICKEY(3)
+       CURLOPT_PROXY_PINNEDPUBLICKEY
+              Set the proxy's pinned SSL public key. See CURLOPT_PROXY_PINNED‐
+       CURLOPT_RANDOM_FILE
+              Provide  source  for  entropy  random  data.  See   CURLOPT_RAN‐
+       CURLOPT_EGDSOCKET
+              Identify EGD socket for entropy. See CURLOPT_EGDSOCKET(3)
+       CURLOPT_SSL_CIPHER_LIST
+              Ciphers to use. See CURLOPT_SSL_CIPHER_LIST(3)
+       CURLOPT_PROXY_SSL_CIPHER_LIST
+              Proxy ciphers to use. See CURLOPT_PROXY_SSL_CIPHER_LIST(3)
+       CURLOPT_SSL_SESSIONID_CACHE
+              Disable SSL session-id cache. See CURLOPT_SSL_SESSIONID_CACHE(3)
+       CURLOPT_SSL_OPTIONS
+              Control SSL behavior. See CURLOPT_SSL_OPTIONS(3)
+       CURLOPT_PROXY_SSL_OPTIONS
+              Control proxy SSL behavior. See CURLOPT_PROXY_SSL_OPTIONS(3)
+       CURLOPT_KRBLEVEL
+              Kerberos security level. See CURLOPT_KRBLEVEL(3)
+       CURLOPT_GSSAPI_DELEGATION
+              Disable GSS-API delegation. See CURLOPT_GSSAPI_DELEGATION(3)
+       CURLOPT_SSH_AUTH_TYPES
+              SSH authentication types. See CURLOPT_SSH_AUTH_TYPES(3)
+       CURLOPT_SSH_COMPRESSION
+              Enable SSH compression. See CURLOPT_SSH_COMPRESSION(3)
+       CURLOPT_SSH_HOST_PUBLIC_KEY_MD5
+              MD5 of host's public key. See CURLOPT_SSH_HOST_PUBLIC_KEY_MD5(3)
+       CURLOPT_SSH_PUBLIC_KEYFILE
+              File name of public key. See CURLOPT_SSH_PUBLIC_KEYFILE(3)
+       CURLOPT_SSH_PRIVATE_KEYFILE
+              File name of private key. See CURLOPT_SSH_PRIVATE_KEYFILE(3)
+       CURLOPT_SSH_KNOWNHOSTS
+              File name with known hosts. See CURLOPT_SSH_KNOWNHOSTS(3)
+       CURLOPT_SSH_KEYFUNCTION
+              Callback  for  known  hosts  handling.  See CURLOPT_SSH_KEYFUNC‐
+       CURLOPT_SSH_KEYDATA
+              Custom pointer to pass to ssh key callback. See CURLOPT_SSH_KEY‐
+       CURLOPT_PRIVATE
+              Private pointer to store. See CURLOPT_PRIVATE(3)
+       CURLOPT_SHARE
+              Share object to use. See CURLOPT_SHARE(3)
+       CURLOPT_NEW_FILE_PERMS
+       CURLOPT_NEW_DIRECTORY_PERMS
+              Mode for creating new remote directories. See CURLOPT_NEW_DIREC‐
+       CURLOPT_TELNETOPTIONS
+              TELNET options. See CURLOPT_TELNETOPTIONS(3)
+         curl_easy_setopt(curl, CURLOPT_URL, "http://example.com");
