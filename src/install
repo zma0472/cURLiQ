@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+
+#
+#  Functions.
+#
+output()
+{
+ echo "install: $*"
+}
+
+error()
+{
+ echo "install: error: $*" >&2
+}
+
+bail()
+{
+ error $*
+ echo
+ exit 2
+}
+
+do_or_die()
+{
+ echo $*
+ $*
+ if [ $? -ne 0 ]
+ then
+     bail "$* FAIL"
+ fi
+}
+
+#
+#  Set script defaults.
+#
+default_curliq_home='/opt/curliq'
+
+if [ -z "$CURLIQ_HOME" ]
+then
+    CURLIQ_HOME=${default_curliq_home}
+fi
+
+echo; echo; output "Installing cURLiQ System in $CURLIQ_HOME"; echo
+
+#
+#  Check cURLiQ installation files.
+#
+bins="cqcli"
+sbins="curliq cq_ctl"
+configs="curliq.conf"
+
+okay=yes
+
+output "Checking cURLiQ installation files..."
+
+for file in $bins $sbins $configs
+do
+    if [ ! -f $file ]
+    then
+        error "Missing cURLiQ system file: $file.";  okay=no
+    fi
+done
+
+if [ no -eq $okay ]
+then
+    bail 'Missing cURLiQ system file(s).  Installation failure.'
+fi
+
+#
+#  Create Syster directories.
+#
+dirs="etc sbin bin var/log var/lock var/mon"
+
+output "Creating Syster directory structure..."
+
+if [ ! -d $SYSTER_HOME ]
+then
+    do_or_die mkdir $SYSTER_HOME
+fi
+
+for dir in $dirs
+do
+    if [ ! -d ${SYSTER_HOME}/${dir} ]
+    then
+        do_or_die mkdir ${SYSTER_HOME}/${dir}
+    fi
+done
+
+#
+#  Copy Syster files into the directory structure
+#
+
+output "Copying executable files into Syster directories..."
+
+for file in $bins
+do
+    do_or_die rm -f ${SYSTER_HOME}/bin/${file}
+    do_or_die cp $file ${SYSTER_HOME}/bin/.
+    do_or_die chmod 555 ${SYSTER_HOME}/bin/${file}
+done
+
+for file in $sbins
+do
+    do_or_die rm -f ${SYSTER_HOME}/sbin/${file}
+    do_or_die cp $file ${SYSTER_HOME}/sbin/.
+    do_or_die chmod 555 ${SYSTER_HOME}/sbin/${file}
+done
+
+output "Copying configuration files into Syster directories..."
+
+for file in $configs
+do
+    if [ -f ${SYSTER_HOME}/etc/${file} ]
+    then
+        output "Preserving existing ${SYSTER_HOME}/etc/${file}"
+    else
+        do_or_die cp $file ${SYSTER_HOME}/etc/.
+        do_or_die chmod 444 ${SYSTER_HOME}/etc/${file}
+    fi
+    do_or_die rm -f ${SYSTER_HOME}/etc/syster.defaults
+    do_or_die cp syster.defaults ${SYSTER_HOME}/etc/.
+    do_or_die chmod 444 ${SYSTER_HOME}/etc/syster.defaults
+done
+
+echo
+output "Syster successfully installed in $SYSTER_HOME"
+echo
+
+exit 0
+
