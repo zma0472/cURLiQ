@@ -57,8 +57,8 @@ do {                         \
 } while (0)
 #endif  /*  !defined(CHOP)  */
 
-#if !defined(LOG)
-#define LOG(...)                                                              \
+#if !defined(VLOG)
+#define VLOG(...)                                                              \
 do {                                                                          \
     int errno_save = errno;                                                   \
     time_t log_time = 0;                                                      \
@@ -73,9 +73,27 @@ do {                                                                          \
     fprintf(stdout, buf); fflush(NULL);                                       \
     errno = errno_save;                                                       \
 } while (0)
+#endif /*  !defined(VLOG)  */
+
+#if !defined(LOG)
+#define LOG(msg)                                                              \
+do {                                                                          \
+    int errno_save = errno;                                                   \
+    time_t log_time = 0;                                                      \
+    char buf[LOG_BUFSIZ];                                                     \
+                                                                              \
+    log_time = time(&log_time);                                               \
+    snprintf(buf, LOG_BUFSIZ, "%s ", ctime(&log_time)); CHOP(buf);            \
+    snprintf(buf+strlen(buf), LOG_BUFSIZ-strlen(buf), "%s(%d) %s(%d): ",      \
+                                   log_label, getpid(), __FILE__, __LINE__);  \
+    snprintf(buf+strlen(buf), LOG_BUFSIZ-strlen(buf),  msg );                 \
+    snprintf(buf+strlen(buf), LOG_BUFSIZ-strlen(buf),  "\n");                 \
+    fprintf(stdout, buf); fflush(NULL);                                       \
+    errno = errno_save;                                                       \
+} while (0)
 #endif /*  !defined(LOG)  */
 
-#if !defined(ERR)
+#if !defined(VERR)
 #define ERR(...)                                                              \
 do {                                                                          \
     int errno_save = errno;                                                   \
@@ -93,13 +111,33 @@ do {                                                                          \
     fprintf(stderr, buf); fflush(NULL);                                       \
     errno = errno_save;                                                       \
 } while (0)
+#endif /*  !defined(VERR)  */
+
+#if !defined(ERR)
+#define ERR(msg)                                                              \
+do {                                                                          \
+    int errno_save = errno;                                                   \
+    time_t err_time = 0;                                                      \
+    char buf[ERR_BUFSIZ];                                                     \
+                                                                              \
+    err_time = time(&err_time);                                               \
+    snprintf(buf, ERR_BUFSIZ, "%s ", ctime(&err_time)); CHOP(buf);            \
+    snprintf(buf+strlen(buf), LOG_BUFSIZ-strlen(buf), "%s(%d) %s(%d): ",      \
+                                   log_label, getpid(), __FILE__, __LINE__);  \
+    snprintf(buf+strlen(buf), ERR_BUFSIZ-strlen(buf),  msg);                  \
+    snprintf(buf+strlen(buf), ERR_BUFSIZ-strlen(buf),  " errno=%d (%s)",      \
+                                           errno_save, strerror(errno_save)); \
+    snprintf(buf+strlen(buf), ERR_BUFSIZ-strlen(buf),  "\n");                 \
+    fprintf(stderr, buf); fflush(NULL);                                       \
+    errno = errno_save;                                                       \
+} while (0)
 #endif /*  !defined(ERR)  */
 
 #include <netdb.h>
 #include <sys/socket.h>
 
-#if !defined(H_ERR)
-#define H_ERR(...)                                                            \
+#if !defined(H_VERR)
+#define H_VERR(...)                                                            \
 do {                                                                          \
     int h_errno_save = h_errno;                                               \
     time_t err_time = 0;                                                      \
@@ -116,10 +154,30 @@ do {                                                                          \
     fprintf(stderr, buf); fflush(NULL);                                       \
     h_errno = h_errno_save;                                                   \
 } while (0)
+#endif /*  !defined(H_VERR)  */
+
+#if !defined(H_ERR)
+#define H_ERR(msg)                                                            \
+do {                                                                          \
+    int h_errno_save = h_errno;                                               \
+    time_t err_time = 0;                                                      \
+    char buf[ERR_BUFSIZ];                                                     \
+                                                                              \
+    err_time = time(&err_time);                                               \
+    snprintf(buf, ERR_BUFSIZ, "%s ", ctime(&err_time)); CHOP(buf);            \
+    snprintf(buf+strlen(buf), LOG_BUFSIZ-strlen(buf), "%s(%d) %s(%d): ",      \
+                                   log_label, getpid(), __FILE__, __LINE__);  \
+    snprintf(buf+strlen(buf), ERR_BUFSIZ-strlen(buf),  msg);                  \
+    snprintf(buf+strlen(buf), ERR_BUFSIZ-strlen(buf),  " h_errno=%d (%s)",    \
+                                      h_errno_save, hstrerror(h_errno_save)); \
+    snprintf(buf+strlen(buf), ERR_BUFSIZ-strlen(buf),  "\n");                 \
+    fprintf(stderr, buf); fflush(NULL);                                       \
+    h_errno = h_errno_save;                                                   \
+} while (0)
 #endif /*  !defined(H_ERR)  */
 
-#if !defined(DBG)
-#define DBG(...)                                                              \
+#if !defined(VDBG)
+#define VDBG(...)                                                              \
 do {                                                                          \
     if (debug > 0) {                                                          \
         int errno_save = errno;                                               \
@@ -131,6 +189,26 @@ do {                                                                          \
         snprintf(buf+strlen(buf), LOG_BUFSIZ-strlen(buf), "%s(%d) %s(%d): ",  \
                                    log_label, getpid(), __FILE__, __LINE__);  \
         snprintf(buf+strlen(buf), DBG_BUFSIZ-strlen(buf),  __VA_ARGS__);      \
+        snprintf(buf+strlen(buf), DBG_BUFSIZ-strlen(buf),  "\n");             \
+        fprintf(stderr, buf); fflush(NULL);                                   \
+        errno = errno_save;                                                   \
+    }                                                                         \
+} while (0)
+#endif /*  !defined(VDBG)  */
+
+#if !defined(DBG)
+#define DBG(msg)                                                              \
+do {                                                                          \
+    if (debug > 0) {                                                          \
+        int errno_save = errno;                                               \
+        time_t dbg_time = 0;                                                  \
+        char buf[DBG_BUFSIZ];                                                 \
+                                                                              \
+        dbg_time = time(&dbg_time);                                           \
+        snprintf(buf, DBG_BUFSIZ, "%s ", ctime(&dbg_time)); CHOP(buf);        \
+        snprintf(buf+strlen(buf), LOG_BUFSIZ-strlen(buf), "%s(%d) %s(%d): ",  \
+                                   log_label, getpid(), __FILE__, __LINE__);  \
+        snprintf(buf+strlen(buf), DBG_BUFSIZ-strlen(buf),  msg);              \
         snprintf(buf+strlen(buf), DBG_BUFSIZ-strlen(buf),  "\n");             \
         fprintf(stderr, buf); fflush(NULL);                                   \
         errno = errno_save;                                                   \

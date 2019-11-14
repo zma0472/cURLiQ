@@ -55,5 +55,6 @@ extern void  version(void);
 extern void  usage(void);
 extern int   signals(void);
 extern int   streams(void);
+extern int   signals(void);
 
 #endif  /*  !defined(_CURLIQ_H)  */
