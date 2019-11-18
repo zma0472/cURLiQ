@@ -10,20 +10,28 @@
 #
 #  Preliminary definitions:
 #
-#  QUEUE -- A named object consisting of a single source directory and zero or
-#           more TARGETS.
+#  QUEUE -- A named object consisting of queue attributes, a single source
+#           directory, and zero or more TARGETS.
 #
-#  GROUP -- A named object consisting of an unordered set of QUEUEs.
+#  QUEUE GROUP -- A named object consisting of queue group attributes, queue
+#                 attributes, and an unordered set of QUEUEs.
 #
-#  TARGET -- A named object consisting of a single URL and a collection of cURL
-#            parameters.
+#  TARGET -- A named object consisting of target attributes, a single URL, and
+#            a collection of cURL parameters.
 #
-#  RING -- A named object consisting of an unordered collection of TARGETs.
+#  TARGET GROUP -- A named object consisting of target group attributes, a
+#                  collection of cURL parameters, and an unordered set of
+#                  TARGETs.
 #
+#  TRIGGER -- A named object consisting of trigger attributes, an event, and an
+#             action.
 #
-#  SYSTEM --
+#  TRIGGER GROUP -- A named object consisting of trigger group attributes,
+#                   trigger attributes, and an unordered collection of
+#                   TRIGGERS.
 #
-#  SESSION --
+#  BROKER -- A named object consisting of broker attributes, QUEUEs, QUEUE
+#            GROUPs, TARGETs, TARGET GROUPs, TRIGGERs, and TRIGGER GROUPs.
 #
 
 
