@@ -41,17 +41,14 @@
 
   END SESSION ;
 
-  ALTER SYSTEM SET attr = value [ , attr = value ] ... ;
+  ALTER BROKER SET attr = value [ , attr = value ] ... ;
 
-  DISPLAY SYSTEM [ attr [ , attr ] ... ] ;
+  DISPLAY BROKER [ attr [ , attr ] ... ] ;
 
-  ONLINE SYSTEM ;
+  ONLINE BROKER ;
 
-  OFFLINE SYSTEM [ HALT ] ;
+  OFFLINE BROKER ;
 
-  CONNECT ;
-
-  DISCONNECT ;
 
   CREATE QUEUE name ( [ attr = value [ , attr = value ] ... ] ) ;
 
@@ -71,6 +68,23 @@
   #  CASCADE drops all targets whose only queue is being dropped.
 
 
+  CREATE QUEUE GROUP name ;
+
+  ALTER QUEUE GROUP name SET attribute = value ;
+
+  ALTER QUEUE GROUP name ADD QUEUE queue_name ;
+
+  ALTER QUEUE GROUP name REMOVE QUEUE < queue_name | ALL > ;
+
+  ONLINE QUEUE GROUP name ;
+
+  OFFLINE QUEUE GROUP name ;
+
+  DISPLAY QUEUE GROUP [ attribute ] ;
+
+  DROP QUEUE GROUP name [ CASCADE ] ;
+  #  CASCADE drops all queues contained exclusively in the group being dropped. 
+
 
   CREATE TARGET name ( [ attr = value [ , attr = value ] ... ] ) ;
 
@@ -86,41 +100,53 @@
   #  CASCADE drops all queues whose only target is being dropped.
 
 
+  CREATE TARGET GROUP name ;
 
-  CREATE GROUP name ;
+  ALTER TARGET GROUP name SET attribute = value ;
 
-  ALTER GROUP name SET attribute = value ;
+  ALTER TARGET GROUP name ADD TARGET target ;
 
-  ALTER GROUP name ADD QUEUE queue_name ;
+  ALTER TARGET GROUP name REMOVE TARGET < target_name | ALL > ;
 
-  ALTER GROUP name REMOVE QUEUE < queue_name | ALL > ;
+  ONLINE TARGET GROUP name ;
 
-  ONLINE GROUP name ;
+  OFFLINE TARGET GROUP name ;
 
-  OFFLINE GROUP name ;
+  DISPLAY TARGET GROUP [ attribute ] ;
 
-  DISPLAY GROUP [ attribute ] ;
-
-  DROP GROUP name [ CASCADE ] ;
-  #  CASCADE drops all queues contained exclusively in the group being dropped. 
-
-
-
-  CREATE RING name ;
-
-  ALTER RING name SET attribute = value ;
-
-  ALTER RING name ADD TARGET target ;
-
-  ALTER RING name REMOVE TARGET < target_name | ALL > ;
-
-  ONLINE RING name ;
-
-  OFFLINE RING name ;
-
-  DISPLAY RING [ attribute ] ;
-
-  DROP RING name [ CASCADE ] ;
+  DROP TARGET GROUP name [ CASCADE ] ;
   #  CASCADE drops all targets contained exclusively in the group being
   #  dropped. 
+
+
+  CREATE TRIGGER name ( [ attr = value [ , attr = value ] ... ] ) ;
+
+  ALTER TRIGGER name SET attr = value [ , attr = value ] ... ;
+
+  ONLINE TRIGGER name ;
+
+  OFFLINE TRIGGER name ; 
+
+  DISPLAY TRIGGER [ attribute ] ;
+
+  DROP TRIGGER name [ CASCADE ] ;
+  #  CASCADE drops all queues whose only target is being dropped.
+
+  CREATE TRIGGER GROUP name ;
+
+  ALTER TRIGGER GROUP name SET attribute = value ;
+
+  ALTER TRIGGER GROUP name ADD TRIGGER target ;
+
+  ALTER TRIGGER GROUP name REMOVE TRIGGER < trigger_name | ALL > ;
+
+  ONLINE TRIGGER GROUP name ;
+
+  OFFLINE TRIGGER GROUP name ;
+
+  DISPLAY TRIGGER GROUP name [ attribute ] ;
+
+  DROP TRIGGER GROUP name [ CASCADE ] ;
+  #  CASCADE drops all triggers contained exclusively in the trigger group
+  #  being dropped. 
 
