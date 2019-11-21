@@ -21,19 +21,19 @@
 --
 --
 --  The system table stores information about the system identity, creation
---  time, version, and state.  The table is constrained to contain a single
---  record, so attempted INSERTs after the initial build will always fail.
+--  time, version, and state.  The table is constrained to contain at most one
+--  record (CHECK value of the primary key), so attempted INSERTs after the
+--  initial build will always fail.  The version information and creation
+--  time stamp are protected from alteration by an UPDATE trigger.
 --
 --  The adm_state and opr_state booleans define three possible system states.
 --  If adm_state=TRUE and opr_state=TRUE then the system is in the ON state.
 --  If adm_state=TRUE and opr_state=FALSE then the system is in the OFF state.
 --  If adm_state=FALSE and opr_state=FALSE then the system is in the DOWN
---  state.  The opr_state is prohibited from being TRUE while the adm_state is
---  FALSE.  This is to allow administrators to shut the system down in a manner
---  that will prevent operators from being able to bring it back up.
---
---  The version and creation time fields are protected from alteration by
---  triggers.
+--  state.  A trigger prohibits the opr_state from being TRUE while the
+--  adm_state is FALSE.  This is to allow administrators to shut the system
+--  down in a manner that will prevent operators from being able to bring it
+--  back up.
 --
 --
 CREATE TABLE system (
@@ -80,8 +80,8 @@ CREATE TABLE system (
 );
 --
 
-INSERT INTO system (name, description, creation_stamp)
-VALUES ('@@NAME@@', '@@DESCRIPTION@@', DATETIME('now'));
+--  INSERT INTO system (name, description, creation_stamp)
+--  VALUES ('@@NAME@@', '@@DESCRIPTION@@', DATETIME('now'));
 --
 --
 CREATE TRIGGER system_delete_tr BEFORE DELETE ON system
@@ -93,7 +93,7 @@ BEGIN
     END;
 END;
 --
-CREATE TRIGGER system_update_tr BEFORE UPDATE ON system
+CREATE TRIGGER system__update_tr BEFORE UPDATE ON system
 BEGIN
     SELECT CASE
     WHEN NEW.creation_stamp <> OLD.creation_stamp OR
@@ -106,4 +106,15 @@ BEGIN
 END;
 --
 --
-SELECT * FROM system;
+--  The	atomic_down trigger sets the opr_state to 0 whenever the adm_state is
+--  set	to 0.  This is to avoid	race conditions.
+--
+--
+CREATE TRIGGER system__atomic_down_tr BEFORE UPDATE of adm_state ON system
+FOR EACH ROW
+WHEN NEW.adm_state = 0
+BEGIN
+    UPDATE system
+    SET    opr_state = 0;
+END;
+
