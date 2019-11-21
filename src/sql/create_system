@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+echo
+echo "  cURLiQ  CREATE SYSTEM v.0.0.0"
+echo
+
+echo "Enter the name of the new cURLiQ system to be created.  System names"
+echo "must start echo with a letter which may be followed by up to 14 letters,"
+echo "numerals, or underscores."
+echo
+echo "Enter Ctrl-C to cancel."
+echo
+
+while [ -z "${name}" ]
+do
+    echo -n "Name: "
+    read name
+done
+
+echo "Optionally, enter a one-line description of the system.  The description"
+echo "can be up to 31 characters in length."
+echo
+
+echo -n "Description: "
+read description
+
+echo
+echo
+
+name=$(echo $name | tr [a-z] [A-Z])
+
+cat system.sql | sed "s/@@NAME@@/${name}/g" | \
+                 sed "s/@@DESCRIPTION@@/${description}/g" | sqlite3 "$name"
+
+if [ 0 -eq $? ]
+then
+    echo
+    echo "  System $name was successfully created."
+    echo
+    exit 0
+else
+    echo "  System $name creation failed.">&2 ; exit 2 
+fi
+
