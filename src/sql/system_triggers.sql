@@ -36,47 +36,37 @@
 --  back up.
 --
 --
-CREATE TABLE system (
-    name            VARCHAR(31) PRIMARY KEY,
-    description     TEXT NOT NULL DEFAULT '',
-    creation_stamp  TEXT NOT NULL ,
-    adm_state       BOOLEAN NOT NULL DEFAULT FALSE,
-    opr_state       BOOLEAN NOT NULL DEFAULT FALSE,
-    version_major   INTEGER NOT NULL DEFAULT 0,
-    version_minor   INTEGER NOT NULL DEFAULT 0,
-    version_patch   INTEGER NOT NULL DEFAULT 0,
+CREATE TRIGGER system_delete_tr BEFORE DELETE ON system
+BEGIN
+    SELECT CASE
+    WHEN TRUE
+    THEN
+        RAISE(ABORT, "CQ: Permanent object: system record")
+    END;
+END;
 --
-    CONSTRAINT system__name_type_ck CHECK (
-        TYPEOF(name) IS 'text'
-    ),
---
-    CONSTRAINT system__name_rgx_ck CHECK (
-        name REGEXP '^[A-Z_][A-Z0-9_]{0,14}$'
-    ),
---
-    CONSTRAINT system__name_ck CHECK (
-        name = '@@NAME@@'
-    ),
---
-    CONSTRAINT system__adm_state_type_ck CHECK (
-        TYPEOF(adm_state) IS 'integer'
-    ),
---
-    CONSTRAINT system__adm_state_value_ck CHECK (
-        adm_state = 0 OR adm_state = 1
-    ),
---
-    CONSTRAINT system__opr_state_type_ck CHECK (
-        TYPEOF(opr_state) IS 'integer'
-    ),
---
-    CONSTRAINT system__opr_state_value_ck CHECK (
-        opr_state = 0 OR opr_state = 1
-    ),
---
-    CONSTRAINT system__exclude_soft_up_ck CHECK (
-        (adm_state IS TRUE) OR (opr_state IS FALSE)
-    )
-);
+CREATE TRIGGER system__update_tr BEFORE UPDATE ON system
+BEGIN
+    SELECT CASE
+    WHEN NEW.creation_stamp <> OLD.creation_stamp OR
+         NEW.version_major  <> OLD.version_major  OR
+         NEW.version_minor  <> OLD.version_minor  OR
+         NEW.version_patch  <> OLD.version_patch
+    THEN
+        RAISE(ABORT, "CQ: Permanent object: system record field")
+    END;
+END;
 --
 --
+--  The	atomic_down trigger sets the opr_state to 0 whenever the adm_state is
+--  set	to 0.  This is to avoid	race conditions.
+--
+--
+CREATE TRIGGER system__atomic_down_tr BEFORE UPDATE of adm_state ON system
+FOR EACH ROW
+WHEN NEW.adm_state = 0
+BEGIN
+    UPDATE system
+    SET    opr_state = 0;
+END;
+

@@ -5,7 +5,7 @@ echo "  cURLiQ  CREATE SYSTEM v.0.0.0"
 echo
 
 echo "Enter the name of the new cURLiQ system to be created.  System names"
-echo "must start echo with a letter which may be followed by up to 14 letters,"
+echo "must start with a letter which may be followed by up to 14 letters,"
 echo "numerals, or underscores."
 echo
 echo "Enter Ctrl-C to cancel."
@@ -24,21 +24,74 @@ echo
 echo -n "Description: "
 read description
 
+#
+#  Double all single quotes in the description so they'll work as SQL strings.
+#
+description=$(echo $description | sed "s/'/''/g")
+
 echo
 echo
 
+#
+#  Coerce the system name to all caps by convention.
+#
 name=$(echo $name | tr [a-z] [A-Z])
 
-cat system.sql | sed "s/@@NAME@@/${name}/g" | \
-                 sed "s/@@DESCRIPTION@@/${description}/g" | sqlite3 "$name"
+echo "  Creating system $name system table..."
+
+cat system.sql | sed "s/@@NAME@@/${name}/g" | sqlite3 "$name"
 
 if [ 0 -eq $? ]
 then
     echo
-    echo "  System $name was successfully created."
+    echo "  System $name system table was successfully created."
     echo
-    exit 0
+
+    echo "  Creating system $name record..."
+
+    echo 'INSERT INTO system ('  \
+         '    name,'             \
+         '    description,'      \
+         '    creation_stamp,'   \
+         '    adm_state,'        \
+         '    opr_state,'        \
+         '    version_major,'    \
+         '    version_minor,'    \
+         '    version_patch'     \
+         ') VALUES ('            \
+         "    '${name}',"        \
+         "    '${description}'," \
+         "    DATETIME('now'),"  \
+         '    0,'                \
+         '    0,'                \
+         '    0,'                \
+         '    0,'                \
+         '    0'                 \
+         ');' | sqlite3 $name
+    if [ 0 -eq $? ]
+    then
+        echo
+        echo "  System $name record was successfully created."
+        echo
+        echo "  Creating system $name broker table..."
+        cat broker.sql | sqlite3 $name
+        if [ 0 -eq $? ]
+        then
+            echo
+            echo "  System $name broker table successfully created."
+            echo 'SELECT * FROM system' | sqlite3 $name
+            echo
+        else 
+            echo "System $name broker table creation failed.">&2
+            exit 2
+        fi
+        echo
+    else
+        echo "System $name record creation failed.">&2
+        exit 2
+    fi
 else
     echo "  System $name creation failed.">&2 ; exit 2 
 fi
 
+exit 0
