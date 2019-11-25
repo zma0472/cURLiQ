@@ -1,439 +1,477 @@
+
 --
+-- Copyright (C) 2019 Matthew Alton
 --
-       curlopt_verbose  BOOLEAN DEFAULT FALSE, -- Display verbose information.
+-- This file is part of cURLiQ.
 --
-       curlopt_header   BOOLEAN DEFAULT FALSE, -- Include the header in the
-                                               -- body output.
+-- cURLiQ is free software: you can redistribute it and/or modify
+-- it under the terms of the GNU General Public License as published by
+-- the Free Software Foundation, either version 3 of the License, or
+-- (at your option) any later version.
 --
-       curlopt_nosignal BOOLEAN DEFAULT FALSE, -- Do not install signal
-                                               -- handlers.
+-- cURLiQ is distributed in the hope that it will be useful,
+-- but WITHOUT ANY WARRANTY; without even the implied warranty of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-- GNU General Public License for more details.
 --
-       curlopt_wildcardmatch BOOLEAN DEFAULT FALSE,
+-- You should have received a copy of the GNU General Public License
+-- along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
 --
-       curlopt_suppress_connect_headers  BOOLEAN DEFAULT FALSE,
+
+CREATE TABLE target (
 --
-       curlopt_stderr  TEXT, -- stderr replacement stream.
+    verbose  BOOLEAN, -- ALL
 --
-       curlopt_failonerror  BOOLEAN DEFAULT FALSE, -- Fail on HTTP 4xx errors.
+    header  BOOLEAN, -- ALL
 --
-       curlopt_keep_sending_on_error  BOOLEAN DEFAULT FALSE,
-                                     -- Keep sending on   HTTP  >=  300  errors.
+    noprogress  BOOLEAN, -- ALL
 --
-       curlopt_url  TEXT NOT NULL, -- URL to work on.
+    nosignal  BOOLEAN, -- ALL
 --
-       curlopt_path_as_is  BOOLEAN DEFAULT FALSE,
+    wildcardmatch  BOOLEAN, -- FTP
 --
-       curlopt_protocols  VARCHAR(6)[], -- Allowed protocols.
+    suppress_connect_headers BOOLEAN, -- ALL
 --
-       curlopt_redir_protocols  VARCHAR(6)[], -- Protocols to allow redirects
-                                              -- to.
+    stderr  TEXT, -- ALL
 --
-       curlopt_default_protocol  VARCHAR(6), -- Default protocol.
+    failonerror  BOOLEAN,-- HTTP
 --
-       curlopt_proxy  TEXT, -- Proxy to use.
+    keep_sending_on_error  BOOLEAN, -- HTTP
 --
-       curlopt_pre_proxy  TEXT, -- Socks proxy to use.
+    url  TEXT, -- ALL
 --
-       curlopt_proxyport  INTEGER, -- Proxy port to use.
+    path_as_is  BOOLEAN, -- ALL
 --
-       curlopt_proxytype  VARCHAR(15), -- Proxy type.
+    protocols -- TEXT, -- ALL
 --
-       curlopt_noproxy  TEXT, -- Filter out hosts from proxy use.
+    redir_protocols  TEXT, -- ALL except FILE, SCP, SMB, SMBS
 --
-       curlopt_httpproxytunnel  BOOLEAN DEFAULT FALSE, -- Tunnel through the
-                                                       -- HTTP proxy.
+    default_protocol TEXT, -- ALL
 --
-       curlopt_connect_to  TEXT[], -- Connect to a specific host and port.
+    proxy  TEXT, -- ALL except FILE
 --
-       curlopt_socks5_auth  VARCHAR[16], -- Socks5 authentication methods.
+    pre_proxy TEXT, -- ALL except FILE
+-- 
+    proxyport  INTEGER, -- ALL
 --
-       curlopt_socks5_gssapi_nec  BOOLEAN DEFAULT FALSE, -- Socks5 GSSAPI NEC
-                                                         -- mode.
+    proxytype  TEXT, -- MOST
 --
-       curlopt_proxy_service_name  TEXT, -- Proxy authentication service name.
+    noproxy  TEXT, -- MOST
 --
-       curlopt_service_name TEXT, -- Authentication service name.
+    httpproxytunnel  BOOLEAN, -- All network protocols
 --
-       curlopt_interface  TEXT, -- Bind connection locally to this.
+    socks5_auth  INTEGER, -- ALL
 --
-       curlopt_localport  INTEGER, -- Bind connection locally to this port.
+    socks5_gssapi_service  TEXT, -- All network protocols
 --
-       curlopt_localportrange  INTEGER, -- Bind  connection  locally  to  port
-                                        -- range.
+    socks5_gssapi_nec  BOOLEAN, -- All network protocols
 --
-       curlopt_dns_cache_timeout  INTEGER, -- Timeout for DNS cache.
+    proxy_service_name  TEXT, -- All network protocols
 --
-       curlopt_dns_use_global_cache BOOLEAN,
+    haproxyprotocol  BOOLEAN, -- HTTP
 --
-       curlopt_buffersize  INTEGER, -- Ask for alternate buffer size.
+    service_name  TEXT, -- HTTP FTP IMAP POP SMTP
 --
-       curlopt_port  INTEGER, -- Port number to connect to.
+    interface  TEXT, -- ALL
 --
-       curlopt_tcp_fastopen  BOOLEAN, -- Enable TFO, TCP Fast Open.
+    localport  INTEGER, -- ALL
 --
-       curlopt_tcp_nodelay  BOOLEAN, -- Disable the Nagle algorithm.
+    localportrange  INTEGER, -- ALL
 --
-       curlopt_address_scope  INTEGER, -- IPv6 scope for local addresses.
+    dns_cache_timeout  INTEGER, -- ALL
 --
-       curlopt_tcp_keepalive  BOOLEAN, -- Enable TCP keep-alive.
+    doh_url  TEXT, -- ALL
 --
-       curlopt_tcp_keepidle  INTEGER, -- Idle time before sending keep-alive.
+    buffersize  INTEGER, -- ALL
 --
-       curlopt_tcp_keepintvl  INTEGER, -- Interval between keep-alive probes.
-       curlopt_unix_socket_path  TEXT,  -- Path to a Unix domain socket.
+    port  INTEGER, -- All that use a port
 --
-       curlopt_abstract_unix_socket  TEXT,
+    tcp_fastopen  BOOLEAN, -- ALL
 --
-       curlopt_netrc  TEXT, -- Enable .netrc parsing.
+    tcp_nodelay  BOOLEAN, -- ALL
 --
-       curlopt_netrc_file  TEXT, -- .netrc file name.
+    address_scope  INTEGER, -- ALL when using IPv6
 --
-       curlopt_userpwd  TEXT, -- User name and password.
+    tcp_keepalive  INTEGER, -- ALL
 --
-       curlopt_proxyuserpwd  TEXT, -- Proxy user name and password.
+    tcp_keepidle  INTEGER, -- ALL
 --
-       curlopt_username  TEXT, -- User name.
+    tcp_keepintvl  INTEGER, -- ALL
 --
-       curlopt_password  TEXT, -- Password.
+    unix_socket_path  TEXT, -- ALL except FILE FTP
 --
-       curlopt_login_options  TEXT, -- Login options.
+    abstract_unix_socket TEXT, -- ALL
 --
-       curlopt_proxyusername  TEXT, -- Proxy user name.
+    netrc  INTEGER, -- MOST
 --
-       curlopt_proxypassword  TEXT, -- Proxy password.
+    netrc_file  TEXT, -- ALL
 --
-       curlopt_httpauth   TEXT,  -- HTTP server authentication methods.
+    userpwd  TEXT, -- MOST
 --
-       CURLOPT_TLSAUTH_USERNAME  -- TLS authentication user name.
+    proxyuserpwd  TEXT, -- All protocols that can use proxy
 --
-       CURLOPT_PROXY_TLSAUTH_USERNAME
+    username  TEXT, -- MOST
 --
-       CURLOPT_TLSAUTH_PASSWORD  -- TLS authentication password.
+    password
 --
-       CURLOPT_PROXY_TLSAUTH_PASSWORD
+    login_options
 --
-       CURLOPT_TLSAUTH_TYPE  -- TLS authentication methods.
+    proxyusername
 --
-       CURLOPT_PROXY_TLSAUTH_TYPE
+    proxypassword
 --
-       CURLOPT_PROXYAUTH -- HTTP proxy authentication methods.
+    httpauth
 --
-       CURLOPT_SASL_IR -- Enable SASL initial response.
+    tlsauth_username
 --
-       CURLOPT_XOAUTH2_BEARER -- OAuth2 bearer token.
+    proxy_tlsauth_username
 --
-       CURLOPT_AUTOREFERER -- Automatically set Referer: header.
+    tlsauth_password
 --
-       CURLOPT_ACCEPT_ENCODING --
+    proxy_tlsauth_password
 --
-       CURLOPT_TRANSFER_ENCODING -- Request Transfer-Encoding.
+    tlsauth_type
 --
-       CURLOPT_FOLLOWLOCATION -- Follow HTTP redirects.
+    proxy_tlsauth_type
 --
-       CURLOPT_UNRESTRICTED_AUTH -- Do not restrict authentication to original
+    proxyauth
 --
-                                 -- host.
-       CURLOPT_MAXREDIRS -- Maximum number of redirects to follow.
+    sasl_authzid
 --
-       CURLOPT_POSTREDIR -- How to act on redirects after POST.
+    sasl_ir
 --
-       CURLOPT_PUT -- Issue a HTTP PUT request.
+    xoauth2_bearer
 --
-       CURLOPT_POST -- Issue a HTTP POST request.
+    disallow_username_in_url
 --
-       CURLOPT_POSTFIELDS -- Send a POST with this data.
+    autoreferer
 --
-       CURLOPT_POSTFIELDSIZE -- The POST data is this big.
+    accept_encoding
 --
-       CURLOPT_POSTFIELDSIZE_LARGE -- The POST data is this big.
+    transfer_encoding
 --
-       CURLOPT_COPYPOSTFIELDS -- Send  a POST with this data - and copy it.
+    followlocation
 --
-       CURLOPT_HTTPPOST -- Multipart formpost HTTP POST.
+    unrestricted_auth
 --
-       CURLOPT_REFERER -- Referer: header.
+    maxredirs
 --
-       CURLOPT_USERAGENT -- User-Agent: header.
+    postredir
 --
-       CURLOPT_HTTPHEADER -- Custom HTTP headers.
+    put
 --
-       CURLOPT_HEADEROPT -- Control custom headers.
+    post
 --
-       CURLOPT_PROXYHEADER -- Custom HTTP headers sent to proxy.
+    postfields
 --
-       CURLOPT_HTTP200ALIASES -- Alternative versions of 200 OK.
+    postfieldsize
 --
-       CURLOPT_COOKIE -- Cookie(s) to send.
+    postfieldsize_large
 --
-       CURLOPT_COOKIEFILE -- File to read cookies from.
+    copypostfields
 --
-       CURLOPT_COOKIEJAR -- File to write cookies to.
+    httppost
 --
-       CURLOPT_COOKIESESSION -- Start a new cookie session.
+    referer
 --
-       CURLOPT_COOKIELIST -- Add or control cookies.
+    useragent
 --
-       CURLOPT_HTTPGET -- Do a HTTP GET request.
+    httpheader
 --
-       CURLOPT_REQUEST_TARGET -- Set the request target.
+    headeropt
 --
-       CURLOPT_HTTP_VERSION -- HTTP version to use. CURLOPT_HTTP_VERSION(3)
+    proxyheader
 --
-       CURLOPT_IGNORE_CONTENT_LENGTH -- Ignore Content-Length.
+    http200aliases
 --
-       CURLOPT_HTTP_CONTENT_DECODING -- Disable Content decoding.
+    cookie
 --
-       CURLOPT_HTTP_TRANSFER_DECODING -- Disable Transfer decoding.
+    cookiefile
 --
-       CURLOPT_EXPECT_100_TIMEOUT_MS -- 100-continue timeout.
+    cookiejar
 --
-       CURLOPT_PIPEWAIT -- Wait on connection to pipeline on it.
+    cookiesession
 --
-       CURLOPT_STREAM_DEPENDS --
+    cookielist
 --
-       CURLOPT_STREAM_DEPENDS_E --
+    altsvc
 --
-       CURLOPT_STREAM_WEIGHT -- Set this HTTP/2 stream's weight.
+    altsvc_ctrl
 --
-       CURLOPT_MAIL_FROM -- Address of the sender.
+    httpget
 --
-       CURLOPT_MAIL_RCPT -- Address of the recipients.
+    request_target
 --
-       CURLOPT_MAIL_AUTH -- Authentication address.
+    http_version
 --
-       CURLOPT_TFTP_BLKSIZE -- TFTP block size.
+    http09_allowed
 --
-       CURLOPT_TFTP_NO_OPTIONS --
+    ignore_content_length
 --
-       CURLOPT_FTPPORT -- Use active FTP.
+    http_content_decoding
 --
-       CURLOPT_QUOTE -- Commands to run before transfer.
+    http_transfer_decoding
 --
-       CURLOPT_POSTQUOTE -- Commands to run after transfer.
+    expect_100_timeout_ms
 --
-       CURLOPT_PREQUOTE -- Commands to run just before transfer.
+    pipewait
 --
-       CURLOPT_APPEND -- Append to remote file.
+    stream_depends
 --
-       CURLOPT_FTP_USE_EPRT -- Use EPTR.
+    stream_depends_e
 --
-       CURLOPT_FTP_USE_EPSV -- Use EPSV.
+    stream_weight
 --
-       CURLOPT_FTP_USE_PRET -- Use PRET.
+    mail_from
 --
-       CURLOPT_FTP_CREATE_MISSING_DIRS --
+    mail_rcpt
 --
-       CURLOPT_FTP_RESPONSE_TIMEOUT -- Timeout for FTP responses.
+    mail_auth
 --
-       CURLOPT_FTP_ALTERNATIVE_TO_USER -- Alternative to USER.
+    tftp_blksize
 --
-       CURLOPT_FTP_SKIP_PASV_IP --
+    tftp_no_options
 --
-       CURLOPT_FTPSSLAUTH -- Control how to do TLS.
+    ftpport
 --
-       CURLOPT_FTP_SSL_CCC --
+    quote
 --
-       CURLOPT_FTP_ACCOUNT -- Send ACCT command.
+    postquote
 --
-       CURLOPT_FTP_FILEMETHOD -- Specify how to reach files.
+    prequote
 --
-       CURLOPT_RTSP_REQUEST -- RTSP request.
+    append
 --
-       CURLOPT_RTSP_SESSION_ID -- RTSP session-id.
+    ftp_use_eprt
 --
-       CURLOPT_RTSP_STREAM_URI -- RTSP stream URI.
+    ftp_use_epsv
 --
-       CURLOPT_RTSP_TRANSPORT -- RTSP Transport: header.
+    ftp_use_pret
 --
-       CURLOPT_RTSP_CLIENT_CSEQ -- Client CSEQ number.
+    ftp_create_missing_dirs
 --
-       CURLOPT_RTSP_SERVER_CSEQ --
+    ftp_response_timeout
 --
-       CURLOPT_TRANSFERTEXT -- Use text transfer.
+    ftp_alternative_to_user
 --
-       CURLOPT_PROXY_TRANSFER_MODE -- Add  transfer  mode  to URL over proxy.
+    ftp_skip_pasv_ip
 --
-       CURLOPT_CRLF -- Convert newlines.
+    ftpsslauth
 --
-       CURLOPT_RANGE -- Range requests.
+    ftp_ssl_ccc
 --
-       CURLOPT_RESUME_FROM -- Resume a transfer.
+    ftp_account
 --
-       CURLOPT_RESUME_FROM_LARGE -- Resume a transfer.
+    ftp_filemethod
 --
-       CURLOPT_CUSTOMREQUEST -- Custom request/method.
+    rtsp_request
 --
-       CURLOPT_FILETIME -- Request file modification date and time.
+    rtsp_session_id
 --
-       CURLOPT_DIRLISTONLY -- List only.
+    rtsp_stream_uri
 --
-       CURLOPT_NOBODY -- Do not get the body contents.
+    rtsp_transport
 --
-       CURLOPT_INFILESIZE -- Size of file to send.
+    rtsp_client_cseq
 --
-       CURLOPT_INFILESIZE_LARGE -- Size of file to send.
+    rtsp_server_cseq
 --
-       CURLOPT_UPLOAD -- Upload data.
+    transfertext
 --
-       CURLOPT_MIMEPOST -- Post/send MIME data.
+    proxy_transfer_mode
 --
-       CURLOPT_MAXFILESIZE -- Maximum file size to get.
+    crlf
 --
-       CURLOPT_MAXFILESIZE_LARGE -- Maximum file size to get.
+    range
 --
-       CURLOPT_TIMECONDITION -- Make a time conditional request.
+    resume_from
 --
-       CURLOPT_TIMEVALUE --
+    resume_from_large
 --
-       CURLOPT_TIMEVALUE_LARGE --
+    curlu
 --
-       CURLOPT_TIMEOUT -- Timeout for the entire request.
+    customrequest
 --
-       CURLOPT_TIMEOUT_MS -- Millisecond timeout for the entire  request. 
+    filetime
 --
-       CURLOPT_LOW_SPEED_LIMIT --
+    dirlistonly
 --
-       CURLOPT_LOW_SPEED_TIME --
+    nobody
 --
-       CURLOPT_MAX_SEND_SPEED_LARGE --
+    infilesize
 --
-       CURLOPT_MAX_RECV_SPEED_LARGE --
+    infilesize_large
 --
-       CURLOPT_MAXCONNECTS --
+    upload
 --
-       CURLOPT_FRESH_CONNECT -- Use a new connection.
+    upload_buffersize
 --
-       CURLOPT_FORBID_REUSE --
+    mimepost
 --
-       CURLOPT_CONNECTTIMEOUT -- Timeout for the connection phase.
+    maxfilesize
 --
-       CURLOPT_CONNECTTIMEOUT_MS -- Millisecond  timeout  for the connection phase.
+    maxfilesize_large
 --
-       CURLOPT_IPRESOLVE -- IP version to resolve to.
+    timecondition
 --
-       CURLOPT_CONNECT_ONLY -- Only connect, nothing else.
+    timevalue
 --
-       CURLOPT_USE_SSL -- Use TLS/SSL.
+    timevalue_large
 --
-       CURLOPT_RESOLVE -- Provide fixed/fake name resolves.
+    timeout
 --
-       CURLOPT_DNS_INTERFACE -- Bind name resolves to  this  interface. 
+    timeout_ms
 --
-       CURLOPT_DNS_LOCAL_IP4 --
+    low_speed_limit
 --
-       CURLOPT_DNS_LOCAL_IP6 --
+    low_speed_time
 --
-       CURLOPT_DNS_SERVERS -- Preferred DNS servers.
+    max_send_speed_large
 --
-       CURLOPT_ACCEPTTIMEOUT_MS -- accepted.
+    max_recv_speed_large
 --
-       CURLOPT_HAPPY_EYEBALLS_TIMEOUT_MS -- Timeout for  happy  eyeballs. 
+    maxconnects
 --
-       CURLOPT_SSLCERT -- Client cert.
+    fresh_connect
 --
-       CURLOPT_PROXY_SSLCERT -- Proxy client cert.
+    forbid_reuse
 --
-       CURLOPT_SSLCERTTYPE -- Client cert type. 
+    maxage_conn
 --
-       CURLOPT_PROXY_SSLCERTTYPE -- Proxy client cert type. 
+    connecttimeout
 --
-       CURLOPT_SSLKEY -- Client key.
+    connecttimeout_ms
 --
-       CURLOPT_PROXY_SSLKEY -- Proxy client key.
+    ipresolve
 --
-       CURLOPT_SSLKEYTYPE -- Client key type.
+    connect_only
 --
-       CURLOPT_PROXY_SSLKEYTYPE -- Proxy client key type.
+    use_ssl
 --
-       CURLOPT_KEYPASSWD -- Client key password.
+    resolve
 --
-       CURLOPT_PROXY_KEYPASSWD -- Proxy client key password.
+    dns_interface
 --
-       CURLOPT_SSL_ENABLE_ALPN -- Enable use of ALPN.
+    dns_local_ip4
 --
-       CURLOPT_SSL_ENABLE_NPN -- Enable use of NPN.
+    dns_local_ip6
 --
-       CURLOPT_SSLENGINE -- Use identifier with SSL engine.
+    dns_servers
 --
-       CURLOPT_SSLENGINE_DEFAULT -- Default SSL engine.
+    dns_shuffle_addresses
 --
-       CURLOPT_SSL_FALSESTART -- Enable TLS False Start.
+    accepttimeout_ms
 --
-       CURLOPT_SSLVERSION -- SSL version to use.
+    happy_eyeballs_timeout_ms
 --
-       CURLOPT_PROXY_SSLVERSION -- Proxy SSL version to use.
+    upkeep_interval_ms
 --
-       CURLOPT_SSL_VERIFYHOST --
+    sslcert
 --
-       CURLOPT_PROXY_SSL_VERIFYHOST --
+    proxy_sslcert
 --
-       CURLOPT_SSL_VERIFYPEER -- Verify the SSL certificate.
+    sslcerttype
 --
-       CURLOPT_PROXY_SSL_VERIFYPEER -- Verify  the  proxy  SSL certificate.
+    proxy_sslcerttype
 --
-       CURLOPT_SSL_VERIFYSTATUS -- Verify the SSL certificate's status.
+    sslkey
 --
-       CURLOPT_CAINFO -- CA cert bundle.
+    proxy_sslkey
 --
-       CURLOPT_PROXY_CAINFO -- Proxy CA cert bundle.
+    sslkeytype
 --
-       CURLOPT_ISSUERCERT -- Issuer certificate.
+    proxy_sslkeytype
 --
-       CURLOPT_CAPATH -- Path to CA cert bundle.
+    keypasswd
 --
-       CURLOPT_PROXY_CAPATH -- Path to proxy CA cert bundle.
+    proxy_keypasswd
 --
-       CURLOPT_CRLFILE -- Certificate Revocation List.
+    ssl_enable_alpn
 --
-       CURLOPT_PROXY_CRLFILE -- Proxy Certificate Revocation List.
+    ssl_enable_npn
 --
-       CURLOPT_CERTINFO -- Extract certificate info.
+    sslengine
 --
-       CURLOPT_PINNEDPUBLICKEY -- Set pinned SSL public key .
+    sslengine_default
 --
-       CURLOPT_PROXY_PINNEDPUBLICKEY -- Set the proxy's pinned SSL public key.
+    ssl_falsestart
 --
-       CURLOPT_RANDOM_FILE -- Provide  source  for  entropy  random  data. 
+    sslversion
 --
-       CURLOPT_EGDSOCKET -- Identify EGD socket for entropy.
+    proxy_sslversion
 --
-       CURLOPT_SSL_CIPHER_LIST -- Ciphers to use.
+    ssl_verifyhost
 --
-       CURLOPT_PROXY_SSL_CIPHER_LIST -- Proxy ciphers to use.
+    proxy_ssl_verifyhost
 --
-       CURLOPT_SSL_SESSIONID_CACHE -- Disable SSL session-id cache.
+    ssl_verifypeer
 --
-       CURLOPT_SSL_OPTIONS -- Control SSL behavior.
+    proxy_ssl_verifypeer
 --
-       CURLOPT_PROXY_SSL_OPTIONS -- Control proxy SSL behavior.
+    ssl_verifystatus
 --
-       CURLOPT_KRBLEVEL -- Kerberos security level.
+    cainfo
 --
-       CURLOPT_GSSAPI_DELEGATION -- Disable GSS-API delegation.
+    proxy_cainfo
 --
-       CURLOPT_SSH_AUTH_TYPES -- SSH authentication types.
+    issuercert
 --
-       CURLOPT_SSH_COMPRESSION -- Enable SSH compression.
+    capath
 --
-       CURLOPT_SSH_HOST_PUBLIC_KEY_MD5 -- MD5 of host's public key.
+    proxy_capath
 --
-       CURLOPT_SSH_PUBLIC_KEYFILE -- File name of public key.
+    crlfile
 --
-       CURLOPT_SSH_PRIVATE_KEYFILE -- File name of private key.
+    proxy_crlfile
 --
-       CURLOPT_SSH_KNOWNHOSTS -- File name with known hosts.
+    certinfo
 --
-       CURLOPT_SSH_KEYFUNCTION -- Callback  for  known  hosts  handling. 
+    pinnedpublickey
 --
-       CURLOPT_SSH_KEYDATA -- Custom pointer to pass to ssh key callback.
+    proxy_pinnedpublickey
 --
-       CURLOPT_PRIVATE -- Private pointer to store.
+    random_file
 --
-       CURLOPT_SHARE -- Share object to use.
+    egdsocket
 --
-       CURLOPT_NEW_FILE_PERMS --
+    ssl_cipher_list
 --
-       CURLOPT_NEW_DIRECTORY_PERMS -- Mode for creating new remote directories.
+    proxy_ssl_cipher_list
 --
-       CURLOPT_TELNETOPTIONS -- TELNET options.
+    tls13_ciphers
 --
+    proxy_tls13_ciphers
+--
+    ssl_sessionid_cache
+--
+    ssl_options
+--
+    proxy_ssl_options
+--
+    krblevel
+--
+    gssapi_delegation
+--
+    ssh_auth_types
+--
+    ssh_compression
+--
+    ssh_host_public_key_md5
+--
+    ssh_public_keyfile
+--
+    ssh_private_keyfile
+--
+    ssh_knownhosts
+--
+    private
+--
+    share
+--
+    new_file_perms
+--
+    new_directory_perms
+--
+    telnetoptions
+--
+
