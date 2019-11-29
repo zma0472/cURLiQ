@@ -355,81 +355,79 @@ CREATE TABLE target (
 --
     infilesize_large  INTEGER, -- MANY
 --
-    upload
+    upload  BOOLEAN, -- MOST
 --
-    upload_buffersize
+    upload_buffersize  INTEGER, -- ALL
 --
-    mimepost
+    timecondition  TEXT, -- HTTP FTP RTSP FILE
+--  timecondition must be one of CURL_TIMECOND_IFMODSINCE or
+--  CURL_TIMECOND_IFUNMODSINCE.
 --
-    maxfilesize
+    timevalue  INTEGER, -- HTTP FTP RTSP FILE
 --
-    maxfilesize_large
+    timevalue_large INTEGER, -- HTTP FTP RTSP FILE
 --
-    timecondition
+    timeout  INTEGER, -- ALL
 --
-    timevalue
+    timeout_ms  INTEGER, -- ALL
 --
-    timevalue_large
+    low_speed_limit  INTEGER, -- ALL
 --
-    timeout
+    low_speed_time  INTEGER, -- ALL
 --
-    timeout_ms
+    max_send_speed_large  INTEGER, -- ALL
 --
-    low_speed_limit
+    maxconnects  INTEGER, -- MOST
 --
-    low_speed_time
+    fresh_connect  BOOLEAN, -- MOST
 --
-    max_send_speed_large
+    forbid_reuse  BOOLEAN, -- MOST
 --
-    max_recv_speed_large
+    maxage_conn  INTEGER, -- ALL
 --
-    maxconnects
+    connecttimeout  INTEGER, -- ALL
 --
-    fresh_connect
+    connecttimeout_ms  INTEGER, -- ALL
 --
-    forbid_reuse
+    ipresolve  TEXT, -- ALL
+--  ipresolve must be one of CURL_IPRESOLVE_WHATEVER CURL_IPRESOLVE_V4
+--  CURL_IPRESOLVE_V6
 --
-    maxage_conn
+    connect_only  BOOLEAN, -- HTTP SMTP POP3 IMAP
 --
-    connecttimeout
+    use_ssl  TEXT, -- FTP SMTP POP3 IMAP
+--  use_ssl must be one of CURLUSESSL_NONE CURLUSESSL_TRY CURLUSESSL_CONTROL
+--  CURLUSESSL_ALL
 --
-    connecttimeout_ms
+    resolve  TEXT, -- ALL
 --
-    ipresolve
+    dns_interface  TEXT, -- ALL
 --
-    connect_only
+    dns_local_ip4  TEXT, -- ALL
 --
-    use_ssl
+    dns_local_ip6  TEXT, -- ALL
 --
-    resolve
+    dns_servers  TEXT, -- ALL
 --
-    dns_interface
+    dns_shuffle_addresses  BOOLEAN, -- ALL
 --
-    dns_local_ip4
+    accepttimeout_ms  INTEGER, -- FTP
 --
-    dns_local_ip6
+    happy_eyeballs_timeout_ms  INTEGER, -- ALL
 --
-    dns_servers
+    upkeep_interval_ms  INTEGER, -- ALL
 --
-    dns_shuffle_addresses
+    sslcert  TEXT -- All TLS-based protocols
 --
-    accepttimeout_ms
+    proxy_sslcert  TEXT, -- All TLS-based protocols
 --
-    happy_eyeballs_timeout_ms
+    sslcerttype  TEXT, -- All TLS-based protocols
 --
-    upkeep_interval_ms
+    proxy_sslcerttype  TEXT, -- All TLS-based protocols
 --
-    sslcert
+    sslkey  TEXT, -- All TLS-based protocols
 --
-    proxy_sslcert
---
-    sslcerttype
---
-    proxy_sslcerttype
---
-    sslkey
---
-    proxy_sslkey
+    proxy_sslkey  TEXT, -- ALL
 --
     sslkeytype
 --
