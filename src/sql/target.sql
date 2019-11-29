@@ -112,195 +112,248 @@ CREATE TABLE target (
 --
     username  TEXT, -- MOST
 --
-    password
+    password  CHAR, -- MOST
 --
-    login_options
+    login_options  CHAR, -- IMAP POP3 SMTP
 --
-    proxyusername
+    proxyusername  CHAR, -- MOST
 --
-    proxypassword
+    proxypassword  CHAR, -- MOST
 --
-    httpauth
+--  curlauth_* are used to set bits in the CURLOPT_HTTPAUTH bitmask 
 --
-    tlsauth_username
+    curlauth_basic  BOOLEAN, -- HTTP
 --
-    proxy_tlsauth_username
+    curlauth_digest  BOOLEAN, -- HTTP
 --
-    tlsauth_password
+    curlauth_digest_ie  BOOLEAN, -- HTTP
 --
-    proxy_tlsauth_password
+    curlauth_bearer  BOOLEAN, -- HTTP
 --
-    tlsauth_type
+    curlopt_xoauth2_bearer  TEXT, -- HTTP IMAP POP3 SMTP
 --
-    proxy_tlsauth_type
+    curlauth_negotiate  BOOLEAN, -- HTTP
 --
-    proxyauth
+    curlauth_ntlm  BOOLEAN, -- HTTP
 --
-    sasl_authzid
+    curauth_ntlm_wb  BOOLEAN, -- HTTP
 --
-    sasl_ir
+    curauth_any  BOOLEAN, -- HTTP
 --
-    xoauth2_bearer
+    curauth_anysafe  BOOLEAN, -- HTTP
 --
-    disallow_username_in_url
+    curauth_only  BOOLEAN, -- HTTP
 --
-    autoreferer
+    tlsauth_username  TEXT, -- All TLS-based protocols
 --
-    accept_encoding
+    proxy_tlsauth_username  TEXT, -- ALL
 --
-    transfer_encoding
+    tlsauth_password  TEXT, -- All TLS-based protocols
 --
-    followlocation
+    proxy_tlsauth_password  TEXT, -- All TLS-based protocols
 --
-    unrestricted_auth
+    tlsauth_type  TEXT, -- All TLS-based protocols
 --
-    maxredirs
+    proxy_tlsauth_type  TEXT, -- All TLS-based protocols
 --
-    postredir
+--  proxyauth_curlauth_basic is used to set the CURLOPT_PROXYAUTH bitmask
+    proxyauth_curlauth_basic  BOOLEAN, -- HTTP
 --
-    put
+    sasl_authzid  TEXT, -- IMAP POP3 SMTP
 --
-    post
+    sasl_ir  BOOLEAN, -- IMAP POP3 SMTP
 --
-    postfields
+    disallow_username_in_url  BOOLEAN, -- Several
 --
-    postfieldsize
+    autoreferer  BOOLEAN, -- HTTP
 --
-    postfieldsize_large
+    accept_encoding  TEXT, -- HTTP
 --
-    copypostfields
+    transfer_encoding  BOOLEAN, -- HTTP
 --
-    httppost
+    followlocation  BOOLEAN, -- HTTP HTTPS
 --
-    referer
+    unrestricted_auth  BOOLEAN, -- HTTP
 --
-    useragent
+    maxredirs  INTEGER, -- HTTP HTTPS
 --
-    httpheader
+--  redir_post_* are booleans used to set bits in CURLOPT_POSTREDIR bitmask
 --
-    headeropt
+    redir_post_301  BOOLEAN, -- HTTP HTTPS
 --
-    proxyheader
+    redir_post_302  BOOLEAN, -- HTTP HTTPS
 --
-    http200aliases
+    redir_post_303  BOOLEAN, -- HTTP HTTPS
 --
-    cookie
+    redir_post_all  BOOLEAN, -- HTTP HTTPS
 --
-    cookiefile
+    put  BOOLEAN, -- HTTP HTTPS
 --
-    cookiejar
+    post  BOOLEAN, -- HTTP
 --
-    cookiesession
+    postfields  TEXT, -- HTTP
 --
-    cookielist
+    postfieldsize  INTEGER, -- HTTP
 --
-    altsvc
+    postfieldsize_large  INTEGER, -- HTTP HTTPS
 --
-    altsvc_ctrl
+    copypostfields  TEXT, -- HTTP HTTPS
 --
-    httpget
+    referer  TEXT, -- HTTP
 --
-    request_target
+    useragent  TEXT, -- HTTP HTTPS
 --
-    http_version
+    httpheader  TEXT, -- HTTP
 --
-    http09_allowed
+--  curlheader_* are used to set bits in CURLOPT_HEADEROPT bitmask
 --
-    ignore_content_length
+    curlheader_unified  BOOLEAN, -- HTTP
 --
-    http_content_decoding
+    curlheader_separate  BOOLEAN, -- HTTP
 --
-    http_transfer_decoding
+    proxyheader  TEXT, -- HTTP
 --
-    expect_100_timeout_ms
+    http200aliases  TEXT, -- HTTP
 --
-    pipewait
+    cookie  TEXT, -- HTTP
 --
-    stream_depends
+    cookiefile  TEXT, -- HTTP
 --
-    stream_depends_e
+    cookiejar  TEXT, -- HTTP
 --
-    stream_weight
+    cookiesession  BOOLEAN, -- HTTP
 --
-    mail_from
+    cookielist  TEXT, -- HTTP
 --
-    mail_rcpt
+    altsvc  TEXT, -- HTTPS
 --
-    mail_auth
+--  curlaltsvc_* are booleans used to set bits in the  CURLOPT_ALTSVC_CTRL mask
 --
-    tftp_blksize
+    curlaltsvc_immediately  BOOLEAN, -- HTTPS
 --
-    tftp_no_options
+    curlaltsvc_readonlyfile  BOOLEAN, -- HTTPS
 --
-    ftpport
+    curlaltsvc_h1  BOOLEAN, -- HTTPS
 --
-    quote
+    curlaltsvc_h2  BOOLEAN, -- HTTPS
 --
-    postquote
+    curlaltsvc_h3  BOOLEAN, -- HTTPS
 --
-    prequote
+    httpget  BOOLEAN, -- HTTP HTTPS
 --
-    append
+    request_target  TEXT, -- HTTP
 --
-    ftp_use_eprt
+--  http_version must be one of CURL_HTTP_VERSION_NONE, CURL_HTTP_VERSION_1_0,
+--  CURL_HTTP_VERSION_1_1, CURL_HTTP_VERSION_2_0, CURL_HTTP_VERSION_2TLS,
+--  CURL_HTTP_VERSION_PRIOR_KNOWLEDGE, CURL_HTTP_VERSION_3
 --
-    ftp_use_epsv
+    http_version  TEXT, -- HTTP
 --
-    ftp_use_pret
+    http09_allowed  BOOLEAN, -- HTTP
 --
-    ftp_create_missing_dirs
+    ignore_content_length  BOOLEAN, -- HTTP
 --
-    ftp_response_timeout
+    http_content_decoding  BOOLEAN, -- HTTP
 --
-    ftp_alternative_to_user
+    http_transfer_decoding  BOOLEAN, -- HTTP
 --
-    ftp_skip_pasv_ip
+    expect_100_timeout_ms  INTEGER, -- HTTP
 --
-    ftpsslauth
+    pipewait  BOOLEAN, -- HTTP HTTPS
 --
-    ftp_ssl_ccc
+    stream_weight  INTEGER, -- HTTP/2  Constraint to [1 - 256]
 --
-    ftp_account
+    mail_from  TEXT, -- SMTP
 --
-    ftp_filemethod
+    mail_rcpt  TEXT, -- SMTP
 --
-    rtsp_request
+    mail_auth  TEXT, -- SMTP
 --
-    rtsp_session_id
+    tftp_blksize  INTEGER, -- TFTP
 --
-    rtsp_stream_uri
+    tftp_no_options  BOOLEAN, -- TFTP
 --
-    rtsp_transport
+    ftpport  TEXT, -- FTP
 --
-    rtsp_client_cseq
+    quote  TEXT, -- FTP SFTP
 --
-    rtsp_server_cseq
+    postquote  TEXT, -- FTP SFTP
 --
-    transfertext
+    prequote  TEXT, -- FTP
 --
-    proxy_transfer_mode
+    append  BOOLEAN, -- FTP
 --
-    crlf
+    ftp_use_eprt  BOOLEAN, -- FTP
 --
-    range
+    ftp_use_epsv  BOOLEAN, -- FTP
 --
-    resume_from
+    ftp_use_pret  BOOLEAN, -- FTP
 --
-    resume_from_large
+    ftp_create_missing_dirs  TEXT -- FTP SFTP
+--  ftp_create_missing_dirs must be one of CURLFTP_CREATE_DIR_NONE,
+--  CURLFTP_CREATE_DIR, or CURLFTP_CREATE_DIR_RETRY
 --
-    curlu
+    ftp_response_timeout  INTEGER, -- FTP
 --
-    customrequest
+    ftp_alternative_to_user  TEXT, -- FTP
 --
-    filetime
+    ftp_skip_pasv_ip  BOOLEAN, -- FTP
 --
-    dirlistonly
+    ftpsslauth  TEXT, -- FTP
+--  ftpsslauth must be one of CURLFTPAUTH_DEFAULT, CURLFTPAUTH_SSL, or
+--  CURLFTPAUTH_TLS
 --
-    nobody
+    ftp_ssl_ccc  TEXT, -- FTP
+--  ftp_ssl_ccc must be one of CURLFTPSSL_CCC_NONE, CURLFTPSSL_CCC_PASSIVE, or
+--  CURLFTPSSL_CCC_ACTIVE
 --
-    infilesize
+    ftp_account  TEXT, -- FTP
 --
-    infilesize_large
+    ftp_filemethod  TEXT, -- FTP
+--  ftp_filemethod must be one of CURLFTPMETHOD_MULTICWD, CURLFTPMETHOD_NOCWD,
+--  or CURLFTPMETHOD_SINGLECWD
+--
+--  rtsp_request must be one of CURL_RTSPREQ_OPTIONS, CURL_RTSPREQ_DESCRIBE,
+--  CURL_RTSPREQ_ANNOUNCE, CURL_RTSPREQ_SETUP, CURL_RTSPREQ_PLAY,
+--  CURL_RTSPREQ_PAUSE, CURL_RTSPREQ_TEARDOWN, CURL_RTSPREQ_GET_PARAMETER,
+--  CURL_RTSPREQ_SET_PARAMETER, CURL_RTSPREQ_RECORD, CURL_RTSPREQ_RECEIVE
+    rtsp_request  TEXT, -- RTSP
+--
+    rtsp_session_id  TEXT, -- RTSP
+--
+    rtsp_stream_uri  TEXT, -- RTSP
+--
+    rtsp_transport  TEXT, -- RTSP
+--
+    rtsp_client_cseq  INTEGER, -- RTSP
+--
+    rtsp_server_cseq  INTEGER, -- RTSP
+--
+    transfertext  BOOLEAN, -- FTP
+--
+    proxy_transfer_mode  BOOLEAN, -- FTP
+--
+    crlf  BOOLEAN, -- FTP
+--
+    range  TEXT, -- HTTP FTP FILE RTSP SFTP
+--
+    resume_from  INTEGER, -- HTTP FTP SFTP FILE
+--
+    resume_from_large  INTEGER, -- HTTP FTP SFTP FILE
+--
+    curlu  TEXT, -- ALL
+--
+    customrequest  TEXT, -- HTTP FTP IMAP POP3 SMTP
+--
+    filetime  BOOLEAN, -- HTTP FTP SFTP FILE
+--
+    dirlistonly  BOOLEAN, -- FTP SFTP POP3
+--
+    nobody  BOOLEAN, -- MOST
+--
+    infilesize  INTEGER, -- MANY
+--
+    infilesize_large  INTEGER, -- MANY
 --
     upload
 --
