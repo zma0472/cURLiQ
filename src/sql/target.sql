@@ -429,100 +429,123 @@ CREATE TABLE target (
 --
     proxy_sslkey  TEXT, -- ALL
 --
-    sslkeytype
+    sslkeytype  TEXT, -- All TLS-based protocols.
 --
-    proxy_sslkeytype
+    proxy_sslkeytype  TEXT, -- All TLS-based protocols.
 --
-    keypasswd
+    keypasswd  TEXT, -- All TLS-based protocols.
 --
-    proxy_keypasswd
+    proxy_keypasswd  TEXT, -- Used with HTTP proxy
 --
-    ssl_enable_alpn
+    ssl_enable_alpn  BOOLEAN, -- HTTP
 --
-    ssl_enable_npn
+    ssl_enable_npn  BOOLEAN, -- HTTP
 --
-    sslengine
+    sslengine  TEXT, -- All TLS-based protocols.
 --
-    sslengine_default
+    sslengine_default  BOOLEAN, -- All TLS-based protocols.
 --
-    ssl_falsestart
+    ssl_falsestart  BOOLEAN, -- ALL TLS-based protocols
 --
-    sslversion
+    sslversion  TEXT, -- All TLS-based protocols add CONSTRAINT
 --
-    proxy_sslversion
+    proxy_sslversion  INTEGER, -- ALL using HTTPS proxy
 --
-    ssl_verifyhost
+    ssl_verifyhost  INTEGER, -- ALL TLS-based protocols 
 --
-    proxy_ssl_verifyhost
+    proxy_ssl_verifyhost  INTEGER, ALL using HTTPS proxy
 --
-    ssl_verifypeer
+    ssl_verifypeer  BOOLEAN, -- ALL TLS-based protocols
 --
-    proxy_ssl_verifypeer
+    proxy_ssl_verifypeer  BOOLEAN, -- ALL TLS-based protocols
 --
-    ssl_verifystatus
+    ssl_verifystatus  BOOLEAN, -- ALL TLS-based protocols
 --
-    cainfo
+    cainfo  TEXT, -- ALL TLS-based protocols
 --
-    proxy_cainfo
+    proxy_cainfo  TEXT, -- ALL protocols using HTTPS proxy
 --
-    issuercert
+    issuercert  TEXT, -- ALL TLS-based protocols
 --
-    capath
+    capath  TEXT, -- ALL TLS-based protocols
 --
-    proxy_capath
+    proxy_capat  TEXT, -- ALL protocols using HTTPS proxy
 --
-    crlfile
+    crlfile  TEXT, -- ALL TLS-based protocols
 --
-    proxy_crlfile
+    proxy_crlfile  TEXT, -- ALL protocols using HTTPS proxy
 --
-    certinfo
+    certinfo  BOOLEAN, -- ALL TLS-based protocols
 --
-    pinnedpublickey
+    pinnedpublickey  TEXT, -- ALL TLS-based protocols
 --
-    proxy_pinnedpublickey
+    proxy_pinnedpublickey  TEXT, -- ALL TLS-based protocols
 --
-    random_file
+    random_file  TEXT, -- ALL
 --
-    egdsocket
+    egdsocket  TEXT, -- ALL TLS-based protocols
 --
-    ssl_cipher_list
+    ssl_cipher_list TEXT, -- ALL  TLS-based protocols
 --
-    proxy_ssl_cipher_list
+    proxy_ssl_cipher_list  TEXT, -- ALL
 --
-    tls13_ciphers
+    tls13_ciphers  TEXT, -- ALL TLS-based protocols
 --
-    proxy_tls13_ciphers
+    proxy_tls13_ciphers  TEXT, -- ALL TLS-based protocols
 --
-    ssl_sessionid_cache
+    ssl_sessionid_cache  BOOLEAN, -- ALL TLS-based protocols
 --
-    ssl_options
+--  curlsslopt_allow_beast and curlsslopt_no_revoke are used to set bits in the
+--  curlopt_ssl_options mask
 --
-    proxy_ssl_options
+--  curlsslopt_allow_beast  BOOLEAN, -- ALL TLS-based protocols
 --
-    krblevel
+--  curlsslopt_no_revoke  BOOLEAN, -- ALL TLS-based protocols
 --
-    gssapi_delegation
+--  proxy_allow_beast and proxy_no_revoke are used to set bits in the
+--  curlopt_proxy_ssl_options mask
 --
-    ssh_auth_types
+--  proxy_allow_beast  BOOLEAN, -- ALL
 --
-    ssh_compression
+--  proxy_no_revoke  BOOLEAN, -- ALL
 --
-    ssh_host_public_key_md5
+    krblevel  TEXT, -- FTP
 --
-    ssh_public_keyfile
+    gssapi_delegation  TEXT, -- HTTP
+--  gssapi_delegation must be one of CURLGSSAPI_DELEGATION_FLAG or
+--  CURLGSSAPI_DELEGATION_POLICY_FLAG  or CURLGSSAPI_DELEGATION_NONE
 --
-    ssh_private_keyfile
+--  curlssh_auth_publickey, curlssh_auth_password, curlssh_auth_host,
+--  curlssh_auth_keyboard, curlssh_auth_agent, and curlssh_auth_any are used to
+--  set bits in the curlopt_ssh_auth_types mask
 --
-    ssh_knownhosts
+    curlssh_auth_publickey  BOOLEAN, -- SFTP SCP
 --
-    private
+    curlssh_auth_password  BOOLEAN, -- SFTP SCP
 --
-    share
+    curlssh_auth_host  BOOLEAN, -- SFTP SCP
 --
-    new_file_perms
+    curlssh_auth_keyboard  BOOLEAN, -- SFTP SCP
 --
-    new_directory_perms
+    curlssh_auth_agent  BOOLEAN, -- SFTP SCP
 --
-    telnetoptions
+    curlssh_auth_any  BOOLEAN, -- SFTP SCP
 --
+    ssh_compression  BOOLEAN, -- SFTP SCP
+--
+    ssh_host_public_key_md5  TEXT, -- SFTP SCP
+--
+    ssh_public_keyfile  TEXT, -- SFTP SCP
+--
+    ssh_private_keyfile  TEXT, -- SFTP SCP
+--
+    ssh_knownhosts  TEXT, -- SFTP SCP
+--
+    new_file_perms  INTEGER, -- SFTP SCP FILE
+--
+    new_directory_perms  INTEGER, -- SFTP SCP FILE
+--
+    telnetoptions  TEXT, -- TELNET
+--
+);
 
