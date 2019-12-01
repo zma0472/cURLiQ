@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+rm -f target_type_cks_tmp.sql target_type_cks.sql
+
+for column in $(grep BOOLEAN target.sql | awk '{print $1}')
+do
+    echo "--" >> target_type_cks_tmp.sql
+    echo "    CONSTRAINT target__${column}_bool_ck CHECK (" >> \
+                                                        target_type_cks_tmp.sql
+    echo "        typeof( ${column} ) = 'integer'" >> target_type_cks_tmp.sql
+    echo "        AND" >> target_type_cks_tmp.sql
+    echo "        ( ${column} = 0 OR ${column} = 1 )" >> \
+                                                        target_type_cks_tmp.sql
+    echo ")," >> target_type_cks_tmp.sql
+done
+
+for column in $(grep INTEGER target.sql | awk '{print $1}')
+do
+    echo "--" >> target_type_cks_tmp.sql
+    echo "    CONSTRAINT target__${column}_int_ck CHECK (" >> \
+                                                        target_type_cks_tmp.sql
+    echo "        typeof( ${column} ) = 'integer'" >> target_type_cks_tmp.sql
+    echo ")," >> target_type_cks_tmp.sql
+done
+
+for column in $(grep TEXT target.sql | awk '{print $1}')
+do
+    echo "--" >> target_type_cks_tmp.sql
+    echo "    CONSTRAINT target__${column}_text_ck CHECK (" >> \
+                                                        target_type_cks_tmp.sql
+    echo "        typeof( ${column} ) = 'text'" >> target_type_cks_tmp.sql
+    echo ")," >> target_type_cks_tmp.sql
+done
+
+
+head --bytes=-2 target_type_cks_tmp.sql > target_type_cks.sql
+
+echo '' >> target_type_cks.sql
+
+rm -f target_type_cks_tmp.sql
+
+exit 0

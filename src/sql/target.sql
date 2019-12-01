@@ -34,7 +34,7 @@ CREATE TABLE target (
 --
     stderr  TEXT, -- ALL
 --
-    failonerror  BOOLEAN,-- HTTP
+    failonerror  BOOLEAN, -- HTTP
 --
     keep_sending_on_error  BOOLEAN, -- HTTP
 --
@@ -42,7 +42,7 @@ CREATE TABLE target (
 --
     path_as_is  BOOLEAN, -- ALL
 --
-    protocols -- TEXT, -- ALL
+    protocols  TEXT, -- ALL
 --
     redir_protocols  TEXT, -- ALL except FILE, SCP, SMB, SMBS
 --
@@ -112,13 +112,13 @@ CREATE TABLE target (
 --
     username  TEXT, -- MOST
 --
-    password  CHAR, -- MOST
+    password  TEXT, -- MOST
 --
-    login_options  CHAR, -- IMAP POP3 SMTP
+    login_options  TEXT, -- IMAP POP3 SMTP
 --
-    proxyusername  CHAR, -- MOST
+    proxyusername  TEXT, -- MOST
 --
-    proxypassword  CHAR, -- MOST
+    proxypassword  TEXT, -- MOST
 --
 --  curlauth_* are used to set bits in the CURLOPT_HTTPAUTH bitmask 
 --
@@ -289,7 +289,7 @@ CREATE TABLE target (
 --
     ftp_use_pret  BOOLEAN, -- FTP
 --
-    ftp_create_missing_dirs  TEXT -- FTP SFTP
+    ftp_create_missing_dirs  TEXT, -- FTP SFTP
 --  ftp_create_missing_dirs must be one of CURLFTP_CREATE_DIR_NONE,
 --  CURLFTP_CREATE_DIR, or CURLFTP_CREATE_DIR_RETRY
 --
@@ -417,7 +417,7 @@ CREATE TABLE target (
 --
     upkeep_interval_ms  INTEGER, -- ALL
 --
-    sslcert  TEXT -- All TLS-based protocols
+    sslcert  TEXT, -- All TLS-based protocols
 --
     proxy_sslcert  TEXT, -- All TLS-based protocols
 --
@@ -453,7 +453,7 @@ CREATE TABLE target (
 --
     ssl_verifyhost  INTEGER, -- ALL TLS-based protocols 
 --
-    proxy_ssl_verifyhost  INTEGER, ALL using HTTPS proxy
+    proxy_ssl_verifyhost  INTEGER, -- ALL using HTTPS proxy
 --
     ssl_verifypeer  BOOLEAN, -- ALL TLS-based protocols
 --
@@ -498,16 +498,16 @@ CREATE TABLE target (
 --  curlsslopt_allow_beast and curlsslopt_no_revoke are used to set bits in the
 --  curlopt_ssl_options mask
 --
---  curlsslopt_allow_beast  BOOLEAN, -- ALL TLS-based protocols
+    curlsslopt_allow_beast  BOOLEAN, -- ALL TLS-based protocols
 --
---  curlsslopt_no_revoke  BOOLEAN, -- ALL TLS-based protocols
+    curlsslopt_no_revoke  BOOLEAN, -- ALL TLS-based protocols
 --
 --  proxy_allow_beast and proxy_no_revoke are used to set bits in the
 --  curlopt_proxy_ssl_options mask
 --
---  proxy_allow_beast  BOOLEAN, -- ALL
---
---  proxy_no_revoke  BOOLEAN, -- ALL
+    proxy_allow_beast  BOOLEAN, -- ALL
+  
+    proxy_no_revoke  BOOLEAN, -- ALL
 --
     krblevel  TEXT, -- FTP
 --
@@ -545,7 +545,7 @@ CREATE TABLE target (
 --
     new_directory_perms  INTEGER, -- SFTP SCP FILE
 --
-    telnetoptions  TEXT, -- TELNET
+    telnetoptions  TEXT -- TELNET
 --
 );
 
