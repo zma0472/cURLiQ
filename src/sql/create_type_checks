@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+for table in broker curliq system
+do
+    rm -f ${table}_type_cks_tmp.sql ${table}_type_cks.sql
+
+    echo -n "Generating data type constraints for table ${table}..."
+
+    for column in $(grep BOOLEAN ${table}.sql | awk '{print $1}')
+    do
+        echo "--" >> ${table}_type_cks_tmp.sql
+        echo "    CONSTRAINT ${table}__${column}_bool_ck CHECK (" >> \
+                                                      ${table}_type_cks_tmp.sql
+        echo "        typeof( ${column} ) = 'integer'" >> \
+                                                      ${table}_type_cks_tmp.sql
+        echo "        AND" >> ${table}_type_cks_tmp.sql
+        echo "        ( ${column} = 0 OR ${column} = 1 )" >> \
+                                                      ${table}_type_cks_tmp.sql
+        echo "    )," >> ${table}_type_cks_tmp.sql
+    done
+
+    for column in $(grep INTEGER ${table}.sql | awk '{print $1}')
+    do
+        echo "--" >> ${table}_type_cks_tmp.sql
+        echo "    CONSTRAINT ${table}__${column}_int_ck CHECK (" >> \
+                                                      ${table}_type_cks_tmp.sql
+        echo "        typeof( ${column} ) = 'integer'" >> \
+                                                      ${table}_type_cks_tmp.sql
+        echo "    )," >> ${table}_type_cks_tmp.sql
+    done
+
+    for column in $(grep TEXT ${table}.sql | awk '{print $1}')
+    do
+        echo "--" >> ${table}_type_cks_tmp.sql
+        echo "    CONSTRAINT ${table}__${column}_text_ck CHECK (" >> \
+                                                      ${table}_type_cks_tmp.sql
+        echo "        typeof( ${column} ) = 'text'" >> \
+                                                      ${table}_type_cks_tmp.sql
+        echo "    )," >> ${table}_type_cks_tmp.sql
+    done
+    echo 'done.'
+
+    head --bytes=-2 ${table}_type_cks_tmp.sql > ${table}_type_cks.sql
+    echo '' >> ${table}_type_cks.sql
+    echo ');' >> ${table}_type_cks.sql
+    rm -f ${table}_type_cks_tmp.sql
+
+done
+
+exit 0
