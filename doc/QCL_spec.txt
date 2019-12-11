@@ -62,7 +62,7 @@
 
   OFFLINE QUEUE name ;
 
-  DISPLAY QUEUE [ attr [ , attr ] ... ] ;
+  DISPLAY QUEUE name [ attr [ , attr ] ... ] ;
 
   DROP QUEUE name [ CASCADE ] ;
   #  CASCADE drops all targets whose only queue is being dropped.
@@ -80,7 +80,7 @@
 
   OFFLINE QUEUE GROUP name ;
 
-  DISPLAY QUEUE GROUP [ attribute ] ;
+  DISPLAY QUEUE GROUP name [ attribute ] ;
 
   DROP QUEUE GROUP name [ CASCADE ] ;
   #  CASCADE drops all queues contained exclusively in the group being dropped. 
@@ -90,11 +90,11 @@
 
   ALTER TARGET name SET attr = value [ , attr = value ] ... ;
 
-  ONLINE TARGET target ;
+  ONLINE TARGET name ;
 
-  OFFLINE TARGET target ; 
+  OFFLINE TARGET name ; 
 
-  DISPLAY TARGET [ attribute ] ;
+  DISPLAY TARGET name [ attribute ] ;
 
   DROP TARGET target [ CASCADE ] ;
   #  CASCADE drops all queues whose only target is being dropped.
@@ -112,7 +112,7 @@
 
   OFFLINE TARGET GROUP name ;
 
-  DISPLAY TARGET GROUP [ attribute ] ;
+  DISPLAY TARGET GROUP name [ attribute ] ;
 
   DROP TARGET GROUP name [ CASCADE ] ;
   #  CASCADE drops all targets contained exclusively in the group being
@@ -127,7 +127,7 @@
 
   OFFLINE TRIGGER name ; 
 
-  DISPLAY TRIGGER [ attribute ] ;
+  DISPLAY TRIGGER name [ attribute ] ;
 
   DROP TRIGGER name [ CASCADE ] ;
   #  CASCADE drops all queues whose only target is being dropped.
