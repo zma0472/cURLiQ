@@ -34,6 +34,10 @@
 #            GROUPs, TARGETs, TARGET GROUPs, TRIGGERs, and TRIGGER GROUPs.
 #
 
+#
+# SESSION commands.
+#
+  START SESSION ;
 
   ALTER SESSION SET attr = value [ , attr = value ] ... ;
 
@@ -41,15 +45,39 @@
 
   END SESSION ;
 
-  ALTER BROKER SET attr = value [ , attr = value ] ... ;
-
+#
+# BROKER commands.
+#
   DISPLAY BROKER [ attr [ , attr ] ... ] ;
 
-  ONLINE BROKER ;
+  CREATE BROKER broker ( [ attr = value [ , attr = value ] ... ] ) ;
 
-  OFFLINE BROKER ;
+  ALTER BROKER broker SET attr = value [ , attr = value ] ... ;
 
+  ALTER BROKER broker ADD TARGET target [ , target ] ... ;
 
+  ALTER BROKER broker ADD QUEUE queue [ , queue ] ... ;
+
+  ALTER BROKER broker REMOVE TARGET name < [ , name ] ... | ALL > ;
+
+  ALTER BROKER broker REMOVE QUEUE queue < [ , queue ] ... | ALL > ;
+
+  ALTER BROKER broker SHARE TARGET name [ , name ... | ALL ]  WITH
+                                                 broker [ , broker ... | ALL ] ;
+
+  ONLINE BROKER broker ;
+
+  OFFLINE BROKER broker ;
+
+  DISPLAY BROKER broker [ attr [ , attr ] ... ] ;
+
+  DROP BROKER broker [ CASCADE ] ;
+  #  CASCADE drops all unshared TARGETs, QUEUEs, and TRIGGERs belonging to the
+  #  BROKER being dropped.  In this case the orphaned objects remain.
+
+#
+# QUEUE commands.
+#
   CREATE QUEUE name ( [ attr = value [ , attr = value ] ... ] ) ;
 
   ALTER QUEUE name SET attr = value [ , attr = value ] ... ;
