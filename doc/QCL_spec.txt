@@ -48,8 +48,6 @@
 #
 # BROKER commands.
 #
-  DISPLAY BROKER [ attr [ , attr ] ... ] ;
-
   CREATE BROKER broker ( [ attr = value [ , attr = value ] ... ] ) ;
 
   ALTER BROKER broker SET attr = value [ , attr = value ] ... ;
@@ -58,9 +56,9 @@
 
   ALTER BROKER broker ADD QUEUE queue [ , queue ] ... ;
 
-  ALTER BROKER broker REMOVE TARGET name < [ , name ] ... | ALL > ;
+  ALTER BROKER broker REMOVE TARGET name [ [ , name ] ... | ALL ] ;
 
-  ALTER BROKER broker REMOVE QUEUE queue < [ , queue ] ... | ALL > ;
+  ALTER BROKER broker REMOVE QUEUE queue [ [ , queue ] ... | ALL ] ;
 
   ALTER BROKER broker SHARE TARGET name [ , name ... | ALL ]  WITH
                                                  broker [ , broker ... | ALL ] ;

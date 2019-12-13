@@ -1,0 +1,65 @@
+
+  Copyright (c) 2019 Matthew Alton
+
+  This work is licensed under the Creative Commons Attribution 4.0
+  International License. To view a copy of this license, visit
+  http://creativecommons.org/licenses/by/4.0/ or send a letter to
+  Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+
+  The cURLiQ System Standard Filesystem Structure
+  ===============================================
+
+  ${CURLIQ_HOME}/etc/cURLiQ  (1)
+                 |   |
+                 |   .UUID   (2)
+                 |   |
+                 |   .SYS    (3)
+                 |   |
+                 |   .BAK/   (4)
+                 |
+                 q/[queuename]/.UUID  (5)
+                 |
+                 bin/curliq  (6)
+                 |
+                 var/log/ops/CQOPS  (7)
+                         |
+                         sys/CQSYS  (8)
+
+
+ (1) The etc/cURLiQ file contains the SQLite database which stores all the
+     metadata, configuration settings, object definitions, and state
+     information of the cURLiQ system which resides in ${CURLIQ_HOME}.
+
+ (2) The etc/.UUID file must be present in order for the cURLiQ system resident
+     in ${CURLIQ_HOME} to operate.  This file must contain the ASCII
+     representation of the 128-bit UUID of the cURLiQ system which resides in
+     ${CURLIQ_HOME}.  The representation is in the 8-4-4-4-12 format.  The file
+     contains the 32 characters in the UUID plus the four dashes plus an ASCII
+     newline character for a total of 37 characters.  The file is created as
+     part of the cURLiQ instance installation and initialization.
+
+ (3) The etc/.SYS file must be present in orser for the cURLiQ system resident
+     in ${CURLIQ_HOME} to operate.  This file must contain the name of the
+     resident cURLiQ system.
+
+ (4) The etc/.BAK directory holds cURLiQ system snapshots in the form of copies
+     of the etc/cURLiQ SQLite database file.
+
+ (5) The etc/q directory contains zero or more directories each of which must
+     have the same name as the queue which uses it as a source directory.  Each
+     of these source directories must contain a .UUID file which contains the
+     UUID of the queue.
+
+ (6) The bin/curliq file is the executable cURLiQ system interface.  It is used
+     to perform all administrative and operational functions of the cURLiQ
+     system.
+
+ (7) The var/log/ops/CQOPS file is the SQLite database file which contains
+     time-stamped records of all operational actions performed by the cURLiQ
+     system.
+
+ (8) The var/log/sys/CQSYS file is the SQLite database file which contains
+     time-stamped records of all administrative operations performed by the
+     cURLiQ system.
+
