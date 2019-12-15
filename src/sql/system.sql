@@ -20,31 +20,33 @@
 
 --
 --
---  The system table stores information about the system identity, creation
---  time, version, and state.  The table is constrained to contain at most one
---  record (CHECK value of the primary key), so attempted INSERTs after the
---  initial build will always fail.  The version information and creation
---  time stamp are protected from alteration by an UPDATE trigger.
---
---  The adm_state and opr_state booleans define three possible system states.
---  If adm_state=TRUE and opr_state=TRUE then the system is in the ON state.
---  If adm_state=TRUE and opr_state=FALSE then the system is in the OFF state.
---  If adm_state=FALSE and opr_state=FALSE then the system is in the DOWN
---  state.  A trigger prohibits the opr_state from being TRUE while the
---  adm_state is FALSE.  This is to allow administrators to shut the system
---  down in a manner that will prevent operators from being able to bring it
---  back up.
+--  The system table stores information about the system instance's identity,
+--  creation time, version, and state.  The table is constrained to contain at
+--  most one record (CHECK value of the primary key), so attempted INSERTs
+--  after the initial build will always fail.  The version information and
+--  creation time stamp are protected from alteration by an UPDATE trigger.
 --
 --
 CREATE TABLE system (
-    name            VARCHAR(31) PRIMARY KEY,
-    description     TEXT NOT NULL DEFAULT '',
-    creation_stamp  TEXT NOT NULL ,
-    adm_state       BOOLEAN NOT NULL DEFAULT FALSE,
-    opr_state       BOOLEAN NOT NULL DEFAULT FALSE,
-    version_major   INTEGER NOT NULL DEFAULT 0,
-    version_minor   INTEGER NOT NULL DEFAULT 0,
-    version_patch   INTEGER NOT NULL DEFAULT 0,
+    uuid            VARCHAR(32) NOT NULL UNIQUE,
+    name            VARCHAR(15) PRIMARY KEY,
+    description     VARCHAR(31) NOT NULL DEFAULT 'cURLiQ System v.0.1.0',
+    creation_stamp  VARCHAR(19) NOT NULL,
+    online_lock     BOOLEAN NOT NULL DEFAULT FALSE,
+    offline_lock    BOOLEAN NOT NULL DEFAULT TRUE,
+    online          BOOLEAN NOT NULL DEFAULT FALSE,
+    oper_on_off     BOOLEAN NOT NULL DEFAULT FALSE,
+    version_major   INTEGER NOT NULL,
+    version_minor   INTEGER NOT NULL,
+    version_patch   INTEGER NOT NULL,
+--
+    CONSTRAINT system__uuid_type_ck CHECK (
+        TYPEOF(uuid) IS 'text'
+    ),
+--
+    CONSTRAINT system__uuid_rgx_ck CHECK (
+        uuid REGEXP '^[a-f0-9]{32}$'
+    ),
 --
     CONSTRAINT system__name_type_ck CHECK (
         TYPEOF(name) IS 'text'
@@ -58,25 +60,46 @@ CREATE TABLE system (
         name = '@@NAME@@'
     ),
 --
-    CONSTRAINT system__adm_state_type_ck CHECK (
-        TYPEOF(adm_state) IS 'integer'
+    CONSTRAINT system__online_lock_type_ck CHECK (
+        TYPEOF(online_lock) IS 'integer'
     ),
 --
-    CONSTRAINT system__adm_state_value_ck CHECK (
-        adm_state = 0 OR adm_state = 1
+    CONSTRAINT system__online_lock_value_ck CHECK (
+        online_lock = 0 OR online_lock = 1
     ),
 --
-    CONSTRAINT system__opr_state_type_ck CHECK (
-        TYPEOF(opr_state) IS 'integer'
+    CONSTRAINT system__offline_lock_type_ck CHECK (
+        TYPEOF(offline_lock) IS 'integer'
     ),
 --
-    CONSTRAINT system__opr_state_value_ck CHECK (
-        opr_state = 0 OR opr_state = 1
+    CONSTRAINT system__online_lock_value_ck CHECK (
+        offline_lock = 0 OR offline_lock = 1
     ),
 --
-    CONSTRAINT system__exclude_soft_up_ck CHECK (
-        (adm_state IS TRUE) OR (opr_state IS FALSE)
+    CONSTRAINT system__online_type_ck CHECK (
+        TYPEOF(online) IS 'integer'
+    ),
+--
+    CONSTRAINT system__online_value_ck CHECK (
+        online = 0 OR online = 1
+    ),
+--
+    CONSTRAINT system__oper_on_off_type_ck CHECK (
+        TYPEOF(oper_on_off) IS 'integer'
+    ),
+--
+    CONSTRAINT system__oper_on_off_value_ck CHECK (
+        online = 0 OR online = 1
+    ),
+--
+    CONSTRAINT system__lock_ck CHECK (
+        ( online_lock IS FALSE AND offline_lock IS FALSE )
+        OR
+        ( online_lock IS FALSE AND offline_lock IS TRUE AND online IS FALSE )
+        OR
+        ( online_lock IS TRUE  AND offline_lock IS FALSE AND online IS TRUE )
     )
+--
 );
 --
 --
