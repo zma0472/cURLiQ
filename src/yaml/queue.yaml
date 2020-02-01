@@ -17,3 +17,12 @@
 #  along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+---
+
+8364eb0c-c871-4c98-873c-de00ff8eb649:
+  name: __system__
+  comment: 'cURLiQ System Communications Queue'
+  adm_state: False
+  opr_state: False
+
+...
