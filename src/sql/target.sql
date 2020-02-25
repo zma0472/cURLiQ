@@ -560,7 +560,7 @@ CREATE TABLE target (
     ),
 --
     CONSTRAINT target__name_rgx_ck CHECK (
-        name REGEXP '^[A-Z_][A-Z0-9_]{0,15}$'
+        name REGEXP '^[A-Z_][A-Z0-9_]{0,14}$'
     ),
 --
     CONSTRAINT target__adm_state_type_ck CHECK (

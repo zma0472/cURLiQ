@@ -5,12 +5,8 @@ import yaml
 import sys
 import uuid
 import argparse
-
-
+import re
 from datetime import datetime
-
-# _curliq_default_home contains the pathname of the cURLiQ installation home
-# directory.
 
 _curliq_default_home = '/opt/curliq'
 _curliq_interactive = False
@@ -23,43 +19,50 @@ _curliq_version_patch = 0
 _curliq_default_system_name = 'cURLiQ'
 _curliq_default_system_description = 'cURLiQ Enterprise Messaging System'
 
-brokers = []
-queues = []
-targets = []
-triggers = []
+_brokers = []
+_queues = []
+_targets = []
+_triggers = []
 
-broker_groups = []
-queue_groups = []
-target_groups = []
-trigger_groups = []
+_broker_groups = []
+_queue_groups = []
+_target_groups = []
+_trigger_groups = []
 
-class System:
-    '''cURLiQ system object.'''
+_system_name=_curliq_default_system_name
+_system_description=_curliq_default_system_description
+_system_creation_stamp = None
+_system_adm_state = False
+_system_opr_state = False
+_system_version_major = _curliq_version_major
+_system_version_minor = _curliq_version_minor
+_system_version_patch = _curliq_version_patch
+_system_id = None
 
-    def __init__(self,
-                 name=_curliq_default_system_name,
-                 description=_curliq_default_system_description):
 
-#        self.creation_stamp = str(datetime.utcnow())
-        self.adm_state = False
-        self.opr_state = False
-        self.version_major = _curliq_version_major
-        self.version_minor = _curliq_version_minor
-        self.version_patch = _curliq_version_patch
-        self.name = name
-        self.description = description
-#        self.id = str(uuid.uuid4())
+def validate_object_name(name):
+    valid_name = re.compile('^[A-Z][A-Z0-9_]{0,14}$')
 
-    def version(self):
-        return (self.version_major, self.version_minor, self.version_patch)
+    if valid_name.fullmatch(name) is None:
+        return False
+    else:
+        return True
 
 class Broker:
     '''cURLiQ broker object.'''
 
-    def __init__(self, name, description=None):
+    def __init__(self,
+                 name,
+                 description='',
+                 adm_state=False,
+                 opr_state=False):
+
         if isinstance(name, str) is False:
             raise(TypeError)
-        elif description is not None:
+        elif validate_object_name(name) is False:
+            raise(ValueError)
+
+        if description is not None:
             if isinstance(description, str) is False:
                 raise(TypeError)
 
@@ -72,7 +75,7 @@ class Broker:
         self.name = name
         self.description = description
 
-        brokers.append(self)
+        _brokers.append(self)
 
     def add_queue(self, queue):
         if isinstance(queue, Queue) is False:
@@ -156,9 +159,8 @@ class TriggerGroup:
         pass
 
 if __name__ == '__main__':
-    cq = System()
-    b = Broker('spam')
-    q = Queue('eggs')
+    b = Broker('SPAM')
+    q = Queue('EGGS')
     b.add_queue(q)
-    for q in queues:
+    for q in _queues:
         print(q.name)
