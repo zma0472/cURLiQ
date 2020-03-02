@@ -1,5 +1,5 @@
 #
-#  Copyright (c) 2019 Matthew Alton
+#  Copyright (c) 2020 Matthew Alton
 #
 #  This work is licensed under the Creative Commons Attribution 4.0
 #  International License. To view a copy of this license, visit
@@ -8,20 +8,24 @@
 #
 
 #
-#  Preliminary definitions:
+#  cURLiQ object definitions:
 #
 #  QUEUE -- A named object consisting of queue attributes, a single source
-#           directory, and zero or more TARGETS.
+#           directory, zero or more TARGETs, and zero or more TRIGGERs.
 #
 #  QUEUE GROUP -- A named object consisting of queue group attributes, queue
-#                 attributes, and an unordered set of QUEUEs.
+#                 attributes, and an unordered collection of zero or more
+#                 QUEUEs.  A QUEUE may inherit the queue attributes of a QUEUE
+#                 GROUP upon being added to its collection.  A QUEUE may be a
+#                 member of zero or more QUEUE GROUPs.
 #
 #  TARGET -- A named object consisting of target attributes, a single URL, and
 #            a collection of cURL parameters.
 #
 #  TARGET GROUP -- A named object consisting of target group attributes, a
 #                  collection of cURL parameters, and an unordered set of
-#                  TARGETs.
+#                  TARGETs.  A TARGET may be a mamber of zero or more TARGET
+#                  GROUPS.
 #
 #  TRIGGER -- A named object consisting of trigger attributes, an event, and an
 #             action.
@@ -35,112 +39,130 @@
 #
 
 #
-# SESSION commands.
+# PRAGMA commands.  These apply only to interactive sessions.
 #
-  START SESSION ;
+  PRAGMA AUTO SNAP < OFF | ON >
 
-  ALTER SESSION SET attr = value [ , attr = value ] ... ;
+  PRAGMA AUTO STORE SOD < OFF | ON >
 
-  DISPLAY SESSION [ attr [ , attr ] ... ] ;
+  PRAGMA AUTO STORE YAML < OFF | ON >
 
-  END SESSION ;
+  PRAGMA SNAP LIMIT < integer >
 
 #
 # BROKER commands.
 #
-  CREATE BROKER broker ( [ attr = value [ , attr = value ] ... ] ) ;
+  CREATE BROKER name [ attr = value [ , attr = value ] ... ]
 
-  ALTER BROKER broker SET attr = value [ , attr = value ] ... ;
+  ALTER BROKER regex SET attr = value [ , attr = value ] ...
 
-  ALTER BROKER broker ADD TARGET target [ , target ] ... ;
+  ALTER BROKER regex ADD TARGET regex
 
-  ALTER BROKER broker ADD QUEUE queue [ , queue ] ... ;
+  ALTER BROKER regex ADD QUEUE regex
 
-  ALTER BROKER broker REMOVE TARGET name [ [ , name ] ... | ALL ] ;
+  ALTER BROKER regex ADD TRIGGER regex
 
-  ALTER BROKER broker REMOVE QUEUE queue [ [ , queue ] ... | ALL ] ;
+  ALTER BROKER regex REMOVE TARGET regex
 
-  ALTER BROKER broker SHARE TARGET name [ , name ... | ALL ]  WITH
-                                                 broker [ , broker ... | ALL ] ;
+  ALTER BROKER regex REMOVE QUEUE regex
 
-  ONLINE BROKER broker ;
+  ALTER BROKER regex REMOVE TRIGGER regex
 
-  OFFLINE BROKER broker ;
+  ALTER BROKER regex ADD TARGET GROUP regex
 
-  DISPLAY BROKER broker [ attr [ , attr ] ... ] ;
+  ALTER BROKER regex ADD QUEUE GROUP regex
 
-  DROP BROKER broker [ CASCADE ] ;
-  #  CASCADE drops all unshared TARGETs, QUEUEs, and TRIGGERs belonging to the
-  #  BROKER being dropped.  In this case the orphaned objects remain.
+  ALTER BROKER regex ADD TRIGGER GROUP regex
+
+  ALTER BROKER regex REMOVE TARGET GROUP regex
+
+  ALTER BROKER regex REMOVE QUEUE GROUP regex
+
+  ALTER BROKER regex REMOVE TRIGGER GROUP regex
+
+  ONLINE BROKER regex
+
+  OFFLINE BROKER regex
+
+  DISPLAY BROKER regex [ attr [ , attr ] ... ]
+
+  DROP BROKER regex [ CASCADE ]
+  #  CASCADE drops all TARGETs, QUEUEs, and TRIGGERs belonging to the BROKER
+  #  being dropped.  Otherwise the orphaned objects are assigned to __system__.
 
 #
 # QUEUE commands.
 #
-  CREATE QUEUE name ( [ attr = value [ , attr = value ] ... ] ) ;
+  CREATE QUEUE name [ attr = value [ , attr = value ] ... ]
 
-  ALTER QUEUE name SET attr = value [ , attr = value ] ... ;
+  ALTER QUEUE < regex ... | ALL > SET attr = value [ , attr = value ] ...
 
-  ALTER QUEUE name ADD TARGET name [ , name ] ... ;
+  ALTER QUEUE < regex ... | ALL > ADD TARGET < regex ... | ALL >
 
-  ALTER QUEUE name REMOVE TARGET name < [ , name ] ... | ALL > ;
+  ALTER QUEUE < regex ... | ALL > REMOVE TARGET < regex ... | ALL >
 
-  ONLINE QUEUE name ;
+  ONLINE QUEUE < regex ... | ALL >
 
-  OFFLINE QUEUE name ;
+  OFFLINE QUEUE < regex ... | ALL >
 
-  DISPLAY QUEUE name [ attr [ , attr ] ... ] ;
+  DISPLAY QUEUE < regex ... | ALL > [ attr ... ]
 
-  DROP QUEUE name [ CASCADE ] ;
+  ASSIGN QUEUE < regex ... | ALL > TO BROKER < regex ... | ALL >
+
+  DROP QUEUE < regex ... | ALL > [ CASCADE ]
   #  CASCADE drops all targets whose only queue is being dropped.
 
+#
+#  QUEUE GROUP commands.
+#
 
-  CREATE QUEUE GROUP name ;
+  CREATE QUEUE GROUP name [ attr = value [ , attr = value ] ... ]
 
-  ALTER QUEUE GROUP name SET attribute = value ;
+  ALTER QUEUE GROUP regex ... SET attr = value [ , attr = value ] ...
 
-  ALTER QUEUE GROUP name ADD QUEUE queue_name ;
+  ALTER QUEUE GROUP regex ... ADD QUEUE regex ...
 
-  ALTER QUEUE GROUP name REMOVE QUEUE < queue_name | ALL > ;
+  ALTER QUEUE GROUP regex ... REMOVE QUEUE regex ...
 
-  ONLINE QUEUE GROUP name ;
+  ONLINE QUEUE GROUP regex ...
 
-  OFFLINE QUEUE GROUP name ;
+  OFFLINE QUEUE GROUP regex ...
 
-  DISPLAY QUEUE GROUP name [ attribute ] ;
+  DISPLAY QUEUE GROUP regex ... [ @ attr ... ]
 
-  DROP QUEUE GROUP name [ CASCADE ] ;
+  DROP QUEUE GROUP regex [ CASCADE ]
   #  CASCADE drops all queues contained exclusively in the group being dropped. 
 
 
-  CREATE TARGET name ( [ attr = value [ , attr = value ] ... ] ) ;
+  CREATE TARGET name [ attr = value [ , attr = value ] ... ]
 
-  ALTER TARGET name SET attr = value [ , attr = value ] ... ;
+  ALTER TARGET regex SET attr = value [ , attr = value ] ...
 
-  ONLINE TARGET name ;
+  ONLINE TARGET regex
 
-  OFFLINE TARGET name ; 
+  OFFLINE TARGET regex
 
-  DISPLAY TARGET name [ attribute ] ;
+  DISPLAY TARGET regex [ @ attribute ... ]
 
-  DROP TARGET target [ CASCADE ] ;
+  DROP TARGET regex [ CASCADE ]
   #  CASCADE drops all queues whose only target is being dropped.
 
 
   CREATE TARGET GROUP name ;
 
-  ALTER TARGET GROUP name SET attribute = value ;
+  ALTER TARGET GROUP regex SET attr = value [ attr = value ] ...
 
-  ALTER TARGET GROUP name ADD TARGET target ;
+  ALTER TARGET GROUP regex ADD TARGET regex [ , regex ] ...
 
-  ALTER TARGET GROUP name REMOVE TARGET < target_name | ALL > ;
+  ALTER TARGET GROUP regex REMOVE TARGET regex
 
-  ONLINE TARGET GROUP name ;
+  ONLINE TARGET GROUP regex
 
-  OFFLINE TARGET GROUP name ;
+  OFFLINE TARGET GROUP regex
 
-  DISPLAY TARGET GROUP name [ attribute ] ;
+  DISPLAY TARGET GROUP regex [ @ attribute ... ]
 
-  DROP TARGET GROUP name [ CASCADE ] ;
+  DROP TARGET GROUP regex [ CASCADE ]
   #  CASCADE drops all targets contained exclusively in the group being
   #  dropped. 
 
