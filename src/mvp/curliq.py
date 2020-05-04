@@ -41,6 +41,11 @@ _system_id = None
 _valid_object_name = re.compile('^[A-Z][A-Z0-9_]{0,14}$')
 
 
+def version():
+    return "cURLiQ v.%i.%i.%i" % (_curliq_version_major,
+                                  _curliq_version_minor,
+                                  _curliq_version_patch)
+
 def validate_object_name(name):
     if _valid_object_name.fullmatch(name) is None:
         return False
