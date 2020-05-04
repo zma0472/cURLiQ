@@ -19,6 +19,13 @@ _curliq_version_patch = 0
 _curliq_default_system_name = 'cURLiQ'
 _curliq_default_system_description = 'cURLiQ Enterprise Messaging System'
 
+_curliq_default_sod_dir = _curliq_default_home + '/sod/'
+_curliq_default_sod_path = _curliq_default_sod_dir + _curliq_default_system_name
+
+_curliq_default_schema_dir = _curliq_default_home + '/sql/'
+_curliq_default_schema_path = _curliq_default_schema_dir + \
+                                            _curliq_default_system_name + '.sql'
+
 _brokers = []
 _queues = []
 _targets = []
@@ -51,6 +58,29 @@ def validate_object_name(name):
         return False
     else:
         return True
+
+
+class SOD:
+    '''cURLiQ System Object Database.'''
+
+    def __init__(self,
+                 pathname=_curliq_default_sod_path,
+                 schema_pathname=_curliq_default_schema_path):
+
+        if isinstance(pathname, str) is False:
+            raise(TypeError)
+        elif isinstance(schema_pathname, str) is False:
+            raise(TypeError)
+
+        self.connectioon = None
+
+    def set_defaults(self):
+        self.pathname = _curliq_default_sod_path
+        self.schema_pathname = _curliq_default_schema_path
+
+    def connect(self):
+        self.connection = sqlite3.connect(self.pathname)
+
 
 class Broker:
     '''cURLiQ broker object.'''
