@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
+import os
 import sqlite3
 import yaml
 import sys
 import uuid
 import argparse
 import re
+import readline
+
 from datetime import datetime
 
 _curliq_default_home = '/opt/curliq'
@@ -20,21 +23,13 @@ _curliq_default_system_name = 'cURLiQ'
 _curliq_default_system_description = 'cURLiQ Enterprise Messaging System'
 
 _curliq_default_sod_dir = _curliq_default_home + '/sod/'
-_curliq_default_sod_path = _curliq_default_sod_dir + _curliq_default_system_name
+_curliq_default_sod_path=_curliq_default_sod_dir + _curliq_default_system_name
 
 _curliq_default_schema_dir = _curliq_default_home + '/sql/'
 _curliq_default_schema_path = _curliq_default_schema_dir + \
                                             _curliq_default_system_name + '.sql'
 
-_brokers = []
-_queues = []
-_targets = []
-_triggers = []
-
-_queue_groups = []
-_target_groups = []
-_trigger_groups = []
-
+_system_home = _curliq_default_home
 _system_name = _curliq_default_system_name
 _system_description = _curliq_default_system_description
 _system_creation_stamp = None
@@ -109,8 +104,6 @@ class Broker:
         self.trigger_groups = []
         self.name = name
         self.description = description
-
-        _brokers.append(self)
 
         self._uuid = str(uuid.uuid4())
 
@@ -231,9 +224,34 @@ class TriggerGroup:
     def __init__(self):
         pass
 
+def _curliq_command_loop(prompt='QCL> '):
+    while True:
+        try:
+            line = input(prompt).strip().upper()
+            if 'EXIT' == line:
+                return
+        except EOFError:
+            print('EXIT')
+            return
+
+def _curliq_copyleft():
+    print('''
+cURLiQ v.{}.{}.{}
+Copyright (C) 2020 Matthew Alton
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+For help, type "help".
+'''.format(_curliq_version_major, \
+           _curliq_version_minor, \
+           _curliq_version_patch))
+
+def _curliq_initialize():
+    _curliq_copyleft()
+
 if __name__ == '__main__':
-    b = Broker('SPAM')
-    q = Queue('EGGS')
-    b.add_queue(q)
-    for q in _queues:
-        print(q.name)
+    _curliq_interactive = True
+    _curliq_initialize()
+    _curliq_command_loop('QCL> ')
+    sys.exit(0)
