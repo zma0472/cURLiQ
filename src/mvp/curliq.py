@@ -11,7 +11,7 @@ import readline
 
 from datetime import datetime
 
-_curliq_default_home = '/opt/curliq'
+_curliq_default_home = '/opt/cq'
 _curliq_interactive = False
 _curliq_debug = False
 
@@ -22,7 +22,7 @@ _curliq_version_patch = 0
 _curliq_default_system_name = 'cURLiQ'
 _curliq_default_system_description = 'cURLiQ Enterprise Messaging System'
 
-_curliq_default_sod_dir = _curliq_default_home + '/sod/'
+_curliq_default_sod_dir = _curliq_default_home + '/sys/sod/'
 _curliq_default_sod_path=_curliq_default_sod_dir + _curliq_default_system_name
 
 _curliq_default_schema_dir = _curliq_default_home + '/sql/'
@@ -39,6 +39,8 @@ _system_version_major = _curliq_version_major
 _system_version_minor = _curliq_version_minor
 _system_version_patch = _curliq_version_patch
 _system_id = None
+_system_sod_path = _curliq_default_sod_path
+_system_sod = None
 
 _valid_object_name = re.compile('^[A-Z][A-Z0-9_]{0,14}$')
 
@@ -59,7 +61,7 @@ class SOD:
     '''cURLiQ System Object Database.'''
 
     def __init__(self,
-                 pathname=_curliq_default_sod_path,
+                 pathname=_system_sod_path,
                  schema_pathname=_curliq_default_schema_path):
 
         if isinstance(pathname, str) is False:
@@ -247,11 +249,37 @@ For help, type "help".
            _curliq_version_minor, \
            _curliq_version_patch))
 
+
+def _curliq_cl_args():
+    desc = "cURLiQ Enterprise Messaging System"
+    parser = argparse.ArgumentParser(description=desc)
+    parser.add_argument('--home',
+                        type=str,
+                        dest="home",
+                        action='store',
+                        help="cURLiQ home directory")
+    args = parser.parse_args()
+    if args.home is not None:
+        _system_home = args.home
+
+
+def _curliq_env_vars():
+    if os.getenv('CURLIQ_HOME') is not None:
+        _system_home = os.environ['CURLIQ_HOME']
+
 def _curliq_initialize():
+    _curliq_env_vars()
+    _curliq_cl_args()
     _curliq_copyleft()
+
 
 if __name__ == '__main__':
     _curliq_interactive = True
     _curliq_initialize()
+    _system_sod = SOD()
+    _system_sod.connect()
     _curliq_command_loop('QCL> ')
+    _system_sod.close()
     sys.exit(0)
+
+
