@@ -69,6 +69,7 @@ class SOD:
         elif isinstance(schema_pathname, str) is False:
             raise(TypeError)
 
+        self.pathname = pathname
         self.connectioon = None
 
     def set_defaults(self):
@@ -78,6 +79,8 @@ class SOD:
     def connect(self):
         self.connection = sqlite3.connect(self.pathname)
 
+    def close(self):
+        self.connection.close()
 
 class Broker:
     '''cURLiQ broker object.'''
