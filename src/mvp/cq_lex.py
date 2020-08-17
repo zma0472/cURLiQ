@@ -3,12 +3,12 @@
 def _is_ascii(s):
     return len(s) == len(s.encode())
 
-_value = {'result': 'SUCCESS',
-          'reason': 'VALID QCL',
+_value = {'result': '',
+          'reason': '',
           'column': 0,
           'line':  1,
           'token': '',
-          'state': 'START'}
+          'state': 'INITIAL'}
 
 def lexer(qcl_text):
 
