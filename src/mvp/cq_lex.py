@@ -44,7 +44,7 @@ def lexer(qcl_text):
                 pass  # Send c to the parser
             elif c == '#':
                 _value['state'] = 'COMMENT'
-            elif c = "'":
+            elif c == "'":
                 _value['state'] = 'STRING'
             elif c.isdigit() is True:
                 _value['state'] = 'INTEGER'
@@ -58,7 +58,7 @@ def lexer(qcl_text):
                 _value['state'] = 'START'
 
         elif _value['state'] == 'STRING':
-            if c = "'":
+            if c == "'":
                 _value['state'] = 'QUOTE'
             elif c.isprintable() is True:
                 _value['token'] += c
@@ -77,11 +77,11 @@ def lexer(qcl_text):
         elif _value['state'] == 'TOKEN':
             if c == '_' or c.isdigit() is True or c.isalpha() is True:
                 _value['token'] += c
-            else if c in '()=':
+            elif c in '()=':
                 _value['state'] = 'START'
                 # Send _value['token'] to the parser
                 # Send c to the parser
-            else if c.isspace() is False:
+            elif c.isspace() is False:
                 _value['result'] = 'FAIL'
                 _value['reason'] = 'INVALID CHARACTER IN TOKEN VALUE'
                 return _value
@@ -100,5 +100,5 @@ def lexer(qcl_text):
 
 
 if __name__ == '__main__':
-    pass
+    lexer(input())
 
