@@ -29,7 +29,7 @@ CFLAGS   = -g
 #LIBINCS  =
 #LDFLAGS  =
 
-OBJS     = main.o copyleft.o env.o
+OBJS     = main.o copyleft.o env.o args.o
 
 HEADERS  = curliq.h
 

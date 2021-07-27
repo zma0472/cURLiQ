@@ -18,12 +18,16 @@
 //  along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include <stdio.h>
+#include "curliq.h"
 
 void
 copyleft(void)
 {
- printf("Copyright (C) 2021 Matthew Alton\n");
+ if ( !isatty(STDIN_FILENO) ) {
+     return;
+ }
+
+ printf("\nCopyright (C) 2021 Matthew Alton\n");
  printf("This file is part of cURLiQ.\n");
  printf("cURLiQ is free software: you can redistribute it and/or modify\n");
  printf(
@@ -35,7 +39,7 @@ copyleft(void)
  printf("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
  printf("GNU General Public License for more details.\n");
  printf("You should have received a copy of the GNU General Public License\n");
- printf("along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.\n");
+ printf("along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.\n\n");
 
  return;
 }

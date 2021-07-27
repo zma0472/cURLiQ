@@ -20,11 +20,25 @@
 
 #include "curliq.h"
 
-int
-main(int argc, char **argv)
-{
- env();
- copyleft();
+static char *usage = "\n  Usage:  curliq [-h] [-d directory]\n\n";
 
- exit (0);
+void
+args(int argc, char **argv)
+{
+ int ch = -1;
+
+ while ((ch = getopt(argc, argv, "hd:")) != -1) {
+     switch (ch) {
+         case 'h':   printf("%s", usage); exit(0);
+                     break;
+
+         case 'd':   curliq_home = optarg;
+                     break;
+
+         default :   printf("%s", usage); exit(2);
+                     break;
+     }
+ }
+
+ return;
 }

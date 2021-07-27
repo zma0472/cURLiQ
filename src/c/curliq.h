@@ -20,10 +20,22 @@
 
 #ifndef _CURLIQ_H
 
-#define _MISO_H 1
+#define _CURLIQ_H 1
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define CURLIQ_VERSION_MAJOR 0
 #define CURLIQ_VERSION_MINOR 0
 #define CURLIQ_VERSION_PATCH 0
+
+#define CURLIQ_HOME_DEFAULT "/opt/curliq"
+
+extern char *curliq_home;
+
+extern void env(void);
+extern void copyleft(void);
+extern void args(int argc, char **argv);
 
 #endif // !defined _CURLIQ_H

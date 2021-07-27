@@ -18,9 +18,15 @@
 //  along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include "curliq.h"
+
 void
 env(void)
 {
+ if ( NULL == (curliq_home = getenv("CURLIQ_HOME")) ) {
+     curliq_home = CURLIQ_HOME_DEFAULT;
+ }
+
  return;
 }
 
