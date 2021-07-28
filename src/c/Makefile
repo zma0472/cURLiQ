@@ -21,15 +21,15 @@ CC       = cc
 #CFLAGS   = -g -ansi -Wall
 CFLAGS   = -g
 #CPPFLAGS = -DDMALLOC
-#INCLUDES = -I/opt/include
+INCLUDES = -I/opt/include
 
-#LIBS     = -lcurses
+LIBS     = -lncurses -lreadline
 #LIBS     = -lcurses -lefence
-#LIBINCS  = -L/opt/lib
+LIBINCS  = -L/opt/lib
 #LIBINCS  =
 #LDFLAGS  =
 
-OBJS     = main.o copyleft.o env.o args.o
+OBJS     = main.o copyleft.o env.o args.o cli.o
 
 HEADERS  = curliq.h
 
@@ -45,6 +45,10 @@ $(OBJS): $(HEADERS)
 
 tags:
 	ctags *.[ch]
+
+checkin:
+	git commit
+	git push origin master
 
 clean:
 	rm -f *.o curliq tags core core.*

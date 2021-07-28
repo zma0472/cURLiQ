@@ -20,26 +20,27 @@
 
 #include "curliq.h"
 
+static char *gpl = "\n\
+Copyright (C) 2021 Matthew Alton\n\
+This file is part of cURLiQ.\n\
+cURLiQ is free software: you can redistribute it and/or modify\n\
+it under the terms of the GNU General Public License as published by\n\
+the Free Software Foundation, either version 3 of the License, or\n\
+(at your option) any later version.\n\
+cURLiQ is distributed in the hope that it will be useful,\n\
+but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
+GNU General Public License for more details.\n\
+You should have received a copy of the GNU General Public License\n\
+along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.\n\n";
+
+
 void
 copyleft(void)
 {
- if ( !isatty(STDIN_FILENO) ) {
-     return;
+ if ( isatty(STDIN_FILENO) ) {
+     printf("%s", gpl);
  }
-
- printf("\nCopyright (C) 2021 Matthew Alton\n");
- printf("This file is part of cURLiQ.\n");
- printf("cURLiQ is free software: you can redistribute it and/or modify\n");
- printf(
-     "it under the terms of the GNU General Public License as published by\n");
- printf("the Free Software Foundation, either version 3 of the License, or\n");
- printf("(at your option) any later version.\n");
- printf("cURLiQ is distributed in the hope that it will be useful,\n");
- printf("but WITHOUT ANY WARRANTY; without even the implied warranty of\n");
- printf("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n");
- printf("GNU General Public License for more details.\n");
- printf("You should have received a copy of the GNU General Public License\n");
- printf("along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.\n\n");
 
  return;
 }

@@ -25,6 +25,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include <readline/readline.h>
+#include <ncurses.h>
+#include <readline/history.h>
 
 #define CURLIQ_VERSION_MAJOR 0
 #define CURLIQ_VERSION_MINOR 0
@@ -36,6 +40,7 @@ extern char *curliq_home;
 
 extern void env(void);
 extern void copyleft(void);
+extern void cli(void);
 extern void args(int argc, char **argv);
 
 #endif // !defined _CURLIQ_H
