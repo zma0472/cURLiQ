@@ -15,28 +15,27 @@
 # 
 #  You should have received a copy of the GNU General Public License
 #  along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
-#
 
 CC       = cc
 CFLAGS   = -g -fpic
 #CPPFLAGS = -DDMALLOC
-INCLUDES = -I/opt/include
+INCLUDES = -I/usr/local/include
 AR       = ar
 ARFLAGS  = -rv
 LIBS     = -lsqlite -lcurl
 #LIBS     = -lcurses -lefence
-#LIBINCS  = -L/opt/lib
+#LIBINCS  = -L/usr/local/lib
 #LIBINCS  =
 LDFLAGS  = -shared
 
-OBJS     = broker.o
+OBJS     = broker.o global.o queue.o trigger.o
 
 HEADERS  = libcurliq.h
 
 all: libcurliq.a libcurliq.so
 
 libcurliq.so: $(OBJS)
-	$(CC) $(CFLAGS) 
+	$(CC) $(LDFLAGS) $(OBJS) -o $@
 
 libcurliq.a: $(OBJS)
 	$(AR) $(ARFLAGS) $@ $(OBJS)

@@ -18,24 +18,20 @@
 #
 
 CC       = cc
-#CFLAGS   = -g -ansi -Wall
 CFLAGS   = -g
 #CPPFLAGS = -DDMALLOC
-INCLUDES = -I/opt/include
+INCLUDES = -I/usr/local/include
 
-LIBS     = -lncurses -lreadline
-#LIBS     = -lcurses -lefence
-LIBINCS  = -L/opt/lib
-#LIBINCS  =
-#LDFLAGS  =
+LIBS     = -lncurses -lreadline -lcurliq
+LIBINCS  = -L/usr/local/lib -Llib/
 
 OBJS     = main.o copyleft.o env.o args.o cli.o version.o
 
 HEADERS  = curliq.h
 
-all: curliq
+all: cqcli
 
-curliq: $(OBJS)
+cqcli: $(OBJS)
 	$(CC) -o $@ $(OBJS) $(LIBS) $(LIBINCS) $(LDFLAGS)
 
 $(OBJS): $(HEADERS)
@@ -51,5 +47,5 @@ checkin:
 	git push origin master
 
 clean:
-	rm -f *.o curliq tags core core.*
+	rm -f *.o cqcli tags core core.*
 

@@ -18,32 +18,31 @@
 //  along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef _CURLIQ_H
+#ifndef _LIBCURLIQ_H
 
-#define _CURLIQ_H 1
+#define _LIBCURLIQ_H 1
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <ncurses.h>
-#include <readline/history.h>
-
-#include "lib/libcurliq.h"
-
-#define CURLIQ_VERSION_MAJOR 0
-#define CURLIQ_VERSION_MINOR 0
-#define CURLIQ_VERSION_PATCH 0
+#define LIBCURLIQ_VERSION_MAJOR 0
+#define LIBCURLIQ_VERSION_MINOR 0
+#define LIBCURLIQ_VERSION_PATCH 0
 
 #define CURLIQ_HOME_DEFAULT "/opt/curliq"
 
 extern char *curliq_home;
 
-extern void env(void);
-extern void version(void);
-extern void copyleft(void);
-extern void cli(void);
-extern void args(int argc, char **argv);
+extern int curliq_create_broker(const char *name);
+extern int curliq_alter_broker(const char *name, const char *attribute,
+                               void *value);
+extern int curliq_drop_broker(const char *name);
+extern int curliq_create_queue(const char *name);
+extern int curliq_alter_queue(const char *name, const char *attribute,
+                               void *value);
+extern int curliq_drop_queue(const char *name);
+
+extern int curliq_create_trigger(const char *name);
+extern int curliq_alter_trigger(const char *name, const char *attribute,
+                               void *value);
+extern int curliq_drop_trigger(const char *name);
 
 #endif // !defined _CURLIQ_H
+

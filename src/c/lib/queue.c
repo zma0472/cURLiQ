@@ -18,12 +18,25 @@
 //  along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "curliq.h"
+#include "libcurliq.h"
 
 int
-main(int argc, char **argv)
+curliq_create_queue(const char *name)
 {
- args(argc, argv); env(); version(); copyleft(); cli();
 
- exit (0);
+ return (0);
+}
+
+int
+curliq_alter_queue(const char *name, const char *attribute, void *value)
+{
+
+ return (0);
+}
+
+int
+curliq_drop_queue(const char *name)
+{
+
+ return (0);
 }

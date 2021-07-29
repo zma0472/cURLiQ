@@ -18,12 +18,7 @@
 //  along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "curliq.h"
+#include "libcurliq.h"
 
-int
-main(int argc, char **argv)
-{
- args(argc, argv); env(); version(); copyleft(); cli();
+char *curliq_home = CURLIQ_HOME_DEFAULT;
 
- exit (0);
-}
