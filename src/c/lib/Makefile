@@ -18,25 +18,28 @@
 #
 
 CC       = cc
-#CFLAGS   = -g -ansi -Wall
-CFLAGS   = -g
+CFLAGS   = -g -fpic
 #CPPFLAGS = -DDMALLOC
 INCLUDES = -I/opt/include
-
-LIBS     = -lncurses -lreadline
+AR       = ar
+ARFLAGS  = -rv
+LIBS     = -lsqlite -lcurl
 #LIBS     = -lcurses -lefence
-LIBINCS  = -L/opt/lib
+#LIBINCS  = -L/opt/lib
 #LIBINCS  =
-#LDFLAGS  =
+LDFLAGS  = -shared
 
-OBJS     = main.o copyleft.o env.o args.o cli.o version.o
+OBJS     = broker.o
 
-HEADERS  = curliq.h
+HEADERS  = libcurliq.h
 
-all: curliq
+all: libcurliq.a libcurliq.so
 
-curliq: $(OBJS)
-	$(CC) -o $@ $(OBJS) $(LIBS) $(LIBINCS) $(LDFLAGS)
+libcurliq.so: $(OBJS)
+	$(CC) $(CFLAGS) 
+
+libcurliq.a: $(OBJS)
+	$(AR) $(ARFLAGS) $@ $(OBJS)
 
 $(OBJS): $(HEADERS)
 
@@ -46,10 +49,5 @@ $(OBJS): $(HEADERS)
 tags:
 	ctags *.[ch]
 
-checkin:
-	git commit
-	git push origin master
-
 clean:
-	rm -f *.o curliq tags core core.*
-
+	rm -rf *.o *.a *.so

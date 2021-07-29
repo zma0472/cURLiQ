@@ -25,7 +25,7 @@ char *curliq_home = NULL;
 int
 main(int argc, char **argv)
 {
- args(argc, argv); env(); copyleft(); cli();
+ args(argc, argv); env(); version(); copyleft(); cli();
 
  exit (0);
 }
