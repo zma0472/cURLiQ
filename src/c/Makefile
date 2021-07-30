@@ -25,7 +25,7 @@ INCLUDES = -I/usr/local/include
 LIBS     = -lncurses -lreadline -lcurliq
 LIBINCS  = -L/usr/local/lib -Llib/
 
-OBJS     = main.o copyleft.o env.o args.o cli.o version.o
+OBJS     = main.o copyleft.o env.o args.o cli.o version.o lex.o
 
 HEADERS  = curliq.h
 

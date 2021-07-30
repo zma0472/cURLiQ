@@ -34,6 +34,7 @@ extern int curliq_create_broker(const char *name);
 extern int curliq_alter_broker(const char *name, const char *attribute,
                                void *value);
 extern int curliq_drop_broker(const char *name);
+
 extern int curliq_create_queue(const char *name);
 extern int curliq_alter_queue(const char *name, const char *attribute,
                                void *value);
@@ -43,6 +44,26 @@ extern int curliq_create_trigger(const char *name);
 extern int curliq_alter_trigger(const char *name, const char *attribute,
                                void *value);
 extern int curliq_drop_trigger(const char *name);
+
+extern int curliq_create_queue_group(const char *name);
+extern int curliq_alter_queue_group(const char *name, const char *attribute,
+                               void *value);
+extern int curliq_drop_queue_group(const char *name);
+
+extern int curliq_create_target(const char *name);
+extern int curliq_alter_target(const char *name, const char *attribute,
+                               void *value);
+extern int curliq_drop_target(const char *name);
+
+extern int curliq_create_target_group(const char *name);
+extern int curliq_alter_target_group(const char *name, const char *attribute,
+                                     void *value);
+extern int curliq_drop_target_group(const char *name);
+
+extern int curliq_create_trigger_group(const char *name);
+extern int curliq_alter_trigger_group(const char *name, const char *attribute,
+                                      void *value);
+extern int curliq_drop_trigger_group(const char *name);
 
 #endif // !defined _CURLIQ_H
 

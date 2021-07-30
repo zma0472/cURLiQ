@@ -62,6 +62,7 @@ cli(void)
      str = trim(command);
      if ( 0 < strlen(str) ) {
          add_history(str);
+         lex(command);
      }
  } while(1);
 

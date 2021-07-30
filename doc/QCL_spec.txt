@@ -87,8 +87,9 @@
   DISPLAY BROKER regex [ attr [ , attr ] ... ]
 
   DROP BROKER regex [ CASCADE ]
-  #  CASCADE drops all TARGETs, QUEUEs, and TRIGGERs belonging to the BROKER
-  #  being dropped.  Otherwise the orphaned objects are assigned to __system__.
+  #  CASCADE drops all TARGETs, TARGET_GROUPs, QUEUEs, QUEUE_GROUPs, TRIGGERs,
+  #  and TRIGGER_GROUPs belonging to the BROKER being dropped.  Otherwise the
+  #  orphaned objects are assigned to __system__.
 
 #
 # QUEUE commands.

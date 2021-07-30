@@ -18,33 +18,25 @@
 //  along with cURLiQ.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef _CURLIQ_H
+#include "libcurliq.h"
 
-#define _CURLIQ_H 1
+int
+curliq_create_target_group(const char *name)
+{
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <ncurses.h>
-#include <readline/history.h>
+ return (0);
+}
 
-#include "lib/libcurliq.h"
+int
+curliq_alter_target_group(const char *name, const char *attribute, void *value)
+{
 
-#define CURLIQ_VERSION_MAJOR 0
-#define CURLIQ_VERSION_MINOR 0
-#define CURLIQ_VERSION_PATCH 0
+ return (0);
+}
 
-#define CURLIQ_HOME_DEFAULT "/opt/curliq"
+int
+curliq_drop_target_group(const char *name)
+{
 
-extern char *curliq_home;
-
-extern void env(void);
-extern void version(void);
-extern void copyleft(void);
-extern void cli(void);
-extern void args(int argc, char **argv);
-extern void lex(const char *command);
-
-#endif // !defined _CURLIQ_H
+ return (0);
+}
