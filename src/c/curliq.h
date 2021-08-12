@@ -45,6 +45,6 @@ extern void version(void);
 extern void copyleft(void);
 extern void cli(void);
 extern void args(int argc, char **argv);
-extern void lex(const char *command);
+extern void lex(char *command);
 
 #endif // !defined _CURLIQ_H

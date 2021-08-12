@@ -29,7 +29,7 @@ LIBS     = -lsqlite -lcurl
 LDFLAGS  = -shared
 
 OBJS     = broker.o global.o queue.o trigger.o queue_group.o target.o \
-           target_group.o trigger_group.o
+           target_group.o trigger_group.o command.o
 
 HEADERS  = libcurliq.h
 
