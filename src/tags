@@ -1,0 +1,54 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ALTER_ARGS	curliq.h	41;"	d
+CHOP	log.h	45;"	d
+CURLIQ_DEFAULT_DEBUG	curliq.h	32;"	d
+CURLIQ_DEFAULT_HOME	curliq.h	31;"	d
+CURLIQ_H	curliq.h	23;"	d
+CURLIQ_MAX_OBJECT_NAME_LEN	curliq.h	29;"	d
+CURLIQ_alter_box	alter.c	/^CURLIQ_alter_box(const char *name, const char *attr, const char *val)$/;"	f
+CURLIQ_alter_queue	alter.c	/^CURLIQ_alter_queue(const char *name, const char *attr, const char *val)$/;"	f
+CURLIQ_alter_queue_group	alter.c	/^CURLIQ_alter_queue_group(const char *name, const char *attr, const char *val)$/;"	f
+CURLIQ_alter_target	alter.c	/^CURLIQ_alter_target(const char *name, const char *attr, const char *val)$/;"	f
+CURLIQ_alter_target_group	alter.c	/^CURLIQ_alter_target_group(const char *name, const char *attr, const char *val)$/;"	f
+CURLIQ_alter_trigger	alter.c	/^CURLIQ_alter_trigger(const char *name, const char *attr, const char *val)$/;"	f
+CURLIQ_alter_trigger_group	alter.c	/^CURLIQ_alter_trigger_group(const char *name, const char *attr, const char *val)$/;"	f
+CURLIQ_create_box	create.c	/^CURLIQ_create_box(const char *name)$/;"	f
+CURLIQ_create_object	create.c	/^CURLIQ_create_object(const char *type, const char *name)$/;"	f
+CURLIQ_create_queue	create.c	/^CURLIQ_create_queue(const char *name)$/;"	f
+CURLIQ_create_queue_group	create.c	/^CURLIQ_create_queue_group(const char *name)$/;"	f
+CURLIQ_create_target	create.c	/^CURLIQ_create_target(const char *name)$/;"	f
+CURLIQ_create_target_group	create.c	/^CURLIQ_create_target_group(const char *name)$/;"	f
+CURLIQ_create_trigger	create.c	/^CURLIQ_create_trigger(const char *name)$/;"	f
+CURLIQ_create_trigger_group	create.c	/^CURLIQ_create_trigger_group(const char *name)$/;"	f
+CURLIQ_debug	env.c	/^int CURLIQ_debug = CURLIQ_DEFAULT_DEBUG ;$/;"	v
+CURLIQ_drop_object	drop.c	/^CURLIQ_drop_object(const char *type, const char *name)$/;"	f	file:
+CURLIQ_environment	env.c	/^CURLIQ_environment(void)$/;"	f
+CURLIQ_error	util.c	/^char CURLIQ_error[4096];$/;"	v
+CURLIQ_home	env.c	/^char *CURLIQ_home = CURLIQ_DEFAULT_HOME ;$/;"	v
+CURLIQ_valid_object_name	util.c	/^CURLIQ_valid_object_name(const char *name)$/;"	f
+CURLIQ_valid_object_type	util.c	/^CURLIQ_valid_object_type(const char *type)$/;"	f
+DBG	log.h	94;"	d
+DBG_BUFSIZ	log.h	39;"	d
+ERR	log.h	75;"	d
+ERR_BUFSIZ	log.h	35;"	d
+Foundation	log.h	/^ *  the Free Software Foundation; either version 3 of the License, or$/;"	v
+LOG	log.h	57;"	d
+LOG_BUFSIZ	log.h	31;"	d
+License	log.h	/^ *  the Free Software Foundation; either version 3 of the License, or$/;"	v
+VERSION_MAJOR	curliq.h	25;"	d
+VERSION_MINOR	curliq.h	26;"	d
+VERSION_PATCH	curliq.h	27;"	d
+WARRANTY	log.h	/^ *  but WITHOUT ANY WARRANTY; without even the implied warranty of$/;"	v
+XOPEN_SOURCE	drop.c	22;"	d	file:
+_alter_object	alter.c	/^_alter_object(const char *type, const char *name, const char *attr,$/;"	f	file:
+_rmrf	drop.c	/^_rmrf(char *path)$/;"	f	file:
+_unlink_cb	drop.c	/^_unlink_cb(const char *fpath, const struct stat *sb, int typeflag,$/;"	f	file:
+background	daemon.c	/^background(void)$/;"	f
+main	main.c	/^main(int argc, char **argv)$/;"	f
+rscid	daemon.c	/^static char rscid[] =$/;"	v	file:
+streams	daemon.c	/^streams(void)$/;"	f
