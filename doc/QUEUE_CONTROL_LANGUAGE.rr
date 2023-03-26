@@ -1,0 +1,171 @@
+
+#
+#  For use with https://tabatkins.github.io/railroad-diagrams/generator.html
+#
+
+
+#
+#  ALTER SESSION
+#
+
+Diagram(
+  Terminal('ALTER'),
+  Terminal('SESSION'),
+  Terminal('SET'),
+    OneOrMore(
+      Sequence(
+        NonTerminal('attribute'),
+        Terminal('='),
+        NonTerminal('value')),
+        Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  DISPLAY SESSION
+#
+
+Diagram(
+  Terminal('DISPLAY'),
+  Terminal('SESSION'),
+  ZeroOrMore(
+    NonTerminal('attribute'),
+    Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  END SESSION
+#
+
+Diagram(
+  Terminal('END'),
+  Terminal('SESSION'),
+  Terminal(';'))
+
+#
+#  ALTER SYSTEM
+#
+
+Diagram(
+  Terminal('ALTER'),
+  Terminal('SYSTEM'),
+  Terminal('SET'),
+    OneOrMore(
+      Sequence(
+        NonTerminal('attribute'),
+        Terminal('='),
+        NonTerminal('value')),
+        Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  DISPLAY SYSTEM
+#
+
+Diagram(
+  Terminal('DISPLAY'),
+  Terminal('SYSTEM'),
+  ZeroOrMore(
+    NonTerminal('attribute'),
+    Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  ONLINE SYSTEM
+#
+
+Diagram(
+  Terminal('ONLINE'),
+  Terminal('SYSTEM'))
+
+#
+#  OFFLINE SYSTEM
+#
+
+Diagram(
+  Terminal('OFFLINE'),
+  Terminal('SYSTEM'),
+  Choice(
+    0,
+    Skip(),
+    Sequence(
+      Optional(
+        Terminal('NO')),
+        Terminal('WAIT'))),
+  Terminal(';')
+)
+
+#
+#  CONNECT
+#
+
+Diagram(
+  Terminal('CONNECT')
+)
+
+#
+#
+#
+#  DISCONNECT
+#
+
+Diagram(
+  Terminal('DISCONNECT')
+)
+
+#
+#  CREATE QUEUE
+#
+
+Diagram(
+  Terminal('CREATE'),
+  Terminal('QUEUE'),
+  NonTerminal('name'),
+  Terminal('('),
+  ZeroOrMore(
+    Sequence(
+      NonTerminal('attribute'),
+      Terminal('='),
+      NonTerminal('value')),
+      Terminal(',')),
+  Terminal(')'),
+  Terminal(';')
+)
+
+#
+#  ALTER QUEUE
+#
+
+Diagram(
+  Terminal('ALTER'),
+  Terminal('QUEUE'),
+  NonTerminal('name'),
+  Terminal('SET'),
+  OneOrMore(
+    Sequence(
+      NonTerminal('attribute'),
+      Terminal('='),
+      NonTerminal('value')),
+      Terminal(',')),
+  Terminal(';')
+)
+
+#
+#  ALTER QUEUE ADD TARGET
+#
+
+Diagram(
+  Terminal('ALTER'),
+  Terminal('QUEUE'),
+  NonTerminal('name'),
+  Terminal('ADD TARGET'),
+  OneOrMore(
+    Sequence(
+      NonTerminal('name')),
+      Terminal(',')),
+  Terminal(';')
+)
+
