@@ -1,0 +1,202 @@
+#
+#  Copyright (c) 2020-2022 Matthew Alton
+#
+#  This work is licensed under the Creative Commons Attribution 4.0
+#  International License. To view a copy of this license, visit
+#  http://creativecommons.org/licenses/by/4.0/ or send a letter to
+#  Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+#
+
+#
+#  cURLiQ object definitions:
+#
+#  QUEUE -- A named object consisting of queue attributes, a single source
+#           directory, zero or more TARGETs, and zero or more TRIGGERs.
+#
+#  QUEUE GROUP -- A named object consisting of queue group attributes, queue
+#                 attributes, and an unordered collection of zero or more
+#                 QUEUEs.  A QUEUE may inherit the queue attributes of a QUEUE
+#                 GROUP upon being added to its collection.  A QUEUE may be a
+#                 member of zero or more QUEUE GROUPs.
+#
+#  TARGET -- A named object consisting of target attributes, a single URL, and
+#            a collection of cURL parameters.
+#
+#  TARGET GROUP -- A named object consisting of target group attributes, a
+#                  collection of cURL parameters, and an unordered set of
+#                  TARGETs.  A TARGET may be a mamber of zero or more TARGET
+#                  GROUPS.
+#
+#  TRIGGER -- A named object consisting of trigger attributes, an event, and an
+#             action.
+#
+#  TRIGGER GROUP -- A named object consisting of trigger group attributes,
+#                   trigger attributes, and an unordered collection of
+#                   TRIGGERS.
+#
+#  BOX -- A named object consisting of broker attributes, QUEUEs, QUEUE
+#            GROUPs, TARGETs, TARGET GROUPs, TRIGGERs, and TRIGGER GROUPs.
+#
+
+#
+# PRAGMA commands.  These apply only to interactive sessions.
+#
+  PRAGMA AUTO SNAP < OFF | ON >
+
+  PRAGMA AUTO STORE SOD < OFF | ON >
+
+  PRAGMA AUTO STORE YAML < OFF | ON >
+
+  PRAGMA SNAP LIMIT < integer >
+
+#
+# BOX commands.
+#
+  CREATE BOX name [ attr = value [ , attr = value ] ... ]
+
+  ALTER BOX regex SET attr = value [ , attr = value ] ...
+
+  ALTER BOX regex ADD TARGET regex
+
+  ALTER BOX regex ADD QUEUE regex
+
+  ALTER BOX regex ADD TRIGGER regex
+
+  ALTER BOX regex REMOVE TARGET regex
+
+  ALTER BOX regex REMOVE QUEUE regex
+
+  ALTER BOX regex REMOVE TRIGGER regex
+
+  ALTER BOX regex ADD TARGET GROUP regex
+
+  ALTER BOX regex ADD QUEUE GROUP regex
+
+  ALTER BOX regex ADD TRIGGER GROUP regex
+
+  ALTER BOX regex REMOVE TARGET GROUP regex
+
+  ALTER BOX regex REMOVE QUEUE GROUP regex
+
+  ALTER BOX regex REMOVE TRIGGER GROUP regex
+
+  ONLINE BOX regex
+
+  OFFLINE BOX regex
+
+  DISPLAY BOX regex [ attr [ , attr ] ... ]
+
+  DROP BOX regex [ CASCADE ]
+  #  CASCADE drops all TARGETs, TARGET_GROUPs, QUEUEs, QUEUE_GROUPs, TRIGGERs,
+  #  and TRIGGER_GROUPs belonging to the BOX being dropped.  Otherwise the
+  #  orphaned objects are assigned to __system__.
+
+#
+# QUEUE commands.
+#
+  CREATE QUEUE name [ attr = value [ , attr = value ] ... ]
+
+  ALTER QUEUE < regex ... | ALL > SET attr = value [ , attr = value ] ...
+
+  ALTER QUEUE < regex ... | ALL > ADD TARGET < regex ... | ALL >
+
+  ALTER QUEUE < regex ... | ALL > REMOVE TARGET < regex ... | ALL >
+
+  ONLINE QUEUE < regex ... | ALL >
+
+  OFFLINE QUEUE < regex ... | ALL >
+
+  DISPLAY QUEUE < regex ... | ALL > [ attr ... ]
+
+  ASSIGN QUEUE < regex ... | ALL > TO BOX < regex ... | ALL >
+
+  DROP QUEUE < regex ... | ALL > [ CASCADE ]
+  #  CASCADE drops all targets whose only queue is being dropped.
+
+#
+#  QUEUE GROUP commands.
+#
+
+  CREATE QUEUE GROUP name [ attr = value [ , attr = value ] ... ]
+
+  ALTER QUEUE GROUP regex ... SET attr = value [ , attr = value ] ...
+
+  ALTER QUEUE GROUP regex ... ADD QUEUE regex ...
+
+  ALTER QUEUE GROUP regex ... REMOVE QUEUE regex ...
+
+  ONLINE QUEUE GROUP regex ...
+
+  OFFLINE QUEUE GROUP regex ...
+
+  DISPLAY QUEUE GROUP regex ... [ @ attr ... ]
+
+  DROP QUEUE GROUP regex [ CASCADE ]
+  #  CASCADE drops all queues contained exclusively in the group being dropped. 
+
+
+  CREATE TARGET name [ attr = value [ , attr = value ] ... ]
+
+  ALTER TARGET regex SET attr = value [ , attr = value ] ...
+
+  ONLINE TARGET regex
+
+  OFFLINE TARGET regex
+
+  DISPLAY TARGET regex [ @ attribute ... ]
+
+  DROP TARGET regex [ CASCADE ]
+  #  CASCADE drops all queues whose only target is being dropped.
+
+
+  CREATE TARGET GROUP name ;
+
+  ALTER TARGET GROUP regex SET attr = value [ attr = value ] ...
+
+  ALTER TARGET GROUP regex ADD TARGET regex [ , regex ] ...
+
+  ALTER TARGET GROUP regex REMOVE TARGET regex
+
+  ONLINE TARGET GROUP regex
+
+  OFFLINE TARGET GROUP regex
+
+  DISPLAY TARGET GROUP regex [ @ attribute ... ]
+
+  DROP TARGET GROUP regex [ CASCADE ]
+  #  CASCADE drops all targets contained exclusively in the group being
+  #  dropped. 
+
+
+  CREATE TRIGGER name ( [ attr = value [ , attr = value ] ... ] ) ;
+
+  ALTER TRIGGER name SET attr = value [ , attr = value ] ... ;
+
+  ONLINE TRIGGER name ;
+
+  OFFLINE TRIGGER name ; 
+
+  DISPLAY TRIGGER name [ attribute ] ;
+
+  DROP TRIGGER name [ CASCADE ] ;
+  #  CASCADE drops all queues whose only target is being dropped.
+
+  CREATE TRIGGER GROUP name ;
+
+  ALTER TRIGGER GROUP name SET attribute = value ;
+
+  ALTER TRIGGER GROUP name ADD TRIGGER target ;
+
+  ALTER TRIGGER GROUP name REMOVE TRIGGER < trigger_name | ALL > ;
+
+  ONLINE TRIGGER GROUP name ;
+
+  OFFLINE TRIGGER GROUP name ;
+
+  DISPLAY TRIGGER GROUP name [ attribute ] ;
+
+  DROP TRIGGER GROUP name [ CASCADE ] ;
+  #  CASCADE drops all triggers contained exclusively in the trigger group
+  #  being dropped. 
+
+
